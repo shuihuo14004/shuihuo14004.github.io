@@ -1,0 +1,1224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>hello world</title>
+    <url>/2021/11/24/%E6%B0%B4%E8%B4%A7%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%96%87%E7%AB%A0/</url>
+    <content><![CDATA[<h1 id="hello-world-by-阿水"><a href="#hello-world-by-阿水" class="headerlink" title="hello world by 阿水"></a>hello world by 阿水</h1><p>你好，我叫阿水，一个来自北方小城的漂泊少年，知世故而不世故，倦飞之鸟。思久欲知，知繁渴思，天地一蜉蝣。</p>
+<p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwyp2qf31vj30xc0ljguq.jpg" alt="60294580_p0_master1200.jpg"></p>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>导航</tag>
+        <tag>分享</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LLC电路在不同模式下的区别</title>
+    <url>/2022/03/07/LLC%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F%E5%AF%B9%E6%AF%94/</url>
+    <content><![CDATA[<h1 id="LLC电路在不同工作频率下的区别"><a href="#LLC电路在不同工作频率下的区别" class="headerlink" title="LLC电路在不同工作频率下的区别"></a>LLC电路在不同工作频率下的区别</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>工作频率</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$f_{s}&lt;f_{r}$</td>
+<td>励磁电感$Lm$部分时间参与谐振，原边侧开关管零电压开通（ZVS），副边侧二极管零电流关断（ZCS）</td>
+</tr>
+<tr>
+<td>$f_{s}=f_{r}$</td>
+<td>励磁电感$Lm$始终钳位（不参与谐振），整流二极管临界实现零电流关断（ZCS）</td>
+</tr>
+<tr>
+<td>$f_{s}&gt;f_{r}$</td>
+<td>励磁电感$Lm$始终钳位（不参与谐振），原边侧开关管零电压开通（ZVS）。但是，副边侧二极管无法零电流关断（ZCS），且存在反向回复损耗。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>$f_{s}$开关频率，$f_{r}$谐振频率</p>
+]]></content>
+      <categories>
+        <category>开关电源</category>
+      </categories>
+      <tags>
+        <tag>开关电源</tag>
+        <tag>学习笔记</tag>
+        <tag>LLC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>推挽电源的环路第一节</title>
+    <url>/2022/01/09/%E7%94%B5%E6%BA%90%E7%8E%AF%E8%B7%AF%E8%A1%A5%E5%81%BF%E7%AC%AC%E4%B8%80%E8%8A%82/</url>
+    <content><![CDATA[<h1 id="开关电源补偿环路设计（1）：基础部分-以Buck-为例"><a href="#开关电源补偿环路设计（1）：基础部分-以Buck-为例" class="headerlink" title="开关电源补偿环路设计（1）：基础部分-以Buck 为例"></a>开关电源补偿环路设计（1）：基础部分-以Buck 为例</h1><p>前提说明：这些内容本质上是对相关书籍的整理</p>
+<p>强烈推荐：<a href="https://item.jd.com/35023088941.html">电源设计基础</a></p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGgy1gxzbvpxypqj309906labr.jpg" width="400"></div>
+
+<h2 id="一：buck变换器建模"><a href="#一：buck变换器建模" class="headerlink" title="一：buck变换器建模"></a>一：buck变换器建模</h2><p>buck变换器是最简单而经典的开关电源拓扑之一，其详细组成可见图1。</p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGgy1gxzh9q1rjij30kb09awik.jpg" width="800"></div>
+
+
+
+<center>图1-1 buck变换器详细补偿环路图</center>
+
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGgy1gxzhbbn1wkj30l80bwwhb.jpg" width="800"></div>
+
+<center>图1-2 buck变换器补偿环路简图</center>
+
+<center>图1</center>
+
+<p>​      由图1可知buck变换器可分为多个模块，各个模块的定义见下表1</p>
+<center>表1</center>
+
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>模块符号</th>
+<th>具体含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$K_{FB}$</td>
+<td>反馈电阻分压器，用于获取输出电压</td>
+</tr>
+<tr>
+<td>$K_{EA}$</td>
+<td>带有频率补偿的误差放大器</td>
+</tr>
+<tr>
+<td>$K_{PWM}$</td>
+<td>脉宽调制增益</td>
+</tr>
+<tr>
+<td>$K_{LC}$</td>
+<td>输出滤波器增益</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>​        其实$K_{FB}$是一个直流缩放因子（电阻分压器），如果必需考虑其非理想等效模式（LRC模型）则将其作为$K_{EA}$的一部分。<br>​        如图2所示为整个稳压调节器的反馈框图。</p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGgy1gxzhnq465hj30nx08d75n.jpg" width="800"></div>
+
+<center>图2</center>
+
+
+
+<p>显然，现在可以将整个传递函数写成式(1)∶</p>
+<script type="math/tex; mode=display">
+\begin{align}
+$T_{V}\left ( s \right ) =\frac{V_{OUT}}{V_{REF}} =K_{FB}\times K_{EA} \left ( s \right ) \times K_{PWM} \left ( s \right )\times K_{LC} \left ( s \right )  \tag{1}
+
+\end{align}</script><p>其中$K_{EA} \left ( s \right )$和$K_{LC} \left ( s \right )$对频率敏感，其中$s$为拉普拉斯算子，总体传递函数是与频率相关的。这样允许在频域中将分量转换成阻抗。同时$K_{PWM}$的开关周期为独立设定，而$K_{FB}$为比例方法。</p>
+<h3 id="1-1-反馈网络增益-K-FB"><a href="#1-1-反馈网络增益-K-FB" class="headerlink" title="1.1 反馈网络增益$K_{FB}$"></a>1.1 反馈网络增益$K_{FB}$</h3><p>​        反馈网络增益$K_{FB}$模块决定了参考电压和输出电压之间的比例关系。通常来说，我们希望这种关系是一个固定的值。因此，通常只用一个电阻分压器来实现，我们唯一关心的是它的 比例DC值。<br>​        无论$V_{OUT}$如何变化，迫使反馈点（求和点）维持在参考值。在反馈点没有电压变化的情况下，通过分压器下端电阻的电流无变化，站在频率的角度其有效数值为无限大。而在分压器中，最重要的是上端电阻，因为除了输出电压检测之外，它的阻抗将成为补偿网络的一部分。</p>
+<h3 id="1-2-脉宽调制增益-K-PWM"><a href="#1-2-脉宽调制增益-K-PWM" class="headerlink" title="1.2 脉宽调制增益$K_{PWM}$"></a>1.2 脉宽调制增益$K_{PWM}$</h3><p>​        将PWM级定义为电路的一部分，基于误差放大器$V_{C}$的模拟输出电压调节开关管的占空比$D$，功率开关管在节点$SW$处开关启闭。其工作波形如图3所示，其占空比为$\frac{V_{C}}{V_{P}} $。  </p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGly1gy0bdcppupj30jq07tjss.jpg" width="800"></div>
+
+<center>图3</center>
+
+<p>对于 Buck 拓扑而言，有∶</p>
+<script type="math/tex; mode=display">
+\begin{align}
+d = & \frac{t_{on}}{T}= \frac{V_{c}}{V_{p}}= \frac{V_{O}}{V_{IN}} \tag{2}\\
+
+
+
+
+\end{align}</script><p>故可以把模块的传递函数重新写成∶</p>
+<script type="math/tex; mode=display">
+K_{PWM} = & \frac{t_{SW(ave)}}{V_{C}}=d\times \frac{V_{IN}}{V_{C}}= \frac{V_{C}\times V_{IN}}{V_{p}\times V_{C}}=\frac{V_{IN}}{V_{P}} \\</script><p>这便得到了一个很有意思的结果，即对于一个给定的$V_{IN}$和给定的$V_{P}$，该级增益为一固定常数。</p>
+<h3 id="1-3-输出滤波器增益-K-LC-s"><a href="#1-3-输出滤波器增益-K-LC-s" class="headerlink" title="1.3 输出滤波器增益$K_{LC}(s)$"></a>1.3 输出滤波器增益$K_{LC}(s)$</h3><p>​       输出滤波器的作用是将开关管波形转换为输出端的直流电压$V_{OUT}$，本质上来说这是一个分压网络，由电感$L_{s}$、电容$ \frac {1}{C_{s}}$以及负载阻抗$R_{s}$并联组成，如图4所示。本质上是一个串联电感和并联电容的“输出滤波+分压”。</p>
+<p>​               </p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGly1gy0cdgd5opj30ci04yt97.jpg"></div>
+
+
+
+<center>图4</center>
+
+<p>通过基尔霍夫定律，我们可以这个L-C滤波器的$K_{LC}(s)$增益为∶</p>
+<script type="math/tex; mode=display">
+\frac{V_{O}\left ( s \right ) }{V_{I}\left ( s \right )} =\frac{\frac{R}{\frac{1}{C_{S}} } }{\frac{R}{\frac{1}{C_{s}+L_{s}} }}=\frac{\frac{1}{LC} }{S^{2}+\frac{s}{RC}+\frac{1}{LC}}=\frac{\frac{1}{LC} }{(s-p_{1})(s-p_{2})}</script><p>​        其中$p_{1}$和$p_{2}$是这个二阶系统的两个极点，它们是通过将增益方程的分母设置为零并求解根得到（分子的根将成为零点，但是这个方程中没有零点，接下来会谈到更多的关于零极点的内容）。<br>​        通过这个方程的数值解，我们将会得到增益的幅度和相位，它们都是频率的函数。因为极点和零点以特定的方式起作用，可以通过图形化方法来获得足够的信息，即相对于对数频率坐标，根据增益（dB增益对数的20倍）和相位（度）作图，这称之为波特图，它可以很容易地可视化显示出系统稳定特性。<br>​       求解上面的传递函数方程，j进而可以绘制出增益曲线，它是频率的函数，可知，L-C滤波器即存两个极点，而且已经知道如下情况∶</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">情况</th>
+<th style="text-align:center">详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$f\ll \frac{1}{2\pi }\sqrt{\frac{1}{LC} } $</td>
+<td style="text-align:center">增益=1，相位=0</td>
+</tr>
+<tr>
+<td style="text-align:center">$f= \frac{1}{2\pi }\sqrt{\frac{1}{LC} } $</td>
+<td style="text-align:center">增益和相位正处于过渡状态，在这个频率点$f_{DP}$,增益为$R\sqrt{\frac{1}{LC} }$，相位=$90^{o}$</td>
+</tr>
+<tr>
+<td style="text-align:center">$f\gg  \frac{1}{2\pi }\sqrt{\frac{1}{LC} } $</td>
+<td style="text-align:center">增益为$-\frac{1}{w^{2}LC} $，相位=$180^{o}$。注意到增</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>如图5所示带负载的$LC$滤波器波特图（增益和相位曲线），元件参数分别为$L=16uH,C=540uF,R=0.5Ω，F_{DP}=2.6KHz$</p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGly1gy1qlfr6dwj30w90jltc8.jpg" width="800" ></div>
+
+<center>图5</center>
+
+
+
+
+
+<h3 id="1-4-误差放大器增益-K-EA"><a href="#1-4-误差放大器增益-K-EA" class="headerlink" title="1.4  误差放大器增益$K_{EA}$"></a>1.4  误差放大器增益$K_{EA}$</h3><p>​        由之前的系统定义可知，输出检测信号接在负反馈的反相端，所以系统具有$180^{o}$的相移，而输出滤波器中可能出现另一个180°的相移。因此，该系统在频率高于输出滤波器截止频率的情况下，必然是不稳定的。</p>
+<p>​       因此，误差放大器必须为精确电压调节提供高增益的同时还要确保在满足动态响应要求的整个工作频率范围内，总相移保持小于$360^{o}$。这可以通过一个运算放大器（OPA）实现，见图6。</p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGly1gy1tjcmhtpj30kd05w3yy.jpg" width="600" ></div>
+
+
+
+<center>图6</center>
+
+<p>​        图 6中，放大器的总增益$K_{EA}$将为$\frac{Z_{FB}}{Z_{IN}}$，当$K_{EA}=\frac{Z_{FB}}{Z_{IN}}$为直流情况时，有$180^{o}$的相位偏移。这些阻抗是与频率相关的，它们的任何变化将导致增益和相位发生变化。因为降低$Z_{IN}$的阻抗将会增加总增益，而降低$Z_{FB}$阻抗将降低总增益。通常来说，我们通过电阻和电容的串并联组合来改变阻抗。更具体地说，利用电容的频率特性，R和C的并联网络，在低频时具有以R值开始的阻抗，即以电阻特性为主。然后，在截止频率$f_{C}$处，电容的阻抗开始作用，随着频率的进一步增加，并联阻抗以$-20dB/$十倍频程（$-6dB/$倍频程）的斜率下降。在相同的频率范围内，相移从低频处的$0^{o}$变为在截止频率处的$-90^{o}$。</p>
+<div align=center><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gy6o73mqkaj30nc0go0yn.jpg" width="800" ></div>
+
+<center>图7</center>
+
+<p>​         在图7的波特图上可以很容易地看到这些特性。电阻和电容的串联网络阻抗具有类似但相反的特性。它在直流时阻抗为无穷大，随着频率增加以$-20dB/$十倍频程（$-6dB/$倍频程）的斜率下降。直到达到截止频率$f_{c}$，在此之后的频段上，阻抗变得平坦并固定为值$R$。相位也具有与$R-C$串联网络相反的特性，从低频开始于$-90^{o}$。并且在剧过截止顺率后上升到$0^{o}$。<br>​        使用波特图来绘制增益（用dB表达）和相位（相对于频率的对数）曲线的优点是很明显的。虽然理论实际曲线是连续的，但可以用直线来逼近它们，其中增益斜率的变化正好在$f_{c}$处出现，而相移开始于大约$0.1f_{c}$处，在$f_{c}$处为45°，并且在$10×f_{c}$处结束。</p>
+<p>​        另外，截止频率$f_{c}$出现在$R$和$C$的阻抗相等的地方，即为$f_{c}= \frac{1}{2πRC}$。上图中的实线和虚线分别为实际曲线和直线逼近线，在绝大多数分析中，因为这个误差足够小，所以这种近似方法是可行的。<br>​        如果将这些$R-C$组合应用到运算放大器中，有许多不同的组合，它们对增益和相位的改变效果是不同的∶</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>串并联情况</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$Z_{IN}$为$R-C$串联</td>
+<td>这会增加一个极点（产生-90°相移），并且增益减少</td>
+</tr>
+<tr>
+<td>$Z_{IN}$为$R-C$并联</td>
+<td>这会增加一个零点（产生+90°相移），并且增益增加</td>
+</tr>
+<tr>
+<td>$Z_{FB}$为$R-C$串联</td>
+<td>这会增加一个零点（产生+90°相移），并且增益减少</td>
+</tr>
+<tr>
+<td>$Z_{FB}$为$R-C$并联</td>
+<td>这会增加一个极点（产生-90°相移），并且增益减少</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>总体来说，一个零点会导致+90°相移，并增益增加，而一个极点会导致-90°相移，并增益降低</p>
+<h3 id="1-5-稳定性的相关考虑"><a href="#1-5-稳定性的相关考虑" class="headerlink" title="1.5  稳定性的相关考虑"></a>1.5  稳定性的相关考虑</h3><p>现在可以将总的回路增益方程写为∶</p>
+<script type="math/tex; mode=display">
+H(s)G(s)=K_{EA}\times K_{PWM}\times \frac{\frac{1}{LC}}{s^{2}+\frac{s}{RC}+\frac{1}{RC}} \tag{3}</script><p>由式3可知关于环路稳定性：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>已经不用再考虑$K_{FB}$的作用，因为这一项只影响系统直流工作点</td>
+</tr>
+<tr>
+<td>2</td>
+<td>总增益将与直流占空比无关，但与直流输入电压相关</td>
+</tr>
+<tr>
+<td>3</td>
+<td>分母中存在R，如果R=0即空载时表示系统会不稳定，但实际上电路，将首先进入DCM工作。在这种情况下，这个二阶系统本质上（退化为）是一阶的，所以这时小信号分析不再适用</td>
+</tr>
+<tr>
+<td>4</td>
+<td>我们已经将$H(s) \times G(s)$假定简化为正数，但负反馈隐含地给出相位变化为 180°，因此，在任何增益大于1的情况下，系统可能出现不稳定</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>关于系统稳定性有两个重要的定义∶</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>增益裕量</td>
+<td>系统单位增益（零分贝）与相位180°时的增益之差它是一个负数，工程上推荐值为-6dB 到-12dB</td>
+</tr>
+<tr>
+<td>相位裕量</td>
+<td>系统单位增益所对应的实际相位与-180°的差。工程上建议值在 45°到60°之间</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>上述两个定义隐含了这样一个结论∶如果增益曲线与$0dB$轴相交的<br>        斜率不大于-20dB/十倍频程（-6dB/倍频程）。即增益曲线在$0dB$轴时的穿越斜率小于-2，则相位裕度会大于45°，系统将会稳定。</p>
+<h3 id="1-6-误差放大器的补偿"><a href="#1-6-误差放大器的补偿" class="headerlink" title="1.6 误差放大器的补偿"></a>1.6 误差放大器的补偿</h3><p>虽然使用运算放大器补偿来更改系统增益和相位有许多可能性，但是实际经验告诉我们，使用三种基本补偿电路就几乎能够满足所有的实际应用。由于只有三个，工程上它们已经被称为I型，Ⅱ型和Ⅲ型补偿网络，图8中分别绘制了伯德图。</p>
+<div align=center><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gy78thmgj6j30f60dhjtf.jpg" width="600" ></div>
+
+<center>图8</center>
+
+<p>​         图8最常见的三种补偿电路，以及简化的增益特性（直线逼近曲线）<br>​        上述增益曲线图都是由补偿器中的零极点决定的，它们的值（决定了特征频率的位置）是相对于输出滤波器电感和电容的值而言的（包括输出电容的ESR)。</p>
+<h4 id="1-6-1Ⅰ型补偿"><a href="#1-6-1Ⅰ型补偿" class="headerlink" title="1.6.1Ⅰ型补偿"></a>1.6.1Ⅰ型补偿</h4><p>I型的补偿无疑是最简单的，利用一个单极点，将总增益降低到1以下，其频率远低于任何其他电路元件影响的频率。具体而言，设定频率$\frac{1}{2πR_{1}C_{1}}$，使得在小于$0.1f_{DP}$频率（输出滤波器截止频率的$\frac{1}{10}$）时，总增益会小于0dB。<br>        当然，这使得对任何输入或负载的突变响应变得非常缓慢，在实际中很多电路并不适用。然而，有一种场合I型补偿很合适∶当一个全新的样机第一次上电时，人为迫使其无条件地稳定。这样可以评估和优化预期设计的所有静态特性，以便在稳定的大信号工作情况下完成最终的补偿设计。</p>
+<h4 id="1-6-2-Ⅱ型补偿"><a href="#1-6-2-Ⅱ型补偿" class="headerlink" title="1.6.2 Ⅱ型补偿"></a>1.6.2 Ⅱ型补偿</h4><p>​        这个补偿电路在低频下和Ⅰ型补偿一样，在低频时同样以单极点开始，但是在环路增益仍为正值的情况下，首先通过引入一个零点来消除输出滤波器的其中一个极点，然后在较高的频率再引入一个极点将增益降低到0dB以下<br>​        通常，这仍不足以稳定大多数电压模式控制的系统，因为在具有正增益的情况下，初始极点和剩余的输出滤波器极点相位总和将达到180°，这会导致系统<br>不稳定。<br>然而，Ⅱ型补偿非常适合电流模式控制电路，因为其输出滤波器在截止频率以内只有一个极点，同样在 DCM控制的设计中，由于系统是一阶的，Ⅱ型补偿也很适合。在这些情况下，环路带宽通常可以比使用电压模式控制的带宽高得多。</p>
+<h4 id="1-6-3-Ⅲ型补偿"><a href="#1-6-3-Ⅲ型补偿" class="headerlink" title="1.6.3  Ⅲ型补偿"></a>1.6.3  Ⅲ型补偿</h4><p>​      Ⅲ型补偿，相对于前二者补偿来说显然要复杂得多，但是通过在两个滤波器极点频率处或附近引入两个零点，可以解决输出滤波器双极点问题。利用具有增益上升和+90°相移的零点来抵消具有增益下降和-90°相移的极点。<br>​        我们将这些零点放置在需要相位提升的地方，使得有用的增益显著扩展到超过输出滤波器的滚降点，但是仍然要在更高的频率处再增加两个极点使增益最终减至小于单位增益。需要注意的是，当一对零点（或极点）的位置是很接近的时候，由补偿网络的电容，而不是电阻来决定它们之间的增益。</p>
+]]></content>
+      <categories>
+        <category>开关电源</category>
+      </categories>
+      <tags>
+        <tag>开关电源</tag>
+        <tag>学习笔记</tag>
+        <tag>环路补偿</tag>
+        <tag>buck电路</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>推挽电源的环路第二节</title>
+    <url>/2022/01/09/%E7%94%B5%E6%BA%90%E7%8E%AF%E8%B7%AF%E8%A1%A5%E5%81%BF%E7%AC%AC%E4%BA%8C%E8%8A%82/</url>
+    <content><![CDATA[<h2 id="环路补偿示例-例子"><a href="#环路补偿示例-例子" class="headerlink" title="环路补偿示例(例子)"></a>环路补偿示例(例子)</h2><p>为了说明使用Ⅲ型补偿方案的设计过程，以电压模式、CCM模式的Buck非隔离变换器为例。变换器相关规格如下</p>
+<script type="math/tex; mode=display">
+V_{IN}=3.3V(3.6V_{MAX})  \\ 
+V_{OUT}=1.2V\\
+最大负载电流10A\\
+开关频率f=600kHz\\
+V_{Re}=700mV \\
+PWM斜坡电压V=1.0V \\
+电感 L=0.68μH \\
+输出电容C=470μF \\
+电容 ESR_{max}=10m\\
+误差放大器增益带宽积GBW=5MHz</script><p>首先，需要定义PWM级的增益</p>
+<script type="math/tex; mode=display">
+K_{PWM}=\frac{V_{IN}}{V_{P}}=\frac{3.6}{1}=3.6=11dB</script><p>接下来，将双极点的位置置于输出端滤波器的截止频率处</p>
+<script type="math/tex; mode=display">
+f_{DP}=\frac{1}{2π\sqrt{LC_{o}}}</script><p>​        事实上，还需要考虑输出电容的等效串联电阻（ESR），另外还有许多寄生参数会影响元件的性能。例如，电感绕组中存在串联的直流电阻和并联电容，而输出电容也会包含一些小的串联电感，但是对于这一层面的分析，其中大部分通常可以忽略不计。<br>​        但是，电容的ESR是一个例外，因为我们很快就会看到，它足够大并可能影响我们感兴趣的频率范围内的性能。请注意，元器件制造商经常对这个数的定义并不明确，并且以非常保守的最大值作为指定值并写入规格书中同时 ESR具有一个负温度系数，所以应该考虑最低温度下的情况。<br>​        因此，我们通常必须进行假设，ESR可以具有从0到最大最坏情况值的任何值，在本例中可以高达10mΩ。因此，这个电容ESR会引入一个零点，从而在如下频率处增加滤波器的增益∶</p>
+<script type="math/tex; mode=display">
+f_{ESR}=\frac{1}{2πC_{o}R_{ESR}}=34KHz(最小值)</script><p>有了这些信息，综合PWM 和输出滤波器的增益，我们可以画出第一个波特图，如图 1所示。</p>
+<div align=center><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gycd17vunyj30id0ciaej.jpg" width="800"></div>
+
+<center>图1.1 原图</center>
+
+<div align=center><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gycd6pe4vvj30xk0niwsx.jpg" width="800"></div>
+
+
+
+<center>图1.2 LTspice 仿真图</center>
+
+
+
+<p>​        由于我们希望稳压器能够对快速变化的动态负载很好地进行响应。这需要很宽的带宽，所以采用Ⅲ型补偿电路。回到课本中的基本控制理论。个开关周期里采样5次，才能提供线性控制。这意味着控制环路的截止顺率/（增益低于0dB的频率）不应该高于开关频率的20%。对于这个例子，将设置$f_{C}=100kHz$，这是一个合理的数字，并留了一点的裕量。<br>​        截止频率，这是补偿曲线中的一个关键点，这也是一个很好的设计起点。在截止频率处，将补偿增益设定为等于输出滤波器的（负）增益，这样它们的增益和等于$0dB$，然后再转向其他频段的设计，如图2中的点A所示。</p>
+<div align=center><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gycftfunqrj30l60azq6m.jpg" width="800"></div>
+
+
+
+<center>图2 确定A点（和ESP的-21.5dB互补为0）</center>
+
+<p>​        从这A点开始，我们可以得到一个下降的补偿增益，往左其斜率为-1下降，而在右侧较高频率时增益变得平坦。如果在这里放置一个极点，我们将其定义为$f_{p1}$。故进行Ⅲ型补偿，于是得到了图 3所示的整体补偿结果。</p>
+<div align=center><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gycfx5ebhqj30lo0bn0xc.jpg" width="800"></div>
+
+<center>图3 确定A，B，C三点</center>
+
+
+
+<p>​        除了由极点$f_{p1}$定义的点A之外，在输出滤波器的两个极点所处的频率处（或在此附近），我们需要两个新的零点$f_{Z1}$和$f_{Z2}$在B点，两个零点的频率为$f_{DP}=8.9kHz$，随着频率从$f_{DP}$增加到$f_{C}$，补偿斜率从-1变为+1。在这个例子中，我们已经使得$f_{Z1}=f_{Z2}=8.9kHz$。<br>​         在$f_{C}$以上，补偿曲线的斜率是平坦的，但是在我们达到放大器的增益带宽限制之前，还需要一个额外的极点，因为通过补偿获得的增益无法大于放大器能够产生的增益。在这种情况下，我们在位置200kH处增加最后一个极点$f_{p2}$。<br>​        请注意，通过采用最大ESR来定义$f_{C}=100kHz$，ESR小于最大值时都将意味着在此频率下总增益将小于零。随着 ESR接近零，$f_{C}$将会降至接近 40 kHz。<br>​        现在已经定义了两个极点和两个零点的频率，但是在 DC 直流时还有第三个极点。这实际上是由初始-1斜率与放大器的开环增益相交的位置确定的，这个参数通常没有得到很好的定义。但是，已知道极点$f_{C}$增益和频率，</p>
+<p>​           为了计算补偿电路中所有元件的值，最好从这里开始并在两个方向（此频率前和后）上进行设计。整个过程将使用图4的Ⅲ型补偿电路来进行描述。</p>
+<div align=center><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gycgdb7qzvj30b709cwg0.jpg" width="600"></div>
+
+<center>图4 Ⅲ型电路电子图</center>
+
+<p>零极点公式如下所示</p>
+<script type="math/tex; mode=display">
+f=\frac{1}{2πRC} \\
+f_{Z1}=\frac{1}{2πR_{1}C_{3}} \\
+f_{Z2}=\frac{1}{2πR_{2}C_{2}} \\
+f_{Z1}=\frac{1}{2πR_{3}C_{3}} \\
+f_{Z1}=\frac{1}{2πR_{3}C_{3}} \\
+f_{Z1}=\frac{1}{2πR_{2}C_{1}} \\</script><p>​        现在知道了频率的位置，但是每个方程中仍然还有两个未知参数。综合上面四个方程，我们可以看到有些元件是相互耦合的（一个元件既在零点又在极点中都起作用），可以先随意假设一个值作为试探。对于图4所示，R-C 组合有许多种可能，而R-C并联支路在更高的频率下起作用，那意味着有∶</p>
+<script type="math/tex; mode=display">
+R_{1}>>R_{3},C_{2}>>C_{1}</script><p>考虑到R4并不会影响AC的增益函数，所以在这里首先为它选择一个值，这是一个不错的出发点。设定$R_{4}=10KΩ$。</p>
+<script type="math/tex; mode=display">
+R_{1}=R_{4}\frac{(V_{O}-V_{REF})}{V_{REF}}=10KΩ\times\frac{0.5V}{0.7V}=7.15KΩ</script><p>知道了$R_{1}$，可以计算出$C_{3}$∶</p>
+<script type="math/tex; mode=display">
+C_{3}=\frac{1}{2πf_{P1}R_{1}}=\frac{1}{2π \times8.9K \times 7.15K}=2.5nF</script><p>C3得到以后，可以得到R∶c</p>
+<script type="math/tex; mode=display">
+R_{3}=\frac{1}{2πf_{P1}C_{3}}=\frac{1}{2π \times100K \times 2.5nF}=637Ω</script><p>现在知道增益补偿的目标是$f_{c}$处为21.5dB(12)，同样这个增益是由$R_{2}$和$R_{1}//R_{3}$、的比例决定的∶</p>
+<script type="math/tex; mode=display">
+R_{2}=\left | G \right | \frac{R_{1}R_{3}}{R_{1}//R_{3}} =12\times \frac{7.15k\times 0.637K}{7,787K}=7.02KΩ</script><p>$R_{2}$知道后，可以得到$C_{2}$∶</p>
+<script type="math/tex; mode=display">
+C_{2}=\frac{1}{2πf_{Z2}R_{2}}=\frac{1}{2π \times8.9K \times 7.02K}=2.55nF</script><p>最终，可以计算出 C的值∶</p>
+<script type="math/tex; mode=display">
+C_{1}=\frac{1}{2πf_{P2}R_{2}}=\frac{1}{2π \times200K \times 7.02K}=133pF</script><p>现在很方便可以利用电路仿真程序，绘制出补偿器的响应曲线，如图5</p>
+<div align=center><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gydmmii0jlj30i209u0w3.jpg" width="800"></div>
+
+<center>图 5</center>
+
+<p>同样，增加PWM级和输出滤波器模块，我们可以得到了完整变换器的开环响应曲线。如图6所示。</p>
+<div align=center><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gydmq2lef8j30j20bpq83.jpg" width="800"></div>
+
+<center>图6</center>
+
+<p>​        补偿器计算增益曲线的峰值和谷值与我们设计时使用的图形化波特图中设置的值相比略有下降。这描述用直线近似法计算极零点产生的误差。在这种情况下，截止频率大约为40kHz，而不是设计目标中的100kHz。如有必要，可以通过对元件参数值小幅度修改来调整（二次迭代）。<br>​        实际变换器中使用元器件的值是由最接近的标准值组成的，测得的整体环路响应和计算值吻合得相当不错。</p>
+]]></content>
+      <categories>
+        <category>开关电源</category>
+      </categories>
+      <tags>
+        <tag>开关电源</tag>
+        <tag>学习笔记</tag>
+        <tag>环路补偿</tag>
+        <tag>buck电路</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2021/12/28/%E5%B1%85%E4%B8%AD%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGly1gx32fignn3j30xc0fg451.jpg" width="800"></div>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>数据凭借与拆分</title>
+    <url>/2021/12/17/%E6%95%B0%E6%8D%AE%E6%8B%BC%E6%8E%A5/</url>
+    <content><![CDATA[<h1 id="1数据拆分"><a href="#1数据拆分" class="headerlink" title="1数据拆分"></a>1数据拆分</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> u8;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">double</span> f64;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> u64;</span><br><span class="line"></span><br><span class="line"><span class="comment">//拆分数据</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dataSplit</span><span class="params">(f64 data,u8 *buf)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">8</span>;i++)</span><br><span class="line">        buf[i]=(*((u8 *)(&amp;data)+i));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>(&amp;data)取出原始数据data的地址<br>(u8 <em>)(&amp;data)，用一个u8(即unsigned char)型指针指向这个地址<br>((u8 </em>)(&amp;data)+i)，指针加减法会移动指向位置，这里按u8长度为一个单位进行移动，从而依次指向原始数据中的每一段u8数据<br>(<em>((u8 </em>)(&amp;data)+i))，将这个指针的值取出，也就是取出了原始数据中的每一段u8数据的值</p>
+<h1 id="2数据整合"><a href="#2数据整合" class="headerlink" title="2数据整合"></a>2数据整合</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//拼接数据</span></span><br><span class="line"><span class="function">f64 <span class="title">dataAssmeble</span><span class="params">(u8 *buf)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    u64 temp=buf[<span class="number">8</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">6</span>;i&gt;=<span class="number">0</span>;i--)</span><br><span class="line">    &#123;temp=(temp&lt;&lt;<span class="number">8</span>)|buf[i];&#125;</span><br><span class="line"></span><br><span class="line">    f64 *data=(f64*)(&amp;temp);</span><br><span class="line">    <span class="keyword">return</span> *data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>将若干u8数据用位运算拼成一个长度相同的整形数据temp<br>(&amp;temp) 把temp的地址取出<br>(f64<em>)(&amp;temp)，用一个（f64</em>）类型指针指向这个地址，确认了解释方法<br>(f64)(&amp;temp)取出这个指针的值</p>
+<p><img src="http://tva1.sinaimg.cn/large/005Q1GhGly1gxgjvhpfy5j30u01cttg0.jpg" alt="-d10a3f58ee9c8e3.jpg"></p>
+]]></content>
+      <categories>
+        <category>开关电源</category>
+      </categories>
+      <tags>
+        <tag>开关电源</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>电容放电速度分析，τ=RC</title>
+    <url>/2021/12/09/%E7%94%B5%E5%AE%B9%E6%94%BE%E7%94%B5%E7%89%B9%E6%80%A7%E5%88%86%E6%9E%90%CF%84=RC%E7%9A%84%E6%8E%A8%E5%AF%BC/</url>
+    <content><![CDATA[<h1 id="1-定性分析："><a href="#1-定性分析：" class="headerlink" title="1 定性分析："></a>1 定性分析：</h1><p>如图1为超级电容放电电路</p>
+<p> <div align=center><img src="https://img-blog.csdnimg.cn/img_convert/f360ea18dda461638116253b8dfb0796.png" alt="QQ截图20211209174121.png"></p>
+<p>图1  超级电容放电电路</p>
+<p> 如图1所示此时公式为</p>
+<p>$\begin{cases}  &amp; \text{  } R+  R_{S}=U_{c}(t) \\  &amp; \text{  } I=c \frac{dU_{c}}{dt}\end{cases}$<br>此时初始时刻的状态为</p>
+<p>$C\frac{dU_{c}}{dt}(R+  R_{S})=U_{c}(0)$</p>
+<p>电容外部电压等于电容自身电压（基尔霍夫电压定律）</p>
+<h1 id="2-定量部分："><a href="#2-定量部分：" class="headerlink" title="2 定量部分："></a>2 定量部分：</h1><p>如图2为超级电容放电电路</p>
+<p> <div align=center><img src="https://img-blog.csdnimg.cn/img_convert/446f43c98426b3bc48916df1b7634eb7.png" alt="12.png"></p>
+<p>图2</p>
+<p>电路中电流关系如下所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>初始状态</th>
+<th>$\begin{cases}  &amp; \text{  } R+  R_{S}-U_{c}(t)=0 \\  &amp; \text{  } I=c \frac{dU_{c}}{dt}\end{cases}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>进一步整理可得</td>
+<td>$\begin{cases} &amp; \text{  } \frac{1}{C}\int Idt=U_{初始}+U_{C}(t)  \\  &amp; \text{  } R+  R_{S}-\frac{1}{C}\int Idt = 0\end{cases}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>进一步假设：设$U_{初始}=3.0V$</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>$U_{初始}=3.0V    $</th>
+<th>$\begin{cases} &amp; \text{  } \frac{1}{C}\int Idt=3V+U_{C}(t)  \\  &amp; \text{  } IR+  IR_{S}-(3-\frac{1}{C}\int Idt) = 0=（IR+  IR_{S}+\frac{1}{C}\int Idt）-3\end{cases}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p> 根据高等数学齐次方程可知：电流设为$e$的对数形式（$exp$形式）。将$I=e^{At+B} $带入可得上式可得：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>将$ I=e^{At+B} $带入</th>
+<th>$\begin{cases} &amp; \text{  } I= e^{At+B}  \\  &amp; \text{  } IR+  IR_{S}-(3-\frac{1}{C}\int Idt) = 0=（IR+  IR_{S}+\frac{1}{C}\int Idt）-3 \end{cases}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>带入收得到</td>
+<td>$e^{At+B}(R+R_{s})+\frac{1}{C}\int e^{At+B} dt =3$</td>
+</tr>
+<tr>
+<td>移项</td>
+<td>$\\  e^{At+B}(R+R_{s}) =3-\frac{1}{C}\int e^{At+B} dt$</td>
+</tr>
+<tr>
+<td>两边求导</td>
+<td>$A \times e^{At+B}(R+R_{s}) =-\frac{1}{C}\int e^{At+B} dt$</td>
+</tr>
+<tr>
+<td>消除同类项</td>
+<td>$A \times (R+R_{s}) =-\frac{1}{C}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>最终可得</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>$A= -\frac{1}{C(R+R_{S})}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>可知放电电流为</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>电容电流与时间的关系</th>
+<th>$I=e^{-\frac{1}{C(R+R_{S})}t+B}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>可知外阻影响着放电电流的衰减速率.</p>
+<h1 id="3-结论"><a href="#3-结论" class="headerlink" title="3 结论"></a>3 结论</h1><p>结论：对于一个超级电容来说电荷量$Q$是固定的，而Q=电流X时间等价于$Q=I \times t$。故电流衰减速率越大则放电时间越短，放电时间越短则初始最大放电电流越大。</p>
+<p>一句话结论，电阻越小，最大放电电流越大。</p>
+<p> 电流衰减速率越大则放电时间越短，放电时间越短则初始最大放电电流越大。</p>
+]]></content>
+      <categories>
+        <category>开关电源</category>
+      </categories>
+      <tags>
+        <tag>开关电源</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>QT的pro文件讲解</title>
+    <url>/2021/12/05/QT%E6%A1%86%E6%9E%B6/</url>
+    <content><![CDATA[<h1 id="QT主文件框架"><a href="#QT主文件框架" class="headerlink" title="QT主文件框架"></a>QT主文件框架</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;     <span class="comment">//实例化QT对象</span></span><br><span class="line">    MainWindow w;                   <span class="comment">//用户界面</span></span><br><span class="line">    w.<span class="built_in">show</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> a.<span class="built_in">exec</span>();                <span class="comment">//消息循环 阻塞式 不退出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="框架说明"><a href="#框架说明" class="headerlink" title="框架说明"></a>框架说明</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>初始化：每个QT程序都有一个QApplication对象，用于QT GUI的示例化，前端QT都有这个对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>QT界面显示对象MainWindow</td>
+</tr>
+<tr>
+<td>3</td>
+<td>主事件循环：a.exec（）是每个QT应用程序都要调用的函数。程序运行停在这里等待外部事件（外部用户的任何动作）</td>
+</tr>
+</tbody>
+</table>
+</div>
+]]></content>
+      <categories>
+        <category>QT框架</category>
+      </categories>
+      <tags>
+        <tag>QT</tag>
+        <tag>main主文件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>QT的pro文件讲解</title>
+    <url>/2021/12/05/QT%E7%9A%84pro%E6%96%87%E4%BB%B6%E8%AE%B2%E8%A7%A3/</url>
+    <content><![CDATA[<h1 id="相关学习资料链接"><a href="#相关学习资料链接" class="headerlink" title="相关学习资料链接"></a>相关学习资料链接</h1><p>链接: <a href="https://www.bilibili.com/video/BV1Qv411k79r">萌马工作室QT讲解</a>.</p>
+<h1 id="QT的pro文件讲解"><a href="#QT的pro文件讲解" class="headerlink" title="QT的pro文件讲解"></a>QT的pro文件讲解</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>QT添加需要模块</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qt +=</td>
+<td>表示为QT中添加该模块</td>
+</tr>
+<tr>
+<td>Qt =</td>
+<td>QT中只有该模块</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="编译过程中相关"><a href="#编译过程中相关" class="headerlink" title="编译过程中相关"></a>编译过程中相关</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>目标文件名称</th>
+<th style="text-align:left">TARGET=appname</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>指定程序放置目录</td>
+<td style="text-align:left">DESTDIR=appdir</td>
+</tr>
+<tr>
+<td>编译宏开关</td>
+<td style="text-align:left">DEFINES+=yourdefines</td>
+</tr>
+<tr>
+<td>OBJ生成目录</td>
+<td style="text-align:left">OBJECTS_DIR=yourobjdir</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="常用文件"><a href="#常用文件" class="headerlink" title="常用文件"></a>常用文件</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>源文件</th>
+<th>SOURCES = appsrc.cpp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>头文件</td>
+<td>HEADERS = appfiles.h</td>
+</tr>
+<tr>
+<td>UI文件</td>
+<td>FORMS += yourwidgets.ui</td>
+</tr>
+<tr>
+<td>资源文件</td>
+<td>RESOURCES += youres.rc</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>引用头文件路径</th>
+<th>INCLUDES = include-path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>引用库路径</td>
+<td>DEENDPATH = appdependpath</td>
+</tr>
+<tr>
+<td>链接库文件</td>
+<td>LIBS += -L“路径”库名称</td>
+</tr>
+<tr>
+<td>模块类型配置</td>
+<td>TEMPLATE = APP(lib)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="远程调试"><a href="#远程调试" class="headerlink" title="远程调试"></a>远程调试</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>target.path =/home/远程计算机中的目录<br/>INSTALLS +=target</th>
+<th>常用与远程调试（本身是复制粘贴）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+]]></content>
+      <categories>
+        <category>QT</category>
+      </categories>
+      <tags>
+        <tag>QT</tag>
+        <tag>pro文件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AP法公式推导</title>
+    <url>/2021/12/01/AP%E6%B3%95%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/</url>
+    <content><![CDATA[<h1 id="变压器中AP法的公式推导"><a href="#变压器中AP法的公式推导" class="headerlink" title="变压器中AP法的公式推导"></a>变压器中AP法的公式推导</h1><h2 id="1-第一步：变压器感生电压"><a href="#1-第一步：变压器感生电压" class="headerlink" title="1 第一步：变压器感生电压"></a>1 第一步：变压器感生电压</h2><p>由变压器基本公式可得下列表</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">感生电压</th>
+<th style="text-align:center">$U=K_{r}×f×N×B×A_{e}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">工作频率</td>
+<td style="text-align:center">$f$</td>
+</tr>
+<tr>
+<td style="text-align:center">匝数</td>
+<td style="text-align:center">$N$</td>
+</tr>
+<tr>
+<td style="text-align:center">磁心有效截面积</td>
+<td style="text-align:center">$A_{e}$</td>
+</tr>
+<tr>
+<td style="text-align:center">波形系数（波形平均值和有效值的比值）</td>
+<td style="text-align:center">$K_{e}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="2-第二步：线圈匝数公式"><a href="#2-第二步：线圈匝数公式" class="headerlink" title="2 第二步：线圈匝数公式"></a>2 第二步：线圈匝数公式</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$N=\frac{U}{K_{r}×f×B×A_{e}} $</th>
+<th style="text-align:center">式（1-1）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="3-第三部：磁心窗口面积"><a href="#3-第三部：磁心窗口面积" class="headerlink" title="3 第三部：磁心窗口面积"></a>3 第三部：磁心窗口面积</h2><p>磁心窗口有效面积为“初级”与“次级“绕组占据的面积总和：</p>
+<p>​                            $K_{o}\times A_{w}=N_{p}\times A_{p}+ N_{s}\times A_{s} $     (式1-2)</p>
+<p>式中：$K_{o}$窗口占空系数；$A_{w}$磁心窗口面积；$N_{p}$ 与$ N_{s}$为初级与次级的匝数；$ A_{p}$与$ A_{s}$为初级与次级额导线截面积。</p>
+<h2 id="4-第四步：导线截面积与导线电流的关系"><a href="#4-第四步：导线截面积与导线电流的关系" class="headerlink" title="4 第四步：导线截面积与导线电流的关系"></a>4 第四步：导线截面积与导线电流的关系</h2><p>导线截面积与导线电流$I$的关系为电流密度$J$,如下所示：</p>
+<p>​                                             $A_{p}=\frac{I }{J} $ 式（1-3）</p>
+<p>5 第五步：整理</p>
+<p>将式（1-1）、式(1-3)融入到式（1-2）可得下式</p>
+<p>$K_{o}A_{w}=\frac{U_{1}}{K_{f}fBA_{e}}\cdot   \frac{I_{1}}{J}+   \frac{U_{2}}{K_{f}fBA_{e}}\cdot   \frac{I_{2}}{J}=\frac{U_{1}\times I_{1} +  U_{2}\times I_{2}}{K_{f}fBA_{e}} $ 式（1-4）</p>
+<h2 id="6-第六步等到AP式"><a href="#6-第六步等到AP式" class="headerlink" title="6 第六步等到AP式"></a>6 第六步等到AP式</h2><p>式（1-4）两侧乘$A_{e}$，再除以$K_{o}$，得到AP式</p>
+<p>​                              $AP=A_{e}A_{w}=\frac{U_{1}\times I_{1} +  U_{2}\times I_{2}}{K_{f}fBA_{e}}$  式（1-5）</p>
+<p>电流密度$J$直接影响到变压器的工作温度。而工作温度与表面积和外形结构等有关。一般来说，表面积越大，工作温度越低。反映到与 AP关系为</p>
+<p>$J=K_{j} \cdot AP^{x} $  式（1-6）</p>
+<p>式（1-6）中$K_{j}$电流密度比例系数；$x$指数（受磁心影响），两者查表可得。</p>
+<h2 id="7-第七步结果"><a href="#7-第七步结果" class="headerlink" title="7 第七步结果"></a>7 第七步结果</h2><p>综合式（1-5）与式（1-6）可得</p>
+<p>$AP=A_{e}A_{w}=(\frac{U_{1}\times I_{1} +  U_{2}\times I_{2}}{K_{f}fBA_{e}})^{\frac{1}{1+x} }=(\frac{P_{t}}{K_{f}fBA_{e}})^{\frac{1}{1+x} }$ 式（1-7）</p>
+<p>式中$P_{t}=U_{1}I_{1}+U_{2}I_{2}$为变压器的功率</p>
+]]></content>
+      <categories>
+        <category>开关电源</category>
+      </categories>
+      <tags>
+        <tag>开关电源</tag>
+        <tag>学习笔记</tag>
+        <tag>拓扑类</tag>
+        <tag>推挽拓扑</tag>
+        <tag>AP法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开关电源中的“右半平面零点问题（RHPZ）</title>
+    <url>/2021/11/29/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90%E4%B8%AD%E7%9A%84%E2%80%9C%E5%8F%B3%E5%8D%8A%E5%B9%B3%E9%9D%A2%E9%9B%B6%E7%82%B9%E9%97%AE%E9%A2%98%EF%BC%88RHPZ%EF%BC%89%E2%80%9D/</url>
+    <content><![CDATA[<p>开关电源中的“右半平面零点问题（RHPZ）</p>
+<p>在小信号频率补偿中，极点和零点通常位于复数s平面的左半部分左半平面极点会使增益下降、相位滞后，而零点则相反，会使增益上升、相位超前。RHPZ的问题在于它的效果是让增益增加（类似于一个传统的零点），但是相位滞后。这个特性即使给予补偿的话也是很麻烦的（实际上一般也很难补偿），并且它通常会使整个环路增益在相对较低的频率时滚降。</p>
+<p>在Buck系列电路中不会出现 RHPZ，它只会出现在 Boost和Flyback拓扑结构中，且只有在电路工作在连续导通模式（CCM）和恒定开关频率时才会出现。不出现在DCM中是因为DCM的起始状态是确定的（电流为0）。这是由输入到输出的能量传递的半周期延迟引起的（需要先储能再释放）</p>
+<p>下图为相关解释</p>
+<p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwwemtvactj30f70b9q5h.jpg" alt="QQ截图20211129224720.png"></p>
+<p>​                                                                                             图1</p>
+<p>在图1两种拓扑结构中，当开关管导通时，能量是首先存储在电感中，此时间为$D\times T$。当开关管关闭时，能量传输到输出端（和输出电容器），此时间为$(1-D)\times T$。考虑CCM工作情况，电感电流连续。如果我们负载电流突然增加，那么第一个响应就是输入端要增加能量，这会使占空比D变大，如图2所示。</p>
+<p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwweop0wfoj30fr0fdwjd.jpg" alt="QQ截图20211129224917.png"></p>
+<p>虽然占空比的增加将在开始的几个开关周期内</p>
+]]></content>
+      <categories>
+        <category>开关电源</category>
+      </categories>
+      <tags>
+        <tag>开关电源</tag>
+        <tag>学习笔记</tag>
+        <tag>拓扑类</tag>
+        <tag>推挽拓扑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开关电源中变压器（扼流圈）设计</title>
+    <url>/2021/11/28/2021-11-28-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90%E4%B8%AD%E5%8F%98%E5%8E%8B%E5%99%A8%EF%BC%88%E6%89%BC%E6%B5%81%E5%9C%88%EF%BC%89%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<h2 id="2-开关电源中变压器（扼流圈）的设计"><a href="#2-开关电源中变压器（扼流圈）的设计" class="headerlink" title="2 开关电源中变压器（扼流圈）的设计"></a>2 开关电源中变压器（扼流圈）的设计</h2><h2 id="2-1-磁芯选择"><a href="#2-1-磁芯选择" class="headerlink" title="2.1 磁芯选择"></a>2.1 磁芯选择</h2><h3 id="2-1-1-AP法的理解"><a href="#2-1-1-AP法的理解" class="headerlink" title="2.1.1 AP法的理解"></a>2.1.1 AP法的理解</h3><h2 id="2-2初级的匝数"><a href="#2-2初级的匝数" class="headerlink" title="2.2初级的匝数"></a>2.2初级的匝数</h2><p>根据法拉第定律可以根据由初级绕组的最小电压$V$和最大导通时间$T_{on}$确定匝数</p>
+<p>利用法拉第定律的量纲，从而直接计算匝数∶</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$N =\frac{V\times T_{on}}{A_{e}\bigtriangleup B} $</th>
+<th>$N$为匝数；$V$为绕组两端电压；$\bigtriangleup B$为磁通变化（在导通周期内）单位为10000高斯；  $A_{e}$为磁心有效面积；最大导通时间$T_{on}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="2-3-最大磁通选择"><a href="#2-3-最大磁通选择" class="headerlink" title="2.3 最大磁通选择"></a>2.3 最大磁通选择</h2><h2 id="2-4-初级峰值电流计算"><a href="#2-4-初级峰值电流计算" class="headerlink" title="2.4 初级峰值电流计算"></a>2.4 初级峰值电流计算</h2><h2 id="2-5-初级电流有效值计算及其线径的选择"><a href="#2-5-初级电流有效值计算及其线径的选择" class="headerlink" title="2.5 初级电流有效值计算及其线径的选择"></a>2.5 初级电流有效值计算及其线径的选择</h2><h2 id="2-6-次级电流的峰值、有效值及其线径的计算"><a href="#2-6-次级电流的峰值、有效值及其线径的计算" class="headerlink" title="2.6 次级电流的峰值、有效值及其线径的计算"></a>2.6 次级电流的峰值、有效值及其线径的计算</h2>]]></content>
+      <categories>
+        <category>开关电源</category>
+      </categories>
+      <tags>
+        <tag>开关电源</tag>
+        <tag>学习笔记</tag>
+        <tag>拓扑类</tag>
+        <tag>推挽拓扑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>推挽电源的基本工作原理、磁通不平衡问题及其解决方法</title>
+    <url>/2021/11/27/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/</url>
+    <content><![CDATA[<h1 id="1-推挽开关电源"><a href="#1-推挽开关电源" class="headerlink" title="1 推挽开关电源"></a>1 推挽开关电源</h1><h2 id="1-1-推挽拓扑"><a href="#1-1-推挽拓扑" class="headerlink" title="1.1  推挽拓扑"></a>1.1  推挽拓扑</h2><h3 id="1-1-1-基本原理"><a href="#1-1-1-基本原理" class="headerlink" title="1.1.1 基本原理"></a>1.1.1 基本原理</h3><p>推挽拓扑如图1.1 所示，其主变压器T1包含多个次级烧组。每个次级绕组都产生一对相位互差 180°的方波脉冲，脉冲幅值由输人电压以及初次级绕组匝数比决定。 所有次级绕组的脉冲宽度都相同，均由主输出回路的负反馈控制电路决定。在推挽电路中，开关管Q1和 Q2由两个相等的脉宽可调，相位互差180”的脉冲驱动。另外两个次级绕组$N_{s1}$和 $N_{s2}$为辅输出。 除此之外，存在开关管的导通压降$V_{ce}$,本文中设为1V。因此，当任意一个开关管导通时，对应半个初级绕组上的方波电压为$V_{dc}-1$</p>
+<p>变压器次级侧是一个导通时间为$T_{on}$其值为最大为0.4、电压幅值为$[(V_{dc}-1 )(\frac{N_{s}}{N_{p}})-V_{d} ]$的平顶方波。此处$V_{d}$为次级侧二极管的正向压降。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">物理量</th>
+<th style="text-align:center">公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">输出电压$V_{m}$</td>
+<td style="text-align:center">$[(V_{dc}-1 )(\frac{N_{s}}{N_{p}})-1 ]\frac{2T_{on}}{T}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwu0xjity5j30i90i5jti.jpg" alt="图 1.1 推挽电源原理图"></p>
+<p>​                                                                     图 1.1 推挽电路原理图</p>
+<h3 id="1-1-2-辅输出的负载调整率"><a href="#1-1-2-辅输出的负载调整率" class="headerlink" title="1.1.2 辅输出的负载调整率"></a>1.1.2 辅输出的负载调整率</h3><p>从图1.1可以主输出电压是有一个负反馈用于调节。但是，辅助输出端的没有负反馈。故在运行时为了保持辅输出电压的稳定，应该使得包括主电感在内的各个电感保持CCM（ continuous current mode ）模式。</p>
+<p>在CCM模式下，输出电压可以稳定在±5%~±8%的范围内</p>
+<h3 id="1-1-3-辅电压输出"><a href="#1-1-3-辅电压输出" class="headerlink" title="1.1.3 辅电压输出"></a>1.1.3 辅电压输出</h3><p>加个LDO用于进一步保持电压稳定</p>
+<h3 id="1-1-4-主输出电感的最小电流限制"><a href="#1-1-4-主输出电感的最小电流限制" class="headerlink" title="1.1.4 主输出电感的最小电流限制"></a>1.1.4 主输出电感的最小电流限制</h3><p>通常情况下，不允许主输出电感电流遗入不连续工作模式。因为往往电流反馈值是斜坡中值，主电感进入DCM模式时电流反馈值会不稳定，造成控制上的难度。通常，最小电感电流值应为额定值的$\frac{1}{10} $</p>
+<p> ——K.B. 推挽变换器是最传统的拓扑结构之一，但设计中依然经常用到。这种拓扑能够实现多路输出，并且可以实现直流隔离。输出电压既可以高于输入电压，也可以低于输入电压。当输入电压和负载波动时主输出电压可以得到很好的调节。在CCM模式下，主输出电压能保持较高的电压调整率。当负载发生变化时，只要辅输出电感电流不进入不连续模式，辅输出电压调整率也能控制在 5%以内。</p>
+<h3 id="1-1-5-推挽拓扑中的磁通不平衡问题（偏磁饱和现象）"><a href="#1-1-5-推挽拓扑中的磁通不平衡问题（偏磁饱和现象）" class="headerlink" title="1.1.5 推挽拓扑中的磁通不平衡问题（偏磁饱和现象） "></a>1.1.5 推挽拓扑中的磁通不平衡问题（偏磁饱和现象） </h3><p>设计者还应该注意到推挽拓扑中另一种更为潜在的失效模式——由变压器磁通不平衡引起的偏磁面导致磁心饱和问题。</p>
+<p> 如图1.2所示。 正常工作时，磁心的磁通变化范围位于所示的$B_{1}$和$B_{2}$之间。磁心必须工作在磁滞回线(弯曲区)±2000G以内的线性部分。频率为25kHz左右时，磁心损耗很小，磁通允许在±2000C 范图内变化。但是，随着频率的上升.磁心损耗会迅速增大，此时磁峰下降。</p>
+<p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwu2r4crdqj30hw0bbjtu.jpg" alt="QQ截图20211127222517.png"></p>
+<p>​                                                                                       图 1.2</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Q1导通时施加在$N_{p1}$的伏秒数与Q2 导通时施加在的$N_{p2}$伏秒数是否相等</th>
+<th style="text-align:center">后果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">相等</td>
+<td style="text-align:center">每个周期后磁心复位</td>
+</tr>
+<tr>
+<td style="text-align:center">不相等</td>
+<td style="text-align:center">但只要伏秒数稍有不等，磁心就不能回到起点，若干周期后，磁心将偏离磁滞回线进人饱和区。磁心饱和时，变压器不能承受电压，当下一周期开关管再次导通时，开关管将承受很大的电压和电流，导致开关管损坏</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>很多原因都可能引起”导通伏秒数“与“关断伏秒数”不相等</p>
+<h3 id="1-1-6-磁通不平衡时的损坏工作逻辑"><a href="#1-1-6-磁通不平衡时的损坏工作逻辑" class="headerlink" title="  1.1.6 磁通不平衡时的损坏工作逻辑"></a>  1.1.6 磁通不平衡时的损坏工作逻辑</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>详细描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第一步</td>
+<td>当磁通不平衡时，每周期磁心慢慢偏离平衡点</td>
+</tr>
+<tr>
+<td>第二步</td>
+<td>如果开始时只有0.01%的磁通不平衡（实际情况会比这更严重）.只需10000个周期，磁通就会从最低的起始点偏移到饱和点</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="1-1-7-磁通不平衡测试"><a href="#1-1-7-磁通不平衡测试" class="headerlink" title="1.1.7 磁通不平衡测试"></a>1.1.7 磁通不平衡测试</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>目的</th>
+<th style="text-align:center">磁通不平衡危险程度的简单测试方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>如何人为产生磁通不平衡</td>
+<td style="text-align:center">将一个二极管$D_{1}$（压降约1V）与变压器初级半绕组的一端串联，绕组导通时，与二极管串联的半绕组上的压降比另一个半绕组的压降低1V，这样就人为地产生了伏秒数不平衡。<img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwu3w7zarhj30430673yh.jpg" alt="QQ截图20211127230451.png"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="1-1-8-磁通不平衡解决方案"><a href="#1-1-8-磁通不平衡解决方案" class="headerlink" title="1.1.8 磁通不平衡解决方案"></a>1.1.8 磁通不平衡解决方案</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>加气隙</td>
+<td>磁心加上气隙后，使磁滞回线的斜率变小，从而磁心可以承受更大的电流偏置。在大功率场合经常用到气隙，但缺点是减小了励磁电感，为了放置电流的DCM模式，所以不得不增加临界电流。<img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwu44msm5mj30c907uaaf.jpg" alt="QQ截图20211127231257.png"></td>
+</tr>
+<tr>
+<td>串初级电阻</td>
+<td>当出现磁通不平衡时，伏秒数较大的初级半绕组流过较大电流。这个电流使绕组电阻压降增大，降低了该初级半绕组的伏秒数，从而使电流恢复平衡。这样做势必会增加报耗，降低效率。</td>
+</tr>
+<tr>
+<td>换成电流行拓扑</td>
+<td>最佳方法</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="http://tva1.sinaimg.cn/large/005Q1GhGly1gwsytadgpvj30xc0k2jz7.jpg" alt="QQ截图20211127231257.png"></p>
+]]></content>
+      <categories>
+        <category>开关电源</category>
+      </categories>
+      <tags>
+        <tag>开关电源</tag>
+        <tag>学习笔记</tag>
+        <tag>拓扑类</tag>
+        <tag>推挽拓扑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开关电源补偿环路设计（1）：基础部分-以Buck 为例</title>
+    <url>/2021/11/27/%E7%94%B5%E6%BA%90%E7%8E%AF%E8%B7%AF/</url>
+    <content><![CDATA[<h1 id="开关电源补偿环路设计（1）：基础部分-以Buck-为例"><a href="#开关电源补偿环路设计（1）：基础部分-以Buck-为例" class="headerlink" title="开关电源补偿环路设计（1）：基础部分-以Buck 为例"></a>开关电源补偿环路设计（1）：基础部分-以Buck 为例</h1><p>前提说明：这些内容本质上是对相关书籍的整理</p>
+<p>强烈推荐：<a href="https://item.jd.com/35023088941.html">电源设计基础</a></p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGgy1gxzbvpxypqj309906labr.jpg" width="400"></div>
+
+<h2 id="一：buck变换器建模"><a href="#一：buck变换器建模" class="headerlink" title="一：buck变换器建模"></a>一：buck变换器建模</h2><p>buck变换器是最简单而经典的开关电源拓扑之一，其详细组成可见图1。</p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGgy1gxzh9q1rjij30kb09awik.jpg" width="800"></div>
+
+
+
+<center>图1-1 buck变换器详细补偿环路图</center>
+
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGgy1gxzhbbn1wkj30l80bwwhb.jpg" width="800"></div>
+
+<center>图1-2 buck变换器补偿环路简图</center>
+
+<center>图1</center>
+
+<p>​      由图1可知buck变换器可分为多个模块，各个模块的定义见下表1</p>
+<center>表1</center>
+
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>模块符号</th>
+<th>具体含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$K_{FB}$</td>
+<td>反馈电阻分压器，用于获取输出电压</td>
+</tr>
+<tr>
+<td>$K_{EA}$</td>
+<td>带有频率补偿的误差放大器</td>
+</tr>
+<tr>
+<td>$K_{PWM}$</td>
+<td>脉宽调制增益</td>
+</tr>
+<tr>
+<td>$K_{LC}$</td>
+<td>输出滤波器增益</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>​        其实$K_{FB}$是一个直流缩放因子（电阻分压器），如果必需考虑其非理想等效模式（LRC模型）则将其作为$K_{EA}$的一部分。<br>​        如图2所示为整个稳压调节器的反馈框图。</p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGgy1gxzhnq465hj30nx08d75n.jpg" width="800"></div>
+
+<center>图2</center>
+
+
+
+<p>显然，现在可以将整个传递函数写成式(1)∶</p>
+<script type="math/tex; mode=display">
+\begin{align}
+$T_{V}\left ( s \right ) =\frac{V_{OUT}}{V_{REF}} =K_{FB}\times K_{EA} \left ( s \right ) \times K_{PWM} \left ( s \right )\times K_{LC} \left ( s \right )  \tag{1}
+
+\end{align}</script><p>其中$K_{EA} \left ( s \right )$和$K_{LC} \left ( s \right )$对频率敏感，其中$s$为拉普拉斯算子，总体传递函数是与频率相关的。这样允许在频域中将分量转换成阻抗。同时$K_{PWM}$的开关周期为独立设定，而$K_{FB}$为比例方法。</p>
+<h3 id="1-1-反馈网络增益-K-FB"><a href="#1-1-反馈网络增益-K-FB" class="headerlink" title="1.1 反馈网络增益$K_{FB}$"></a>1.1 反馈网络增益$K_{FB}$</h3><p>​        反馈网络增益$K_{FB}$模块决定了参考电压和输出电压之间的比例关系。通常来说，我们希望这种关系是一个固定的值。因此，通常只用一个电阻分压器来实现，我们唯一关心的是它的 比例DC值。<br>​        无论$V_{OUT}$如何变化，迫使反馈点（求和点）维持在参考值。在反馈点没有电压变化的情况下，通过分压器下端电阻的电流无变化，站在频率的角度其有效数值为无限大。而在分压器中，最重要的是上端电阻，因为除了输出电压检测之外，它的阻抗将成为补偿网络的一部分。</p>
+<h3 id="1-2-脉宽调制增益-K-PWM"><a href="#1-2-脉宽调制增益-K-PWM" class="headerlink" title="1.2 脉宽调制增益$K_{PWM}$"></a>1.2 脉宽调制增益$K_{PWM}$</h3><p>​        将PWM级定义为电路的一部分，基于误差放大器$V_{C}$的模拟输出电压调节开关管的占空比$D$，功率开关管在节点$SW$处开关启闭。其工作波形如图3所示，其占空比为$\frac{V_{C}}{V_{P}} $。  </p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGly1gy0bdcppupj30jq07tjss.jpg" width="800"></div>
+
+<center>图3</center>
+
+<p>对于 Buck 拓扑而言，有∶</p>
+<script type="math/tex; mode=display">
+\begin{align}
+d = & \frac{t_{on}}{T}= \frac{V_{c}}{V_{p}}= \frac{V_{O}}{V_{IN}} \tag{2}\\
+
+
+
+
+\end{align}</script><p>故可以把模块的传递函数重新写成∶</p>
+<script type="math/tex; mode=display">
+K_{PWM} = & \frac{t_{SW(ave)}}{V_{C}}=d\times \frac{V_{IN}}{V_{C}}= \frac{V_{C}\times V_{IN}}{V_{p}\times V_{C}}=\frac{V_{IN}}{V_{P}} \\</script><p>这便得到了一个很有意思的结果，即对于一个给定的$V_{IN}$和给定的$V_{P}$，该级增益为一固定常数。</p>
+<h3 id="1-3-输出滤波器增益-K-LC-s"><a href="#1-3-输出滤波器增益-K-LC-s" class="headerlink" title="1.3 输出滤波器增益$K_{LC}(s)$"></a>1.3 输出滤波器增益$K_{LC}(s)$</h3><p>​       输出滤波器的作用是将开关管波形转换为输出端的直流电压$V_{OUT}$，本质上来说这是一个分压网络，由电感$L_{s}$、电容$ \frac {1}{C_{s}}$以及负载阻抗$R_{s}$并联组成，如图4所示。本质上是一个串联电感和并联电容的“输出滤波+分压”。</p>
+<p>​               </p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGly1gy0cdgd5opj30ci04yt97.jpg"></div>
+
+
+
+<center>图4</center>
+
+<p>通过基尔霍夫定律，我们可以这个L-C滤波器的$K_{LC}(s)$增益为∶</p>
+<script type="math/tex; mode=display">
+\frac{V_{O}\left ( s \right ) }{V_{I}\left ( s \right )} =\frac{\frac{R}{\frac{1}{C_{S}} } }{\frac{R}{\frac{1}{C_{s}+L_{s}} }}=\frac{\frac{1}{LC} }{S^{2}+\frac{s}{RC}+\frac{1}{LC}}=\frac{\frac{1}{LC} }{(s-p_{1})(s-p_{2})}</script><p>​        其中$p_{1}$和$p_{2}$是这个二阶系统的两个极点，它们是通过将增益方程的分母设置为零并求解根得到（分子的根将成为零点，但是这个方程中没有零点，接下来会谈到更多的关于零极点的内容）。<br>​        通过这个方程的数值解，我们将会得到增益的幅度和相位，它们都是频率的函数。因为极点和零点以特定的方式起作用，可以通过图形化方法来获得足够的信息，即相对于对数频率坐标，根据增益（dB增益对数的20倍）和相位（度）作图，这称之为波特图，它可以很容易地可视化显示出系统稳定特性。<br>​       求解上面的传递函数方程，j进而可以绘制出增益曲线，它是频率的函数，可知，L-C滤波器即存两个极点，而且已经知道如下情况∶</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">情况</th>
+<th style="text-align:center">详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$f\ll \frac{1}{2\pi }\sqrt{\frac{1}{LC} } $</td>
+<td style="text-align:center">增益=1，相位=0</td>
+</tr>
+<tr>
+<td style="text-align:center">$f= \frac{1}{2\pi }\sqrt{\frac{1}{LC} } $</td>
+<td style="text-align:center">增益和相位正处于过渡状态，在这个频率点$f_{DP}$,增益为$R\sqrt{\frac{1}{LC} }$，相位=$90^{o}$</td>
+</tr>
+<tr>
+<td style="text-align:center">$f\gg  \frac{1}{2\pi }\sqrt{\frac{1}{LC} } $</td>
+<td style="text-align:center">增益为$-\frac{1}{w^{2}LC} $，相位=$180^{o}$。注意到增</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>如图5所示带负载的$LC$滤波器波特图（增益和相位曲线），元件参数分别为$L=16uH,C=540uF,R=0.5Ω，F_{DP}=2.6KHz$</p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGly1gy1qlfr6dwj30w90jltc8.jpg" width="600" ></div>
+
+<center>图5</center>
+
+
+
+
+
+<h3 id="1-4-误差放大器增益-K-EA"><a href="#1-4-误差放大器增益-K-EA" class="headerlink" title="1.4  误差放大器增益$K_{EA}$"></a>1.4  误差放大器增益$K_{EA}$</h3><p>​        由之前的系统定义可知，输出检测信号接在负反馈的反相端，所以系统具有$180^{o}$的相移，而输出滤波器中可能出现另一个180°的相移。因此，该系统在频率高于输出滤波器截止频率的情况下，必然是不稳定的。</p>
+<p>​       因此，误差放大器必须为精确电压调节提供高增益的同时还要确保在满足动态响应要求的整个工作频率范围内，总相移保持小于$360^{o}$。这可以通过一个运算放大器（OPA）实现，见图6。</p>
+<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGly1gy1tjcmhtpj30kd05w3yy.jpg" width="600" ></div>
+
+
+
+<center>图6</center>
+
+<p>​        图 6中，放大器的总增益$K_{EA}$将为$\frac{Z_{FB}}{Z_{IN}}$，当$K_{EA}=\frac{Z_{FB}}{Z_{IN}}$为直流情况时，有$180^{o}$的相位偏移。这些阻抗是与频率相关的，它们的任何变化将导致增益和相位发生变化。因为降低$Z_{IN}$的阻抗将会增加总增益，而降低$Z_{FB}$阻抗将降低总增益。通常来说，我们通过电阻和电容的串并联组合来改变阻抗。更具体地说，利用电容的频率特性，R和C的并联网络，在低频时具有以R值开始的阻抗，即以电阻特性为主。然后，在截止频率$f_{C}$处，电容的阻抗开始作用，随着频率的进一步增加，并联阻抗以$-20dB/$十倍频程（$-6dB/$倍频程）的斜率下降。在相同的频率范围内，相移从低频处的$0^{o}$变为在截止频率处的$-90^{o}$。</p>
+<div align=center><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gy6o73mqkaj30nc0go0yn.jpg" width="600" ></div>
+
+<center>图7</center>
+
+<p>​         在图7的波特图上可以很容易地看到这些特性。电阻和电容的串联网络阻抗具有类似但相反的特性。它在直流时阻抗为无穷大，随着频率增加以$-20dB/$十倍频程（$-6dB/$倍频程）的斜率下降。直到达到截止频率$f_{c}$，在此之后的频段上，阻抗变得平坦并固定为值$R$。相位也具有与$R-C$串联网络相反的特性，从低频开始于$-90^{o}$。并且在剧过截止顺率后上升到$0^{o}$。<br>​        使用波特图来绘制增益（用dB表达）和相位（相对于频率的对数）曲线的优点是很明显的。虽然理论实际曲线是连续的，但可以用直线来逼近它们，其中增益斜率的变化正好在$f_{c}$处出现，而相移开始于大约$0.1f_{c}$处，在$f_{c}$处为45°，并且在$10×f_{c}$处结束。</p>
+<p>​        另外，截止频率$f_{c}$出现在$R$和$C$的阻抗相等的地方，即为$f_{c}= \frac{1}{2πRC}$。上图中的实线和虚线分别为实际曲线和直线逼近线，在绝大多数分析中，因为这个误差足够小，所以这种近似方法是可行的。<br>​        如果将这些$R-C$组合应用到运算放大器中，有许多不同的组合，它们对增益和相位的改变效果是不同的∶</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>串并联情况</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$Z_{IN}$为$R-C$串联</td>
+<td>这会增加一个极点（产生-90°相移），并且增益减少</td>
+</tr>
+<tr>
+<td>$Z_{IN}$为$R-C$并联</td>
+<td>这会增加一个零点（产生+90°相移），并且增益增加</td>
+</tr>
+<tr>
+<td>$Z_{FB}$为$R-C$串联</td>
+<td>这会增加一个零点（产生+90°相移），并且增益减少</td>
+</tr>
+<tr>
+<td>$Z_{FB}$为$R-C$并联</td>
+<td>这会增加一个极点（产生-90°相移），并且增益减少</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>总体来说，一个零点会导致+90°相移，并增益增加，而一个极点会导致-90°相移，并增益降低</p>
+<h3 id="1-5-稳定性的相关考虑"><a href="#1-5-稳定性的相关考虑" class="headerlink" title="1.5  稳定性的相关考虑"></a>1.5  稳定性的相关考虑</h3><p>现在可以将总的回路增益方程写为∶</p>
+<script type="math/tex; mode=display">
+H(s)G(s)=K_{EA}\times K_{PWM}\times \frac{\frac{1}{LC}}{s^{2}+\frac{s}{RC}+\frac{1}{RC}} \tag{3}</script><p>由式3可知关于环路稳定性：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>已经不用再考虑$K_{FB}$的作用，因为这一项只影响系统直流工作点</td>
+</tr>
+<tr>
+<td>2</td>
+<td>总增益将与直流占空比无关，但与直流输入电压相关</td>
+</tr>
+<tr>
+<td>3</td>
+<td>分母中存在R，如果R=0即空载时表示系统会不稳定，但实际上电路，将首先进入DCM工作。在这种情况下，这个二阶系统本质上（退化为）是一阶的，所以这时小信号分析不再适用</td>
+</tr>
+<tr>
+<td>4</td>
+<td>我们已经将$H(s) \times G(s)$假定简化为正数，但负反馈隐含地给出相位变化为 180°，因此，在任何增益大于1的情况下，系统可能出现不稳定</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>关于系统稳定性有两个重要的定义∶</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>增益裕量</td>
+<td>系统单位增益（零分贝）与相位180°时的增益之差它是一个负数，工程上推荐值为-6dB 到-12dB</td>
+</tr>
+<tr>
+<td>相位裕量</td>
+<td>系统单位增益所对应的实际相位与-180°的差。工程上建议值在 45°到60°之间</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>上述两个定义隐含了这样一个结论∶如果增益曲线与$0dB$轴相交的<br>        斜率不大于-20dB/十倍频程（-6dB/倍频程）。即增益曲线在$0dB$轴时的穿越斜率小于-2，则相位裕度会大于45°，系统将会稳定。</p>
+<h3 id="1-6-误差放大器的补偿"><a href="#1-6-误差放大器的补偿" class="headerlink" title="1.6 误差放大器的补偿"></a>1.6 误差放大器的补偿</h3><p>虽然使用运算放大器补偿来更改系统增益和相位有许多可能性，但是实际经验告诉我们，使用三种基本补偿电路就几乎能够满足所有的实际应用。由于只有三个，工程上它们已经被称为I型，Ⅱ型和Ⅲ型补偿网络，图8中分别绘制了伯德图。</p>
+<div align=center><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gy78thmgj6j30f60dhjtf.jpg" width="600" ></div>
+
+<center>图8</center>
+
+<p>​         图8最常见的三种补偿电路，以及简化的增益特性（直线逼近曲线）<br>​        上述增益曲线图都是由补偿器中的零极点决定的，它们的值（决定了特征频率的位置）是相对于输出滤波器电感和电容的值而言的（包括输出电容的ESR)。</p>
+<h4 id="1-6-1Ⅰ型补偿"><a href="#1-6-1Ⅰ型补偿" class="headerlink" title="1.6.1Ⅰ型补偿"></a>1.6.1Ⅰ型补偿</h4><p>I型的补偿无疑是最简单的，利用一个单极点，将总增益降低到1以下，其频率远低于任何其他电路元件影响的频率。具体而言，设定频率$\frac{1}{2πR_{1}C_{1}}$，使得在小于$0.1f_{DP}$频率（输出滤波器截止频率的$\frac{1}{10}$）时，总增益会小于0dB。<br>        当然，这使得对任何输入或负载的突变响应变得非常缓慢，在实际中很多电路并不适用。然而，有一种场合I型补偿很合适∶当一个全新的样机第一次上电时，人为迫使其无条件地稳定。这样可以评估和优化预期设计的所有静态特性，以便在稳定的大信号工作情况下完成最终的补偿设计。</p>
+<h4 id="1-6-2-Ⅱ型补偿"><a href="#1-6-2-Ⅱ型补偿" class="headerlink" title="1.6.2 Ⅱ型补偿"></a>1.6.2 Ⅱ型补偿</h4><p>​        这个补偿电路在低频下和Ⅰ型补偿一样，在低频时同样以单极点开始，但是在环路增益仍为正值的情况下，首先通过引入一个零点来消除输出滤波器的其中一个极点，然后在较高的频率再引入一个极点将增益降低到0dB以下<br>​        通常，这仍不足以稳定大多数电压模式控制的系统，因为在具有正增益的情况下，初始极点和剩余的输出滤波器极点相位总和将达到180°，这会导致系统<br>不稳定。<br>然而，Ⅱ型补偿非常适合电流模式控制电路，因为其输出滤波器在截止频率以内只有一个极点，同样在 DCM控制的设计中，由于系统是一阶的，Ⅱ型补偿也很适合。在这些情况下，环路带宽通常可以比使用电压模式控制的带宽高得多。</p>
+<h4 id="1-6-3-Ⅲ型补偿"><a href="#1-6-3-Ⅲ型补偿" class="headerlink" title="1.6.3  Ⅲ型补偿"></a>1.6.3  Ⅲ型补偿</h4><p>​      Ⅲ型补偿，相对于前二者补偿来说显然要复杂得多，但是通过在两个滤波器极点频率处或附近引入两个零点，可以解决输出滤波器双极点问题。利用具有增益上升和+90°相移的零点来抵消具有增益下降和-90°相移的极点。<br>​        我们将这些零点放置在需要相位提升的地方，使得有用的增益显著扩展到超过输出滤波器的滚降点，但是仍然要在更高的频率处再增加两个极点使增益最终减至小于单位增益。需要注意的是，当一对零点（或极点）的位置是很接近的时候，由补偿网络的电容，而不是电阻来决定它们之间的增益。</p>
+]]></content>
+      <categories>
+        <category>开关电源</category>
+      </categories>
+      <tags>
+        <tag>开关电源</tag>
+        <tag>学习笔记</tag>
+        <tag>拓扑类</tag>
+        <tag>环路补偿</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>泥岩</title>
+    <url>/2021/11/27/wai/</url>
+    <content><![CDATA[<p>我们年轻漂亮的萨卡兹大姑娘</p>
+<p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwszviprxtj30ls0xctka.jpg" alt="92922374_p0_master1200.jpg"></p>
+<p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwszw3fms3j30p00xcthz.jpg" alt="93052455_p0_master1200.jpg"><br><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwt01s9q81j30xc0gon4v.jpg" alt="89616486_p0_master1200.jpg"><br><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwt01s0d1xj30li0xc44b.jpg" alt="91804927_p0_master1200.jpg"><br><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwt01rxcnlj30ol0xcn82.jpg" alt="92200013_p0_master1200.jpg"><br><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwt01s2pdij30nx0xc10a.jpg" alt="94238582_p0_master1200.jpg"></p>
+]]></content>
+      <categories>
+        <category>老婆</category>
+      </categories>
+      <tags>
+        <tag>自画像</tag>
+        <tag>梦中情人</tag>
+        <tag>泥岩</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>转行之路</title>
+    <url>/2021/11/26/%E7%A0%94%E7%A9%B6%E7%94%9F%E9%98%B6%E6%AE%B5%E7%AE%80%E5%8E%86%20%E4%BF%9D%E7%95%99/</url>
+    <content><![CDATA[<h1 id="研究生阶段证书"><a href="#研究生阶段证书" class="headerlink" title="研究生阶段证书"></a>研究生阶段证书</h1><h2 id="FPGA初级"><a href="#FPGA初级" class="headerlink" title="FPGA初级"></a>FPGA初级</h2><p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwsz6w5ycuj32pg1wwdpg.jpg" alt="FPGA初级.jpg"></p>
+<h2 id="大创"><a href="#大创" class="headerlink" title="大创"></a>大创</h2><p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwsz9hqoorj30g10mn173.jpg" alt="大创证书.png"></p>
+<h2 id="计算机2级"><a href="#计算机2级" class="headerlink" title="计算机2级"></a>计算机2级</h2><p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwsza88prhj30k00dzwmg.jpg" alt="计算机二级.png"></p>
+<h2 id="计算机3级"><a href="#计算机3级" class="headerlink" title="计算机3级"></a>计算机3级</h2><p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwszaovg16j30je0e110m.jpg" alt="计算机三级（嵌入式）.png"></p>
+<h2 id="计算机4级"><a href="#计算机4级" class="headerlink" title="计算机4级"></a>计算机4级</h2><p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwszbb5gxqj30kf0ee0zu.jpg" alt="嵌入式四级.png"></p>
+<h2 id="研电赛一等奖"><a href="#研电赛一等奖" class="headerlink" title="研电赛一等奖"></a>研电赛一等奖</h2><p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwszbpx6d4j30mi0g5wsb.jpg" alt="研电赛一等奖.png"></p>
+<h2 id="研电赛二等奖"><a href="#研电赛二等奖" class="headerlink" title="研电赛二等奖"></a>研电赛二等奖</h2><p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwszc2tkgpj30u70lb7wh.jpg" alt="研电赛二等奖.png"></p>
+<h2 id="挑战杯"><a href="#挑战杯" class="headerlink" title="挑战杯"></a>挑战杯</h2><p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwszcmca9bj30vl0lxavu.jpg" alt="挑战杯.png"></p>
+<h2 id="同舟杯"><a href="#同舟杯" class="headerlink" title="同舟杯"></a>同舟杯</h2><p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwszd6cs33j30g70mdtjr.jpg" alt="同舟杯.png"></p>
+<h2 id="简历"><a href="#简历" class="headerlink" title="简历"></a>简历</h2><p><img src="https://tva1.sinaimg.cn/large/005Q1GhGly1gwszhkj90yj30f50lfnal.jpg" alt="简历.png"></p>
+]]></content>
+      <categories>
+        <category>求职简历</category>
+      </categories>
+      <tags>
+        <tag>简历</tag>
+        <tag>证书</tag>
+        <tag>过往</tag>
+      </tags>
+  </entry>
+</search>
