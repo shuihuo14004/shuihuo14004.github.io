@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基于FPGA的电火花加工机床数据传输板卡设计       摘要：随着电火花加工的精细化发展，单个脉冲周期的能量越来越小、周期越来越短。单位时间内，因控制和状态检测而产生的数据量也越来越大，对数据传输速度的要求越来越快。并行执行的FPGA架构在数据处理上有着巨大的优势,基于EP4CE15F23C8设计了一种用于数据传输的FPGA数据传输NC板卡，详细介绍了设计方案和测试方案。数据板卡对下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据板卡">
+<meta property="og:url" content="http://example.com/2023/08/11/%E5%B7%B2%E8%A7%A3%E5%AF%86_20.%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E7%94%B5%E7%81%AB%E8%8A%B1%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%9D%BF%E5%8D%A1%E8%AE%BE%E8%AE%A1-%E7%89%9B%E6%B7%BC-%E5%8C%97%E4%BA%AC%E5%B8%82%E7%94%B5%E5%8A%A0%E5%B7%A5%E7%A0%94%E7%A9%B6%E6%89%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%20-%20hh-fix/index.html">
+<meta property="og:site_name" content="Hello World by 阿水">
+<meta property="og:description" content="基于FPGA的电火花加工机床数据传输板卡设计       摘要：随着电火花加工的精细化发展，单个脉冲周期的能量越来越小、周期越来越短。单位时间内，因控制和状态检测而产生的数据量也越来越大，对数据传输速度的要求越来越快。并行执行的FPGA架构在数据处理上有着巨大的优势,基于EP4CE15F23C8设计了一种用于数据传输的FPGA数据传输NC板卡，详细介绍了设计方案和测试方案。数据板卡对下">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20230811235606.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/EC2Q%60G4I$FKFO1N_7_4HVN5.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234134.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234254.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234327.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234404.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234454.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234551.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234625.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234654.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234750.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811235026.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811235000.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811235110.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811235152.png">
+<meta property="article:published_time" content="2023-08-11T15:55:10.000Z">
+<meta property="article:modified_time" content="2023-08-11T15:56:45.564Z">
+<meta property="article:author" content="水酱">
+<meta property="article:tag" content="简历">
+<meta property="article:tag" content="证书">
+<meta property="article:tag" content="过">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20230811235606.png">
+
+<link rel="canonical" href="http://example.com/2023/08/11/%E5%B7%B2%E8%A7%A3%E5%AF%86_20.%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E7%94%B5%E7%81%AB%E8%8A%B1%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%9D%BF%E5%8D%A1%E8%AE%BE%E8%AE%A1-%E7%89%9B%E6%B7%BC-%E5%8C%97%E4%BA%AC%E5%B8%82%E7%94%B5%E5%8A%A0%E5%B7%A5%E7%A0%94%E7%A9%B6%E6%89%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%20-%20hh-fix/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据板卡 | Hello World by 阿水</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hello World by 阿水</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description"> 思久欲知,知繁渴思,唯圣祂奇,毋为所困 </p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-waifu">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>waifu</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/11/%E5%B7%B2%E8%A7%A3%E5%AF%86_20.%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E7%94%B5%E7%81%AB%E8%8A%B1%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%9D%BF%E5%8D%A1%E8%AE%BE%E8%AE%A1-%E7%89%9B%E6%B7%BC-%E5%8C%97%E4%BA%AC%E5%B8%82%E7%94%B5%E5%8A%A0%E5%B7%A5%E7%A0%94%E7%A9%B6%E6%89%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%20-%20hh-fix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="水酱">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据板卡
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-11 23:55:10 / 修改时间：23:56:45" itemprop="dateCreated datePublished" datetime="2023-08-11T23:55:10+08:00">2023-08-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%94%B5%E7%81%AB%E8%8A%B1%E5%8A%A0%E5%B7%A5/" itemprop="url" rel="index"><span itemprop="name">电火花加工</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20230811235606.png"/></p>
+<center>
+    基于FPGA的电火花加工机床数据传输板卡设计
+</center>
+
+
+
+
+
+<p><strong>摘要：</strong>随着电火花加工的精细化发展，单个脉冲周期的能量越来越小、周期越来越短。单位时间内，因控制和状态检测而产生的数据量也越来越大，对数据传输速度的要求越来越快。并行执行的FPGA架构在数据处理上有着巨大的优势,基于EP4CE15F23C8设计了一种用于数据传输的FPGA数据传输NC板卡，详细介绍了设计方案和测试方案。数据板卡对下通过扩展IO实现了伺服电机控制、极间电压监测、人机交互、故障检测报警等功能，对上通过PCI总线完成了上位机通信控制、加工条件调节、状态检查传输等任务。并通过实验验证了以上功能；</p>
+<p><strong>关键词：</strong>电火花；FPGA；数据处理；数据传输；PCI总线</p>
+<p><strong>Abstract:</strong> With the development of electric discharge machining, the energy of a single pulse cycle is getting smaller and smaller, and the cycle is getting shorter and shorter. The amount of data generated due to control and status detection per unit time is also increasing, and the requirement for data transmission speed is getting faster and faster. The parallel execution FPGA architecture has great advantages in data processing. Based on EP4CE15F23C8, a FPGA data transmission NC board for data transmission is designed, and the design scheme and test scheme are introduced in detail. The data board realizes functions such as servo motor control, check of inter-electrode voltage, human-computer interaction, fault detection and alarm through the expansion of IO, and completes communication control of the host computer, adjustment of processing conditions, status inspection and transmission through the PCI bus on the upper side. Task. And the above functions are verified by experiments;</p>
+<p><strong>Keywords:</strong> EDM; FPGA; Data processing; Data transmission; PCI bus</p>
+<p>电火花加工（Electrical Discharge Machining，简称EDM）作为一种非传统的金属加工方法，属于非接触式加工，具有损耗小、精度高、可控性好等优点，工业领域得到广泛应用[1-2]。它通过在工件和电极之间产生电火花放电的方式，将金属材料从工件上剥离。与传统机械切削加工相比，EDM具有无接触加工、无切削压力等特点，故适用于高硬度材料和复杂形状加工，因此在航空航天、模具制造、微细加工等领域具有广泛应用。</p>
+<p>随着工业对高精度、高效率和高质量加工需求的不断增长，对EDM技术的研究和改进也日益受到关注。在过去的几十年里，众多学者和研究人员致力于解决降低表面粗糙度、精细化加工、降低磨损等方面的问题[3-5]。而及时的数据传输在上述问题中扮演着至关重要的角色。在许多电火花加工中，需要高速、可靠、低延迟的数据传输方案来满足系统的需求[6-8]。</p>
+<p>为了实现高速有效的数据传输，基于现场可编程门阵列（Field-Programmable Gate Array，FPGA）设计了一种用于电火花加工机床的数据传输NC板卡。该板卡对下伺服电机控制、极间电压实时检测、人机交互、故障检测报警等任务。对上位机通过PCI总线实现了上位机通信控制、加工条件调节、状态检测等控制量的数据传输。介绍了软硬件设计，并通过上机放电实验：使用该板卡的电火花数控系统实现了实时监控、异常预警、脉冲电源控制以及伺服电机闭环控制等任务。</p>
+<h1 id="1-系统总体设计"><a href="#1-系统总体设计" class="headerlink" title="1 系统总体设计"></a>1 系统总体设计</h1><h2 id="1-1-工作原理"><a href="#1-1-工作原理" class="headerlink" title="1.1 工作原理"></a>1.1 工作原理</h2><p>其工作原理如图1（a）所示，脉冲电源提供高压脉冲，工件被放置在工作液中，而电极则与工件保持一定的间隙。伺服电机通过控制电极与工件之间的距离和移动轨迹，使得在某一位置上电极和工件之间形成放电通路，击穿放电产生电火花。放电过程中，电极和工件之间的距离很小，通常在几微米到几十微米的范围内。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/EC2Q%60G4I$FKFO1N_7_4HVN5.png"/></p>
+<center>
+    （a） 电火工作原理图
+</center>
+
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234134.png"/></p>
+<center>
+    (b) 极间电压波形
+</center>
+
+
+
+<center>
+    图1 电火花加工工作原理
+</center>
+
+
+
+<h1 id="2-数据传输NC板卡的设计"><a href="#2-数据传输NC板卡的设计" class="headerlink" title="2 数据传输NC板卡的设计"></a>2 数据传输NC板卡的设计</h1><p>如图2所示：为数据传输板卡的结构。板卡可分为6个部分：人机交互模块、伺服电机控制模块、脉冲电源控制模块、极间状态检测模块、上位机通信模块以及内部寄存器模块等。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234254.png"/></p>
+<center>
+    图2 数据传输NC板卡组成示意图
+</center>
+
+
+
+<p>伺服电机控制模块的功能：控制伺服基准时间、跳度上升时间、伺服速度等一系列机械动作参数，并及时抬刀冲洗金属屑，避免影响电极与工件间的放电。在触发极间接触感知后停止动作，防止工件机械损伤。</p>
+<p>脉冲电源控制模块的功能：向脉冲电源发送控制信号调节放电脉冲时间、放电休止时间、电流峰值和异常放电检测标准等参数，进而控制电火花加工的能量和强度，从而实现不同表面质量要求的加工。</p>
+<p>人机交互模块的功能：采集本地控制面板上的按键状态并完成相应的执行动作。</p>
+<p>内部寄存器模块的功能：如图2所示数据传输NC板卡将“人机交互模块”“伺服电机控制模块”与“脉冲电源控制模块”等模块的状态值与控制值写入寄存列表中。</p>
+<p>极间状态检测模块的功能：用于检测电极与工件之间的电气状态、高压遮断状态、工作液温度等运行参数等，这些状态量将用于电火花加工的闭环控制。</p>
+<p>上位机通信模块的功能：通过PCI总线完成与上位机的信息交互，从而以寄存器列表的形式将系统的各个状态量告知上位软件。而上位机通过设置寄存器，控制底层执行模块的动作。上述一系列的数据传输需要FPGA数据板卡作为传输中介。</p>
+<h2 id="2-1-硬件设计"><a href="#2-1-硬件设计" class="headerlink" title="2.1 硬件设计"></a>2.1 硬件设计</h2><p>如图3所示，数据传输板卡的硬件设计主要分为“FPGA核心电路”与“电平转换隔离电路”两部分。FPGA芯片选用EP4CE15F23C8，其内部资源丰富，拥有15408个逻辑元件（Logic Elements），用于实现各种逻辑功能和电路设计。此外，内置约6.3 Mb的存储器资源，这些存储器资源可用于存储数据、配置信息和中间结果，支持复杂的数据处理和存储需求。这些资源足以开发所需。如图3所示，EP4CE15F23C8通过配置电源、晶振和复位等电路构建组成核心电路。板载内存EPCS4用于程序的存储和上电运行。</p>
+<p>电平转换隔离电路完成电气隔离、信号缓冲与驱动增强的功能。电气隔离：有效地防止电气干扰和地线回路问题。驱动增强：由于EP4CE15F23C8的驱动电流较小，故需要增强驱动能力。信号缓冲：增强EP4CE15F23C8的驱动能力和接收能力。它可以有效地提高信号的传输质量和稳定性，减少信号失真和干扰。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234327.png"/></p>
+<center>
+    图3 硬件组成示意图
+</center>
+
+
+
+<p>针对PCI总线，使用PCI9054芯片转换为本地总线local bus，进而完成PCI的寄存器地址转换与数据交互，上位机可将数据传输NC板卡视为外置寄存器列表进行寄存器读写，从而完成上位机与机床执行机构间的数据交互。</p>
+<p>针对伺服电机模块、人机交互模块与极间放电状态检测模块采用数字IO交互通信方式。出于安全性与稳定性的考虑，EP4CE15F23C8与外部IO接口之间配有信号隔离芯片。如图4所示，FPGA的输入输出采用“MAX14930+TD62083”进行电气隔离、电平转换与增强驱动能力。</p>
+<p>伺服电机部分：最多支持X/Y/Z/U/V/W六轴，并带有正负限位、过热报警、过零检测等功能。电机位置和状态，可及时的传输到上位机进而实现电火花加工的高精度控制。</p>
+<p>极间放电状态检测部分：具有极性判断、击穿检测、电机工件接触感值、油温监控、报警触发等多个IO通路，通过与外部指定板卡的配合，可完成与电火花放电状态的监测。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234404.png"/></p>
+<center>
+    图4 电平转换隔离电路
+</center>
+
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234454.png"/></p>
+<center>
+     图5 ADM2587EBRWZ电路原理图
+</center>
+
+
+
+<p>脉冲电源控制模块为UART通信方式，采用ADM2587EBRWZ方案。ADM2587EBRWZ可用于实现UART通信的电气隔离和信号转换。此外，ADM2587EBRWZ支持单端到差分信号的转换，差分信号具有更好的抗干扰能力和传输距离，实现更可靠和稳定的数据传输，减少信号失真和传输错误，从而提高整个系统的性能和可靠性。如图5所示为ADM2587EBRWZ电路原理图。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234551.png"/></p>
+<center>
+    图6 数据传输NC板卡实物正面
+</center>
+
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234625.png"/></p>
+<center>
+    图7 数据传输NC板卡实物背面
+</center>
+
+
+
+<h2 id="2-2-软件设计"><a href="#2-2-软件设计" class="headerlink" title="2.2 软件设计"></a>2.2 软件设计</h2><p>根据上文可知，数据传输NC板卡的软件主要功能如下：</p>
+<p>（1）UART通信功能：根据上位机修改的寄存器参数进行控制帧封装、数据发送、握手协议等任务。从而上位机与脉冲电源进行可靠的通信，并实现对加工参数的实时调整和控制。</p>
+<p>控制帧封帧：根据上位机修改的寄存器参数，将这些参数封装成控制帧。包含了脉冲电源的一系列加工参数，例如脉冲宽度、脉冲间隔、峰值电流与异常检测阈值等。如图8与表1所示为控制帧封装组成。</p>
+<p>数据发送：将控制帧进行封帧，并通过通信线路将数据流传输到脉冲电源。</p>
+<p>握手协议：在通信过程中，UART通信通过握手协议来确保数据的可靠传输。握手协议通常包括发射方发送数据后等待接收方的确认响应，如果没有收到接收响应，则会重新发送控制帧。</p>
+<p>（2）脉冲信号发生功能：通过合理设置计数器的初始值、阈值和控制逻辑的参数，产生具有特定频率和脉冲宽度的PWM信号，用于驱动伺服电机进行精确的运动控制。可根据相应寄存器中寄存值的进行动态调整，以实现不同的速度和位置控制要求。</p>
+<p>（3）数字IO监控功能：底层执行机构的信号量通过数字IO接口传递到数据传输NC板卡。板卡将接收到的数字量信号写入相应的寄存器中。每个数字IO信号对应一个寄存器位，这些信号可以是开关状态（油泵开关、主电源切换开关）、传感器状态（液位传感器、伺服电机温度传感器等）、执行器状态（伺服电机运动状态、脉冲电源状态）等。</p>
+<p>如图9所示为部分寄存器示例，其中代表基地址的是REG_ADDR_BASEADDR，将伺服电机的运行状态写入对应寄存器中，供上位机闭环控制使用。</p>
+<p>（4）上位机实时通信功能：将PCI转换为本地总线后，上位机通过寄存器列表可以实时获取底层执行机构的信号状态，了解其运行情况。这样，上位机可以根据底层信号的状态进行相应的控制操作，实现对底层执行机构的监控和控制。数据传输NC板卡能够提供实时、可靠的信号传输和监测，为上位机控制系统提供准确的反馈信息和控制手段。</p>
+<p>软件设计目标是将电火花机床的底层执行机构封装为寄存器列表。上位机可通过读写寄存器实现对底层执行机构的控制和监测。在整个过程中，涉及PCI总线到local bus本地总线的转换，并确保各个寄存器数字逻辑无误。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234654.png"/></p>
+<center>
+    图8 控制帧封装代码
+</center>
+
+
+
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811234750.png"/></p>
+<center>
+     图9 部分寄存器Verilog代码
+</center>
+
+
+
+<center>
+    表1 部分控制帧代码含义
+</center>
+
+
+
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ON</td>
+<td>放电脉冲时间</td>
+</tr>
+<tr>
+<td>OFF</td>
+<td>放电休止时间</td>
+</tr>
+<tr>
+<td>IP</td>
+<td>主电源击穿电流峰值</td>
+</tr>
+<tr>
+<td>PL</td>
+<td>正负极性</td>
+</tr>
+<tr>
+<td>V</td>
+<td>主电源电压</td>
+</tr>
+<tr>
+<td>HP</td>
+<td>高压辅助</td>
+</tr>
+<tr>
+<td>AL</td>
+<td>异常放电检查标准</td>
+</tr>
+<tr>
+<td>MA</td>
+<td>放电休止时间</td>
+</tr>
+<tr>
+<td>UP</td>
+<td>抬刀周期时间</td>
+</tr>
+<tr>
+<td>SV</td>
+<td>伺服基准电压</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>合理的软件设计可以确保上位机与底层执行机构之间的有效通信和控制。这样，上位机可以控制底层执行机构的功能，并且在不同的寄存器和状态机之间实现适当的交互和协调。进而提高电火花机床系统的稳定性、可靠性和可维护性。</p>
+<h1 id="3-数据传输NC板卡的测试"><a href="#3-数据传输NC板卡的测试" class="headerlink" title="3 数据传输NC板卡的测试"></a>3 数据传输NC板卡的测试</h1><p>如图10与图11所示EP4CE15F23C8板卡设计研发完成后，可以将其安装到现有的专用实验成形机上进行上电测试。以下是测试步骤的详细说明：</p>
+<p>测试步骤1：首先，确保动力电源处于关闭状态，即没有进行电火花放电。在此状态下，进行以下两项检测：</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811235026.png"/></p>
+<center>
+    图10 实验电柜整体图 
+</center>
+
+<center>
+    图11 数据传输NC板卡装配图
+</center>
+
+
+
+<p>检测上位机与数据传输板卡之间的PCI通信是否正常。检测方法是通过强行使能蜂鸣报警器，观察是否能够触发报警器的声音。</p>
+<p>检测脉冲电源的UART通信是否正常。使用串口调试助手模拟脉冲电源信号，如图12所示“首先，串口调试软件模拟脉冲电源向数据传输板卡发送1次数据召唤帧，之后发送2次握手失败帧，则数据传输板卡应发送3次控制帧信号”观察串口数据是否符合预期。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811235000.png"/></p>
+<center>
+    图12 串口握手协议测试
+</center>
+
+
+
+<p>测试步骤2：启动脉冲电源，进行电火花放电使用：</p>
+<p>用“示波器+高压探头”观察工件与电极两端的放电电压波形是否符合正常的电火花加工波形。波形详见图13并分析可知，首先以130V电压击穿极间，然后以25V左右续流，最终进入脉间关闭电源消电离。示波器电压波形正确符合预期。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811235110.png"/></p>
+<center>
+    (a)工件为负极、电极为正极的极间电压波形
+</center>
+
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230811235152.png"/></p>
+<center>
+    (b)工件为正极、电极为负极的极间电压波形
+</center>
+
+
+
+<center>
+    图13 电火花加工放电电压波形图
+</center>
+
+
+
+<p>经以上测试步骤，可验证EP4CE15F23C8数据传输NC板卡的功能正常。测试步骤1关注：上位机与板卡之间的通信和UART通信握手协议的正确性，测试步骤2关注：电火花加工过程中的电压波形符合预期，以确保系统的稳定性和可靠性。</p>
+<h1 id="4-结语"><a href="#4-结语" class="headerlink" title="4 结语"></a>4 结语</h1><p>根据电火花加工的精细化高速化需求，基于FPGA设计了的一款数据传输板卡用实时数据传输，包括了的硬件设计和软件编程。该板卡能够分别对脉冲电源、极间电压状态、伺服电机、工作液进行实时状态监控，储存到内部寄存器并通过PCI总线上传到上位机用于实现电火花机床的实时监控、异常预警以及伺服电机闭环控制，有利于提高电火花加工精度和质量，具有良好的工程应用前景。</p>
+<p><strong>参 考 文 献</strong></p>
+<p>[1] 袁芳革．特种加工方法的内容和趋势[J]．机电工程技术，2011，40(7)：142-143</p>
+<p>[2] 刘志果．专家学者纵论精密与特种加工行业发展[J]．航空精密制造技术，2007，43(3)：10-11．</p>
+<p>[3] Rajurkar K P,Wang W M,Lindsay R P.Real-time stochastic model and control of EDM[J].CIRP Annals-Manufacturing Technology,1990,39(1):187-190.</p>
+<p>[4] Wang K S,Gelgele H L,Wang Y,et al.A hybrid intelligent method for modeling the EDMprocess[J].International Journal of Machine Tools&amp;Manufacture.2003,43:995-999.</p>
+<p>[5] 瑞士洛迦诺电子工业股份有限公司．电火花腐蚀金属加工用的脉冲发生器[P]．中国发明专利：CN87107913A，1987-11-17．</p>
+<p>[6] 金光云，孙召芹．机床电能在线监测系统设计与开发[J]．制造技术与机床，2017( 4):65－68．</p>
+<p>[7] 胡林明．数控机床多能耗部件的可配置在线能耗监测系统研究[D]．重庆:重庆大学，2015:50－55．</p>
+<p>[8] 黄志强．基于LabVIEW多通道数据采集系统设计与调试[J]．机械制造与自动化，2019，48(1):179－181．</p>
+<p>第一作者简介：牛淼，男，1995年生，工程师，主要研究方向为电火花加工脉冲电源。</p>
+<p>邮箱：1400476531@qq.com</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>水酱
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2023/08/11/%E5%B7%B2%E8%A7%A3%E5%AF%86_20.%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E7%94%B5%E7%81%AB%E8%8A%B1%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%9D%BF%E5%8D%A1%E8%AE%BE%E8%AE%A1-%E7%89%9B%E6%B7%BC-%E5%8C%97%E4%BA%AC%E5%B8%82%E7%94%B5%E5%8A%A0%E5%B7%A5%E7%A0%94%E7%A9%B6%E6%89%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%20-%20hh-fix/" title="数据板卡">http://example.com/2023/08/11/已解密_20.基于FPGA的电火花机床数据传输板卡设计-牛淼-北京市电加工研究所有限公司 - hh-fix/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%80%E5%8E%86/" rel="tag"># 简历</a>
+              <a href="/tags/%E8%AF%81%E4%B9%A6/" rel="tag"># 证书</a>
+              <a href="/tags/%E8%BF%87/" rel="tag"># 过</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/17/%E7%94%B5%E7%81%AB%E8%8A%B1%E8%84%89%E5%86%B2%E7%94%B5%E6%BA%90%E7%9A%84%E6%94%BE%E7%94%B5%E5%9B%9E%E8%B7%AF/" rel="prev" title="电火花脉冲电源的放电回路">
+      <i class="fa fa-chevron-left"></i> 电火花脉冲电源的放电回路
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/19/PCI9054%E7%9A%84%E7%9B%B8%E5%85%B3%E6%BA%90%E7%A0%81/" rel="next" title="PCI9054">
+      PCI9054 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%B3%BB%E7%BB%9F%E6%80%BB%E4%BD%93%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.</span> <span class="nav-text">1 系统总体设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 工作原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93NC%E6%9D%BF%E5%8D%A1%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">2 数据传输NC板卡的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 硬件设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 软件设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93NC%E6%9D%BF%E5%8D%A1%E7%9A%84%E6%B5%8B%E8%AF%95"><span class="nav-number">3.</span> <span class="nav-text">3 数据传输NC板卡的测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E7%BB%93%E8%AF%AD"><span class="nav-number">4.</span> <span class="nav-text">4 结语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="水酱"
+      src="/images/%E6%B3%A5%E5%B2%A9.jpg">
+  <p class="site-author-name" itemprop="name">水酱</p>
+  <div class="site-description" itemprop="description">朝闻道夕可死矣 </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shuihuo14004" title="GitHub主页 → https:&#x2F;&#x2F;github.com&#x2F;shuihuo14004" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1400476531@qq.com" title="E-Mail → mailto:1400476531@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/8261035" title="bilibili空间 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;8261035" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>bilibili空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_32419593?spm=1001.2101.3001.5343" title="CSDN主页 → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_32419593?spm&#x3D;1001.2101.3001.5343" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>CSDN主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://home.cnblogs.com/u/ashuiSIA" title="博客园 → https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;ashuiSIA" rel="noopener" target="_blank"><i class="fab fa-usb fa-fw"></i>博客园</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.dianyuan.com/" title="电源网 → https:&#x2F;&#x2F;www.dianyuan.com&#x2F;" rel="noopener" target="_blank"><i class="fa-gear fa-fw"></i>电源网</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.baidu.com/" title="https:&#x2F;&#x2F;www.baidu.com&#x2F;" rel="noopener" target="_blank">百度</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.google.com.hk/webhp?hl=zh-CN&sourceid=cnhp" title="http:&#x2F;&#x2F;www.google.com.hk&#x2F;webhp?hl&#x3D;zh-CN&amp;sourceid&#x3D;cnhp" rel="noopener" target="_blank">谷歌</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zdzn.net/" title="https:&#x2F;&#x2F;www.zdzn.net&#x2F;" rel="noopener" target="_blank">ZDZN</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://stackoverflow.com/" title="https:&#x2F;&#x2F;stackoverflow.com&#x2F;" rel="noopener" target="_blank">stackoverflow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.runoob.com/cplusplus/cpp-tutorial.html" title="https:&#x2F;&#x2F;www.runoob.com&#x2F;cplusplus&#x2F;cpp-tutorial.html" rel="noopener" target="_blank">菜鸟教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://search.chongbuluo.com/" title="https:&#x2F;&#x2F;search.chongbuluo.com&#x2F;" rel="noopener" target="_blank">快搜（搜索神器）</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://leiblog.wang/" title="https:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">LeiWang1999</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+<div id="music163player">
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=86 src="//music.163.com/outchain/player?type=2&id=1444528563&auto=1&height=66">
+
+
+    </iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">阿水</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

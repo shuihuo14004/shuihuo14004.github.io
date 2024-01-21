@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="[TOC] 1：PCI9054的FPGA侧（local侧引脚定义）而PCI9054的本地总线端的主要管脚信号定义如下表所示。这些管脚是连接到本地逻辑控制电路部分的，并由本地逻辑控制电路部分实现接口时序控制。 本组信号引脚主要用于PCI9054与Local端的连接，主要信号包括LA[31:2]、LD[3 1:0]、LHOLD、LHOLDA、ADS#、LCLK、LBE[3:0]#、LW&#x2F;R#、READ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PCI9054">
+<meta property="og:url" content="http://example.com/2023/08/19/PCI9054%E7%9A%84%E7%9B%B8%E5%85%B3%E6%BA%90%E7%A0%81/index.html">
+<meta property="og:site_name" content="Hello World by 阿水">
+<meta property="og:description" content="[TOC] 1：PCI9054的FPGA侧（local侧引脚定义）而PCI9054的本地总线端的主要管脚信号定义如下表所示。这些管脚是连接到本地逻辑控制电路部分的，并由本地逻辑控制电路部分实现接口时序控制。 本组信号引脚主要用于PCI9054与Local端的连接，主要信号包括LA[31:2]、LD[3 1:0]、LHOLD、LHOLDA、ADS#、LCLK、LBE[3:0]#、LW&#x2F;R#、READ">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230819214607.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230819220657.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230819221345.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/87953394_p5_master1200.jpg">
+<meta property="article:published_time" content="2023-08-19T13:19:53.000Z">
+<meta property="article:modified_time" content="2023-10-29T12:35:07.059Z">
+<meta property="article:author" content="水酱">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="Verilog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230819214607.png">
+
+<link rel="canonical" href="http://example.com/2023/08/19/PCI9054%E7%9A%84%E7%9B%B8%E5%85%B3%E6%BA%90%E7%A0%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>PCI9054 | Hello World by 阿水</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hello World by 阿水</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description"> 思久欲知,知繁渴思,唯圣祂奇,毋为所困 </p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-waifu">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>waifu</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/19/PCI9054%E7%9A%84%E7%9B%B8%E5%85%B3%E6%BA%90%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="水酱">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PCI9054
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-19 21:19:53" itemprop="dateCreated datePublished" datetime="2023-08-19T21:19:53+08:00">2023-08-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-29 20:35:07" itemprop="dateModified" datetime="2023-10-29T20:35:07+08:00">2023-10-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/FPGA/" itemprop="url" rel="index"><span itemprop="name">FPGA</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>[TOC]</p>
+<h1 id="1：PCI9054的FPGA侧（local侧引脚定义）"><a href="#1：PCI9054的FPGA侧（local侧引脚定义）" class="headerlink" title="1：PCI9054的FPGA侧（local侧引脚定义）"></a>1：PCI9054的FPGA侧（local侧引脚定义）</h1><p>而PCI9054的本地总线端的主要管脚信号定义如下表所示。这些管脚是连接到本地逻辑控制电路部分的，并由本地逻辑控制电路部分实现接口时序控制。</p>
+<p>本组信号引脚主要用于PCI9054与Local端的连接，主要信号包括LA[31:2]、LD[3 1:0]、LHOLD、LHOLDA、ADS#、LCLK、LBE[3:0]#、LW/R#、READY#、WAIT#、BLAST#等。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>引脚</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CCS#</td>
+<td>配置寄存器片选。低电平有效时，选中的是PCI9054的内部寄存器，Local端可以通过此方法配置寄存器。</td>
+</tr>
+<tr>
+<td>LCLK:</td>
+<td>Local端的时钟输入，是Local端处理器与PCI9054之间的同步信号，如果没有此信号，PCI插卡将不能启动。</td>
+</tr>
+<tr>
+<td>LINT#</td>
+<td>:本地中断信号。作为输入时可以引起PCI 中断，作为输出时，可以通过改写中断寄存器INTCSR的内容来改变中断状态。</td>
+</tr>
+<tr>
+<td>LRESETo#:</td>
+<td>Local端复位信号。当PC19054复位（RST#有效）时此信号有效，可以用来复位本地处理器。</td>
+</tr>
+<tr>
+<td>LA[31:2]:</td>
+<td>本地地址信号。代表物理地址的高30Bit，突发传输时可以自动增加表明一个连续的数据周期。</td>
+</tr>
+<tr>
+<td>LW/R#:</td>
+<td>Local端的读写复用信号，低电平为读，高电平为写。</td>
+</tr>
+<tr>
+<td>READY#:</td>
+<td>输入/输出准备好信号，表示总线上数据有效或写数据完成，用以连接PCI9054等待状态产生器。</td>
+</tr>
+<tr>
+<td>ADS#:</td>
+<td>地址有效信号。表明LA[31:2]上的地址有效以及一个新的总线交易的开始，在第一个时钟周期内有效。</td>
+</tr>
+<tr>
+<td>BLAST#:</td>
+<td>突发结束。表明总线访问的最后一次传送，由本地总线主设备驱动。</td>
+</tr>
+<tr>
+<td>BTERM#:</td>
+<td>突发中止。用于中止一个突发传输并启动一个新的总线交易。</td>
+</tr>
+<tr>
+<td>MODE[1:0]:</td>
+<td>总线工作模式选择。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div align=center><<img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230819214607.png" width="600"></div>
+
+
+
+<h1 id="2：PCI9054的C模式下的读写时序"><a href="#2：PCI9054的C模式下的读写时序" class="headerlink" title="2：PCI9054的C模式下的读写时序"></a>2：PCI9054的C模式下的读写时序</h1><p>MODE[1:0]都接地为0，设为C模式。</p>
+<p>C模式是一种类似于单片机的工作方式。在这种模式下，PCI9054通过片内逻辑控制，将PCI的地址线和数据线分开，很方便的为本地工作时序提供各种工作方式，设计者只要严格控制Local端和PCI端的各种时序控制线,就可以很好的应用PCI9054芯片。C模式下可以进行配置寄存器、主模式、从模式及 DMA模式等操作。</p>
+<div align=center><<img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230819220657.png" width="600"></div>
+
+<center>
+    PCI 写发起时序
+</center>
+
+<div align=center><<img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20230819221345.png" width="600"></div>
+
+<center>
+    PCI 读发起时序
+</center>
+
+
+
+<h1 id="3：FPGA代码部分"><a href="#3：FPGA代码部分" class="headerlink" title="3：FPGA代码部分"></a>3：FPGA代码部分</h1><p>通过parameter来定义各个不同状态的参数。每一个状态的位宽为7位，接下来还需要定义两个7位的寄存器，一个用来表示当前状态，另一个用来表示下一个状态，如下所示：</p>
+<p>这段Verilog代码是一个PCI Local Bus接口的模块定义。该模块用于连接PCI 9054芯片与其他组件之间的通信，通过一系列输入和输出信号来实现数据的读写和控制。以下是该代码的一些重要部分解释：</p>
+<p>参数部分</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>代号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>parameter integer REG_ADDR_WIDTH = 8</code>:</td>
+<td>定义了寄存器地址的位宽，默认为8位</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>parameter integer REG_DATA_WIDTH = 32</code>:</td>
+<td>定义了寄存器数据的位宽，默认为32位</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>信号部分</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>代号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>输入信号 <code>clk</code></td>
+<td>全局系统时钟</td>
+</tr>
+<tr>
+<td>2</td>
+<td>输入信号 <code>areset_n</code></td>
+<td>来自PCI 9054的全局复位信号，低电平有效</td>
+</tr>
+<tr>
+<td>3</td>
+<td>输入信号 <code>i_hold</code></td>
+<td>本地总线接口的保持信号</td>
+</tr>
+<tr>
+<td>4</td>
+<td>输出信号 <code>o_holda</code></td>
+<td>经过逻辑处理后的保持信号</td>
+</tr>
+<tr>
+<td>5</td>
+<td>输入信号 <code>ads_n</code></td>
+<td>PCI总线地址有效信号，低电平有效</td>
+</tr>
+<tr>
+<td>6</td>
+<td>输入信号 <code>blast_n</code></td>
+<td>PCI总线传输结束信号，低电平有效</td>
+</tr>
+<tr>
+<td>7</td>
+<td>输出信号 <code>o_ready_n</code>: 就绪信号</td>
+<td>在特定状态下为低电平，表示数据传输准备就绪</td>
+</tr>
+<tr>
+<td>8</td>
+<td>输入信号 <code>lw_rn</code></td>
+<td>读写控制信号，高电平表示写操作，低电平表示读操作。</td>
+</tr>
+<tr>
+<td>9</td>
+<td>输入信号 <code>la</code></td>
+<td>地址信号</td>
+</tr>
+<tr>
+<td>10</td>
+<td>输入信号 <code>i_ld</code></td>
+<td>输入的数据</td>
+</tr>
+<tr>
+<td>11</td>
+<td>输出信号 <code>ld_oen</code></td>
+<td>数据输出使能信号</td>
+</tr>
+<tr>
+<td>12</td>
+<td>输出信号 <code>o_ld</code></td>
+<td>输出的数据</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>接下来的代码部分描述了一个状态机，用于管理数据传输过程。不同的状态表示不同的传输阶段，如IDLE、TRANSFER、SINGLE_WAIT和SINGLE_END。</p>
+<p>代码中使用的触发器和逻辑门用于控制状态转移和输出信号的生成，以实现稳定的数据传输和寄存器读写操作。</p>
+<p>这段代码实现了一个复杂的功能模块，将PCI总线和本地总线之间的数据传输和控制进行了逻辑化和管理，从而实现了稳定的数据交换。</p>
+<h2 id="具体代码："><a href="#具体代码：" class="headerlink" title="具体代码："></a>具体代码：</h2><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一段采用同步时序描述状态转移</span></span><br><span class="line"><span class="comment">//-------------------------------------------------------------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">// IP Lib index			: IP Library index</span></span><br><span class="line"><span class="comment">// IP Core Name			: Capital name of top entity.</span></span><br><span class="line"><span class="comment">// </span></span><br><span class="line"><span class="comment">// File Name			: pci_local_bus.v</span></span><br><span class="line"><span class="comment">// Entity Name			: pci_local_bus</span></span><br><span class="line"><span class="comment">// Description 			: PCI local bus protocol parser for PCI Bridge of PLX9054.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Release Version	:</span></span><br><span class="line"><span class="comment">// </span></span><br><span class="line"><span class="comment">// Revision History:</span></span><br><span class="line"><span class="comment">//-------------------------------------------------------------------------------------------------------------------------------</span></span><br><span class="line"><span class="meta">`<span class="meta-keyword">timescale</span> 1ns / 1ps</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span> pci_local_bus #(</span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">integer</span> REG_ADDR_WIDTH = <span class="number">8</span>,</span><br><span class="line">    <span class="keyword">parameter</span> <span class="keyword">integer</span> REG_DATA_WIDTH = <span class="number">32</span></span><br><span class="line">)(</span><br><span class="line">    <span class="comment">// global system clock, fixed single-ended 40MHz</span></span><br><span class="line">    <span class="keyword">input</span> <span class="keyword">wire</span>                          clk         ,</span><br><span class="line">    <span class="comment">// Global Reset from PCI 9054</span></span><br><span class="line">    <span class="keyword">input</span> <span class="keyword">wire</span>                          areset_n    ,</span><br><span class="line">    <span class="comment">// Local Bus Interface</span></span><br><span class="line">    <span class="keyword">input</span> <span class="keyword">wire</span>                          i_hold      ,</span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">reg</span>                          o_holda     ,</span><br><span class="line">    <span class="keyword">input</span> <span class="keyword">wire</span>                          ads_n       ,</span><br><span class="line">    <span class="keyword">input</span> <span class="keyword">wire</span>                          blast_n     ,</span><br><span class="line">	<span class="keyword">output</span> <span class="keyword">wire</span>                         o_ready_n	,</span><br><span class="line">    <span class="keyword">input</span> <span class="keyword">wire</span>                          lw_rn       ,</span><br><span class="line">    <span class="keyword">input</span> <span class="keyword">wire</span> [<span class="number">18</span>:<span class="number">2</span>]                   la          ,</span><br><span class="line">    <span class="keyword">input</span> <span class="keyword">wire</span> [REG_DATA_WIDTH-<span class="number">1</span>:<span class="number">0</span>]     i_ld        ,</span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">wire</span>                         ld_oen      ,</span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">wire</span> [REG_DATA_WIDTH-<span class="number">1</span>:<span class="number">0</span>]    o_ld        ,</span><br><span class="line">    <span class="comment">// Register R/W interface</span></span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">wire</span>                         wen         ,</span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">wire</span> [REG_ADDR_WIDTH-<span class="number">1</span>:<span class="number">0</span>]    waddr       ,</span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">wire</span> [REG_DATA_WIDTH-<span class="number">1</span>:<span class="number">0</span>]    wdata       ,</span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">wire</span>                         ren         ,</span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">wire</span> [REG_ADDR_WIDTH-<span class="number">1</span>:<span class="number">0</span>]    raddr       ,</span><br><span class="line">    <span class="keyword">input</span> <span class="keyword">wire</span> [REG_DATA_WIDTH-<span class="number">1</span>:<span class="number">0</span>]     rdata</span><br><span class="line">);</span><br><span class="line"><span class="comment">/*---------------------------------------------------------------------------------------*/</span></span><br><span class="line"><span class="comment">// generate ready state-machine</span></span><br><span class="line"><span class="keyword">reg</span>[<span class="number">3</span>:<span class="number">0</span>] current_state, next_state;	</span><br><span class="line"></span><br><span class="line"><span class="keyword">parameter</span> [<span class="number">3</span>:<span class="number">0</span>] SM_IDLE			    = <span class="number">4&#x27;b0001</span>;</span><br><span class="line"><span class="keyword">parameter</span> [<span class="number">3</span>:<span class="number">0</span>] SM_TRANSFER		    = <span class="number">4&#x27;b0010</span>;</span><br><span class="line"><span class="keyword">parameter</span> [<span class="number">3</span>:<span class="number">0</span>] SM_SINGLE_WAIT	    = <span class="number">4&#x27;b0100</span>;</span><br><span class="line"><span class="keyword">parameter</span> [<span class="number">3</span>:<span class="number">0</span>] SM_SINGLE_END		= <span class="number">4&#x27;b1000</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// synchronous logic</span></span><br><span class="line"><span class="keyword">always</span>@(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> areset_n)</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">	<span class="keyword">if</span>(~areset_n)</span><br><span class="line">		current_state &lt;= SM_IDLE;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		current_state &lt;= next_state;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// combinational logic</span></span><br><span class="line"><span class="keyword">always</span>@(*)</span><br><span class="line"><span class="keyword">case</span>(current_state)</span><br><span class="line">	SM_IDLE:</span><br><span class="line">		<span class="keyword">if</span>(~ads_n)</span><br><span class="line">			next_state = SM_TRANSFER;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			next_state = SM_IDLE;</span><br><span class="line">	SM_TRANSFER:</span><br><span class="line">		<span class="keyword">if</span>(~blast_n)</span><br><span class="line">			next_state = SM_SINGLE_WAIT;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			next_state = SM_TRANSFER;</span><br><span class="line">	SM_SINGLE_WAIT:</span><br><span class="line">		next_state = SM_SINGLE_END;</span><br><span class="line">	SM_SINGLE_END:</span><br><span class="line">		<span class="keyword">if</span>(ads_n &amp;&amp; blast_n)</span><br><span class="line">			next_state = SM_IDLE;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(~ads_n)</span><br><span class="line">			next_state = SM_TRANSFER;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			next_state = SM_SINGLE_END;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		next_state = SM_IDLE;</span><br><span class="line"><span class="keyword">endcase</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// output logic</span></span><br><span class="line"><span class="keyword">assign</span> o_ready_n = (current_state == SM_SINGLE_WAIT)?<span class="number">1&#x27;b0</span> : <span class="number">1&#x27;b1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*---------------------------------------------------------------------------------------*/</span></span><br><span class="line"><span class="comment">// asserts acknowledge reponsing to HOLD</span></span><br><span class="line"><span class="keyword">always</span>@(<span class="keyword">posedge</span> clk <span class="keyword">or</span> <span class="keyword">negedge</span> areset_n)</span><br><span class="line"><span class="keyword">if</span>(~areset_n)   o_holda  &lt;= <span class="number">0</span>;</span><br><span class="line"><span class="keyword">else</span>            o_holda  &lt;= i_hold;</span><br><span class="line"><span class="comment">/*---------------------------------------------------------------------------------------*/</span></span><br><span class="line"><span class="comment">// internal register write/read logic</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> wen      = (~o_ready_n &amp; lw_rn)?<span class="number">1&#x27;b1</span> : <span class="number">1&#x27;b0</span>;</span><br><span class="line"><span class="keyword">assign</span> waddr	= (~o_ready_n &amp; lw_rn)?la[<span class="number">2</span>+REG_ADDR_WIDTH-<span class="number">1</span>:<span class="number">2</span>] : &#123;REG_ADDR_WIDTH&#123;<span class="number">1&#x27;b0</span>&#125;&#125;;</span><br><span class="line"><span class="keyword">assign</span> wdata	= (~o_ready_n &amp; lw_rn)?i_ld : &#123;REG_DATA_WIDTH&#123;<span class="number">1&#x27;b0</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> ren      = (~o_ready_n &amp; ~lw_rn)?<span class="number">1&#x27;b1</span> : <span class="number">1&#x27;b0</span>;</span><br><span class="line"><span class="keyword">assign</span> raddr	= (~o_ready_n &amp; ~lw_rn)?la[<span class="number">2</span>+REG_ADDR_WIDTH-<span class="number">1</span>:<span class="number">2</span>] : &#123;REG_DATA_WIDTH&#123;<span class="number">1&#x27;b0</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*---------------------------------------------------------------------------------------*/</span></span><br><span class="line"><span class="comment">// tri-state control</span></span><br><span class="line"><span class="keyword">assign</span> ld_oen	= ~ren;</span><br><span class="line"><span class="keyword">assign</span> o_ld		= rdata;</span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/87953394_p5_master1200.jpg"/><center/> </p>
+<script type="math/tex; mode=display">
+思久欲知,知繁渴思,唯圣祂奇,毋为所困</script>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>水酱
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2023/08/19/PCI9054%E7%9A%84%E7%9B%B8%E5%85%B3%E6%BA%90%E7%A0%81/" title="PCI9054">http://example.com/2023/08/19/PCI9054的相关源码/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Verilog/" rel="tag"># Verilog</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/11/%E5%B7%B2%E8%A7%A3%E5%AF%86_20.%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E7%94%B5%E7%81%AB%E8%8A%B1%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%9D%BF%E5%8D%A1%E8%AE%BE%E8%AE%A1-%E7%89%9B%E6%B7%BC-%E5%8C%97%E4%BA%AC%E5%B8%82%E7%94%B5%E5%8A%A0%E5%B7%A5%E7%A0%94%E7%A9%B6%E6%89%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%20-%20hh-fix/" rel="prev" title="数据板卡">
+      <i class="fa fa-chevron-left"></i> 数据板卡
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/09/10/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90%E6%8E%A7%E5%88%B6%E5%B8%A6%E5%AE%BD%E5%92%8C%E5%BC%80%E5%85%B3%E9%A2%91%E7%8E%87%E7%9A%84%E5%85%B3%E7%B3%BB/" rel="next" title="为什么开关电源控制带宽是开关频率的五分之一">
+      为什么开关电源控制带宽是开关频率的五分之一 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%EF%BC%9APCI9054%E7%9A%84FPGA%E4%BE%A7%EF%BC%88local%E4%BE%A7%E5%BC%95%E8%84%9A%E5%AE%9A%E4%B9%89%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">1：PCI9054的FPGA侧（local侧引脚定义）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%EF%BC%9APCI9054%E7%9A%84C%E6%A8%A1%E5%BC%8F%E4%B8%8B%E7%9A%84%E8%AF%BB%E5%86%99%E6%97%B6%E5%BA%8F"><span class="nav-number">2.</span> <span class="nav-text">2：PCI9054的C模式下的读写时序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%EF%BC%9AFPGA%E4%BB%A3%E7%A0%81%E9%83%A8%E5%88%86"><span class="nav-number">3.</span> <span class="nav-text">3：FPGA代码部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="nav-number">3.1.</span> <span class="nav-text">具体代码：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="水酱"
+      src="/images/%E6%B3%A5%E5%B2%A9.jpg">
+  <p class="site-author-name" itemprop="name">水酱</p>
+  <div class="site-description" itemprop="description">朝闻道夕可死矣 </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shuihuo14004" title="GitHub主页 → https:&#x2F;&#x2F;github.com&#x2F;shuihuo14004" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1400476531@qq.com" title="E-Mail → mailto:1400476531@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/8261035" title="bilibili空间 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;8261035" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>bilibili空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_32419593?spm=1001.2101.3001.5343" title="CSDN主页 → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_32419593?spm&#x3D;1001.2101.3001.5343" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>CSDN主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://home.cnblogs.com/u/ashuiSIA" title="博客园 → https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;ashuiSIA" rel="noopener" target="_blank"><i class="fab fa-usb fa-fw"></i>博客园</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.dianyuan.com/" title="电源网 → https:&#x2F;&#x2F;www.dianyuan.com&#x2F;" rel="noopener" target="_blank"><i class="fa-gear fa-fw"></i>电源网</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.baidu.com/" title="https:&#x2F;&#x2F;www.baidu.com&#x2F;" rel="noopener" target="_blank">百度</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.google.com.hk/webhp?hl=zh-CN&sourceid=cnhp" title="http:&#x2F;&#x2F;www.google.com.hk&#x2F;webhp?hl&#x3D;zh-CN&amp;sourceid&#x3D;cnhp" rel="noopener" target="_blank">谷歌</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zdzn.net/" title="https:&#x2F;&#x2F;www.zdzn.net&#x2F;" rel="noopener" target="_blank">ZDZN</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://stackoverflow.com/" title="https:&#x2F;&#x2F;stackoverflow.com&#x2F;" rel="noopener" target="_blank">stackoverflow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.runoob.com/cplusplus/cpp-tutorial.html" title="https:&#x2F;&#x2F;www.runoob.com&#x2F;cplusplus&#x2F;cpp-tutorial.html" rel="noopener" target="_blank">菜鸟教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://search.chongbuluo.com/" title="https:&#x2F;&#x2F;search.chongbuluo.com&#x2F;" rel="noopener" target="_blank">快搜（搜索神器）</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://leiblog.wang/" title="https:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">LeiWang1999</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+<div id="music163player">
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=86 src="//music.163.com/outchain/player?type=2&id=1444528563&auto=1&height=66">
+
+
+    </iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">阿水</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

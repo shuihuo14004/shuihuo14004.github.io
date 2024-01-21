@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="开关电源补偿环路设计（1）：基础部分-以Buck 为例前提说明：这些内容本质上是对相关书籍的整理 强烈推荐：电源设计基础   一：buck变换器建模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开关电源补偿环路设计（1）：基础部分-以Buck 为例">
+<meta property="og:url" content="http://example.com/2021/11/27/%E7%94%B5%E6%BA%90%E7%8E%AF%E8%B7%AF/index.html">
+<meta property="og:site_name" content="Hello World by 阿水">
+<meta property="og:description" content="开关电源补偿环路设计（1）：基础部分-以Buck 为例前提说明：这些内容本质上是对相关书籍的整理 强烈推荐：电源设计基础   一：buck变换器建模">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzbvpxypqj309906labr.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzh9q1rjij30kb09awik.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzhbbn1wkj30l80bwwhb.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzhnq465hj30nx08d75n.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy0bdcppupj30jq07tjss.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy0cdgd5opj30ci04yt97.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy1qlfr6dwj30w90jltc8.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy1tjcmhtpj30kd05w3yy.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy6o73mqkaj30nc0go0yn.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy78thmgj6j30f60dhjtf.jpg">
+<meta property="article:published_time" content="2021-11-27T15:19:18.000Z">
+<meta property="article:modified_time" content="2023-03-27T14:41:21.667Z">
+<meta property="article:author" content="水酱">
+<meta property="article:tag" content="开关电源">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="拓扑类">
+<meta property="article:tag" content="环路补偿">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzbvpxypqj309906labr.jpg">
+
+<link rel="canonical" href="http://example.com/2021/11/27/%E7%94%B5%E6%BA%90%E7%8E%AF%E8%B7%AF/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>开关电源补偿环路设计（1）：基础部分-以Buck 为例 | Hello World by 阿水</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hello World by 阿水</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description"> 思久欲知,知繁渴思,唯圣祂奇,毋为所困 </p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-waifu">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>waifu</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/27/%E7%94%B5%E6%BA%90%E7%8E%AF%E8%B7%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="水酱">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          开关电源补偿环路设计（1）：基础部分-以Buck 为例
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-27 23:19:18" itemprop="dateCreated datePublished" datetime="2021-11-27T23:19:18+08:00">2021-11-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-27 22:41:21" itemprop="dateModified" datetime="2023-03-27T22:41:21+08:00">2023-03-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/" itemprop="url" rel="index"><span itemprop="name">开关电源</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="开关电源补偿环路设计（1）：基础部分-以Buck-为例"><a href="#开关电源补偿环路设计（1）：基础部分-以Buck-为例" class="headerlink" title="开关电源补偿环路设计（1）：基础部分-以Buck 为例"></a>开关电源补偿环路设计（1）：基础部分-以Buck 为例</h1><p>前提说明：这些内容本质上是对相关书籍的整理</p>
+<p>强烈推荐：<a target="_blank" rel="noopener" href="https://item.jd.com/35023088941.html">电源设计基础</a></p>
+<div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzbvpxypqj309906labr.jpg" width="400"></div>
+
+<h2 id="一：buck变换器建模"><a href="#一：buck变换器建模" class="headerlink" title="一：buck变换器建模"></a>一：buck变换器建模</h2><p>buck变换器是最简单而经典的开关电源拓扑之一，其详细组成可见图1。</p>
+<div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzh9q1rjij30kb09awik.jpg" width="800"></div>
+
+
+
+<center>图1-1 buck变换器详细补偿环路图</center>
+
+<div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzhbbn1wkj30l80bwwhb.jpg" width="800"></div>
+
+<center>图1-2 buck变换器补偿环路简图</center>
+
+<center>图1</center>
+
+<p>​      由图1可知buck变换器可分为多个模块，各个模块的定义见下表1</p>
+<center>表1</center>
+
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>模块符号</th>
+<th>具体含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$K_{FB}$</td>
+<td>反馈电阻分压器，用于获取输出电压</td>
+</tr>
+<tr>
+<td>$K_{EA}$</td>
+<td>带有频率补偿的误差放大器</td>
+</tr>
+<tr>
+<td>$K_{PWM}$</td>
+<td>脉宽调制增益</td>
+</tr>
+<tr>
+<td>$K_{LC}$</td>
+<td>输出滤波器增益</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>​        其实$K_{FB}$是一个直流缩放因子（电阻分压器），如果必需考虑其非理想等效模式（LRC模型）则将其作为$K_{EA}$的一部分。<br>​        如图2所示为整个稳压调节器的反馈框图。</p>
+<div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzhnq465hj30nx08d75n.jpg" width="800"></div>
+
+<center>图2</center>
+
+
+
+<p>显然，现在可以将整个传递函数写成式(1)∶</p>
+<script type="math/tex; mode=display">
+\begin{align}
+$T_{V}\left ( s \right ) =\frac{V_{OUT}}{V_{REF}} =K_{FB}\times K_{EA} \left ( s \right ) \times K_{PWM} \left ( s \right )\times K_{LC} \left ( s \right )  \tag{1}
+
+\end{align}</script><p>其中$K_{EA} \left ( s \right )$和$K_{LC} \left ( s \right )$对频率敏感，其中$s$为拉普拉斯算子，总体传递函数是与频率相关的。这样允许在频域中将分量转换成阻抗。同时$K_{PWM}$的开关周期为独立设定，而$K_{FB}$为比例方法。</p>
+<h3 id="1-1-反馈网络增益-K-FB"><a href="#1-1-反馈网络增益-K-FB" class="headerlink" title="1.1 反馈网络增益$K_{FB}$"></a>1.1 反馈网络增益$K_{FB}$</h3><p>​        反馈网络增益$K_{FB}$模块决定了参考电压和输出电压之间的比例关系。通常来说，我们希望这种关系是一个固定的值。因此，通常只用一个电阻分压器来实现，我们唯一关心的是它的 比例DC值。<br>​        无论$V_{OUT}$如何变化，迫使反馈点（求和点）维持在参考值。在反馈点没有电压变化的情况下，通过分压器下端电阻的电流无变化，站在频率的角度其有效数值为无限大。而在分压器中，最重要的是上端电阻，因为除了输出电压检测之外，它的阻抗将成为补偿网络的一部分。</p>
+<h3 id="1-2-脉宽调制增益-K-PWM"><a href="#1-2-脉宽调制增益-K-PWM" class="headerlink" title="1.2 脉宽调制增益$K_{PWM}$"></a>1.2 脉宽调制增益$K_{PWM}$</h3><p>​        将PWM级定义为电路的一部分，基于误差放大器$V_{C}$的模拟输出电压调节开关管的占空比$D$，功率开关管在节点$SW$处开关启闭。其工作波形如图3所示，其占空比为$\frac{V_{C}}{V_{P}} $。  </p>
+<div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy0bdcppupj30jq07tjss.jpg" width="800"></div>
+
+<center>图3</center>
+
+<p>对于 Buck 拓扑而言，有∶</p>
+<script type="math/tex; mode=display">
+\begin{align}
+d = & \frac{t_{on}}{T}= \frac{V_{c}}{V_{p}}= \frac{V_{O}}{V_{IN}} \tag{2}\\
+
+
+
+
+\end{align}</script><p>故可以把模块的传递函数重新写成∶</p>
+<script type="math/tex; mode=display">
+K_{PWM} = & \frac{t_{SW(ave)}}{V_{C}}=d\times \frac{V_{IN}}{V_{C}}= \frac{V_{C}\times V_{IN}}{V_{p}\times V_{C}}=\frac{V_{IN}}{V_{P}} \\</script><p>这便得到了一个很有意思的结果，即对于一个给定的$V_{IN}$和给定的$V_{P}$，该级增益为一固定常数。</p>
+<h3 id="1-3-输出滤波器增益-K-LC-s"><a href="#1-3-输出滤波器增益-K-LC-s" class="headerlink" title="1.3 输出滤波器增益$K_{LC}(s)$"></a>1.3 输出滤波器增益$K_{LC}(s)$</h3><p>​       输出滤波器的作用是将开关管波形转换为输出端的直流电压$V_{OUT}$，本质上来说这是一个分压网络，由电感$L_{s}$、电容$ \frac {1}{C_{s}}$以及负载阻抗$R_{s}$并联组成，如图4所示。本质上是一个串联电感和并联电容的“输出滤波+分压”。</p>
+<p>​               </p>
+<div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy0cdgd5opj30ci04yt97.jpg"></div>
+
+
+
+<center>图4</center>
+
+<p>通过基尔霍夫定律，我们可以这个L-C滤波器的$K_{LC}(s)$增益为∶</p>
+<script type="math/tex; mode=display">
+\frac{V_{O}\left ( s \right ) }{V_{I}\left ( s \right )} =\frac{\frac{R}{\frac{1}{C_{S}} } }{\frac{R}{\frac{1}{C_{s}+L_{s}} }}=\frac{\frac{1}{LC} }{S^{2}+\frac{s}{RC}+\frac{1}{LC}}=\frac{\frac{1}{LC} }{(s-p_{1})(s-p_{2})}</script><p>​        其中$p_{1}$和$p_{2}$是这个二阶系统的两个极点，它们是通过将增益方程的分母设置为零并求解根得到（分子的根将成为零点，但是这个方程中没有零点，接下来会谈到更多的关于零极点的内容）。<br>​        通过这个方程的数值解，我们将会得到增益的幅度和相位，它们都是频率的函数。因为极点和零点以特定的方式起作用，可以通过图形化方法来获得足够的信息，即相对于对数频率坐标，根据增益（dB增益对数的20倍）和相位（度）作图，这称之为波特图，它可以很容易地可视化显示出系统稳定特性。<br>​       求解上面的传递函数方程，j进而可以绘制出增益曲线，它是频率的函数，可知，L-C滤波器即存两个极点，而且已经知道如下情况∶</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">情况</th>
+<th style="text-align:center">详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$f\ll \frac{1}{2\pi }\sqrt{\frac{1}{LC} } $</td>
+<td style="text-align:center">增益=1，相位=0</td>
+</tr>
+<tr>
+<td style="text-align:center">$f= \frac{1}{2\pi }\sqrt{\frac{1}{LC} } $</td>
+<td style="text-align:center">增益和相位正处于过渡状态，在这个频率点$f_{DP}$,增益为$R\sqrt{\frac{1}{LC} }$，相位=$90^{o}$</td>
+</tr>
+<tr>
+<td style="text-align:center">$f\gg  \frac{1}{2\pi }\sqrt{\frac{1}{LC} } $</td>
+<td style="text-align:center">增益为$-\frac{1}{w^{2}LC} $，相位=$180^{o}$。注意到增</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>如图5所示带负载的$LC$滤波器波特图（增益和相位曲线），元件参数分别为$L=16uH,C=540uF,R=0.5Ω，F_{DP}=2.6KHz$</p>
+<div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy1qlfr6dwj30w90jltc8.jpg" width="600" ></div>
+
+<center>图5</center>
+
+
+
+
+
+<h3 id="1-4-误差放大器增益-K-EA"><a href="#1-4-误差放大器增益-K-EA" class="headerlink" title="1.4  误差放大器增益$K_{EA}$"></a>1.4  误差放大器增益$K_{EA}$</h3><p>​        由之前的系统定义可知，输出检测信号接在负反馈的反相端，所以系统具有$180^{o}$的相移，而输出滤波器中可能出现另一个180°的相移。因此，该系统在频率高于输出滤波器截止频率的情况下，必然是不稳定的。</p>
+<p>​       因此，误差放大器必须为精确电压调节提供高增益的同时还要确保在满足动态响应要求的整个工作频率范围内，总相移保持小于$360^{o}$。这可以通过一个运算放大器（OPA）实现，见图6。</p>
+<div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy1tjcmhtpj30kd05w3yy.jpg" width="600" ></div>
+
+
+
+<center>图6</center>
+
+<p>​        图 6中，放大器的总增益$K_{EA}$将为$\frac{Z_{FB}}{Z_{IN}}$，当$K_{EA}=\frac{Z_{FB}}{Z_{IN}}$为直流情况时，有$180^{o}$的相位偏移。这些阻抗是与频率相关的，它们的任何变化将导致增益和相位发生变化。因为降低$Z_{IN}$的阻抗将会增加总增益，而降低$Z_{FB}$阻抗将降低总增益。通常来说，我们通过电阻和电容的串并联组合来改变阻抗。更具体地说，利用电容的频率特性，R和C的并联网络，在低频时具有以R值开始的阻抗，即以电阻特性为主。然后，在截止频率$f_{C}$处，电容的阻抗开始作用，随着频率的进一步增加，并联阻抗以$-20dB/$十倍频程（$-6dB/$倍频程）的斜率下降。在相同的频率范围内，相移从低频处的$0^{o}$变为在截止频率处的$-90^{o}$。</p>
+<div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy6o73mqkaj30nc0go0yn.jpg" width="600" ></div>
+
+<center>图7</center>
+
+<p>​         在图7的波特图上可以很容易地看到这些特性。电阻和电容的串联网络阻抗具有类似但相反的特性。它在直流时阻抗为无穷大，随着频率增加以$-20dB/$十倍频程（$-6dB/$倍频程）的斜率下降。直到达到截止频率$f_{c}$，在此之后的频段上，阻抗变得平坦并固定为值$R$。相位也具有与$R-C$串联网络相反的特性，从低频开始于$-90^{o}$。并且在剧过截止顺率后上升到$0^{o}$。<br>​        使用波特图来绘制增益（用dB表达）和相位（相对于频率的对数）曲线的优点是很明显的。虽然理论实际曲线是连续的，但可以用直线来逼近它们，其中增益斜率的变化正好在$f_{c}$处出现，而相移开始于大约$0.1f_{c}$处，在$f_{c}$处为45°，并且在$10×f_{c}$处结束。</p>
+<p>​        另外，截止频率$f_{c}$出现在$R$和$C$的阻抗相等的地方，即为$f_{c}= \frac{1}{2πRC}$。上图中的实线和虚线分别为实际曲线和直线逼近线，在绝大多数分析中，因为这个误差足够小，所以这种近似方法是可行的。<br>​        如果将这些$R-C$组合应用到运算放大器中，有许多不同的组合，它们对增益和相位的改变效果是不同的∶</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>串并联情况</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$Z_{IN}$为$R-C$串联</td>
+<td>这会增加一个极点（产生-90°相移），并且增益减少</td>
+</tr>
+<tr>
+<td>$Z_{IN}$为$R-C$并联</td>
+<td>这会增加一个零点（产生+90°相移），并且增益增加</td>
+</tr>
+<tr>
+<td>$Z_{FB}$为$R-C$串联</td>
+<td>这会增加一个零点（产生+90°相移），并且增益减少</td>
+</tr>
+<tr>
+<td>$Z_{FB}$为$R-C$并联</td>
+<td>这会增加一个极点（产生-90°相移），并且增益减少</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>总体来说，一个零点会导致+90°相移，并增益增加，而一个极点会导致-90°相移，并增益降低</p>
+<h3 id="1-5-稳定性的相关考虑"><a href="#1-5-稳定性的相关考虑" class="headerlink" title="1.5  稳定性的相关考虑"></a>1.5  稳定性的相关考虑</h3><p>现在可以将总的回路增益方程写为∶</p>
+<script type="math/tex; mode=display">
+H(s)G(s)=K_{EA}\times K_{PWM}\times \frac{\frac{1}{LC}}{s^{2}+\frac{s}{RC}+\frac{1}{RC}} \tag{3}</script><p>由式3可知关于环路稳定性：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>已经不用再考虑$K_{FB}$的作用，因为这一项只影响系统直流工作点</td>
+</tr>
+<tr>
+<td>2</td>
+<td>总增益将与直流占空比无关，但与直流输入电压相关</td>
+</tr>
+<tr>
+<td>3</td>
+<td>分母中存在R，如果R=0即空载时表示系统会不稳定，但实际上电路，将首先进入DCM工作。在这种情况下，这个二阶系统本质上（退化为）是一阶的，所以这时小信号分析不再适用</td>
+</tr>
+<tr>
+<td>4</td>
+<td>我们已经将$H(s) \times G(s)$假定简化为正数，但负反馈隐含地给出相位变化为 180°，因此，在任何增益大于1的情况下，系统可能出现不稳定</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>关于系统稳定性有两个重要的定义∶</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>增益裕量</td>
+<td>系统单位增益（零分贝）与相位180°时的增益之差它是一个负数，工程上推荐值为-6dB 到-12dB</td>
+</tr>
+<tr>
+<td>相位裕量</td>
+<td>系统单位增益所对应的实际相位与-180°的差。工程上建议值在 45°到60°之间</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>上述两个定义隐含了这样一个结论∶如果增益曲线与$0dB$轴相交的<br>        斜率不大于-20dB/十倍频程（-6dB/倍频程）。即增益曲线在$0dB$轴时的穿越斜率小于-2，则相位裕度会大于45°，系统将会稳定。</p>
+<h3 id="1-6-误差放大器的补偿"><a href="#1-6-误差放大器的补偿" class="headerlink" title="1.6 误差放大器的补偿"></a>1.6 误差放大器的补偿</h3><p>虽然使用运算放大器补偿来更改系统增益和相位有许多可能性，但是实际经验告诉我们，使用三种基本补偿电路就几乎能够满足所有的实际应用。由于只有三个，工程上它们已经被称为I型，Ⅱ型和Ⅲ型补偿网络，图8中分别绘制了伯德图。</p>
+<div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy78thmgj6j30f60dhjtf.jpg" width="600" ></div>
+
+<center>图8</center>
+
+<p>​         图8最常见的三种补偿电路，以及简化的增益特性（直线逼近曲线）<br>​        上述增益曲线图都是由补偿器中的零极点决定的，它们的值（决定了特征频率的位置）是相对于输出滤波器电感和电容的值而言的（包括输出电容的ESR)。</p>
+<h4 id="1-6-1Ⅰ型补偿"><a href="#1-6-1Ⅰ型补偿" class="headerlink" title="1.6.1Ⅰ型补偿"></a>1.6.1Ⅰ型补偿</h4><p>I型的补偿无疑是最简单的，利用一个单极点，将总增益降低到1以下，其频率远低于任何其他电路元件影响的频率。具体而言，设定频率$\frac{1}{2πR_{1}C_{1}}$，使得在小于$0.1f_{DP}$频率（输出滤波器截止频率的$\frac{1}{10}$）时，总增益会小于0dB。<br>        当然，这使得对任何输入或负载的突变响应变得非常缓慢，在实际中很多电路并不适用。然而，有一种场合I型补偿很合适∶当一个全新的样机第一次上电时，人为迫使其无条件地稳定。这样可以评估和优化预期设计的所有静态特性，以便在稳定的大信号工作情况下完成最终的补偿设计。</p>
+<h4 id="1-6-2-Ⅱ型补偿"><a href="#1-6-2-Ⅱ型补偿" class="headerlink" title="1.6.2 Ⅱ型补偿"></a>1.6.2 Ⅱ型补偿</h4><p>​        这个补偿电路在低频下和Ⅰ型补偿一样，在低频时同样以单极点开始，但是在环路增益仍为正值的情况下，首先通过引入一个零点来消除输出滤波器的其中一个极点，然后在较高的频率再引入一个极点将增益降低到0dB以下<br>​        通常，这仍不足以稳定大多数电压模式控制的系统，因为在具有正增益的情况下，初始极点和剩余的输出滤波器极点相位总和将达到180°，这会导致系统<br>不稳定。<br>然而，Ⅱ型补偿非常适合电流模式控制电路，因为其输出滤波器在截止频率以内只有一个极点，同样在 DCM控制的设计中，由于系统是一阶的，Ⅱ型补偿也很适合。在这些情况下，环路带宽通常可以比使用电压模式控制的带宽高得多。</p>
+<h4 id="1-6-3-Ⅲ型补偿"><a href="#1-6-3-Ⅲ型补偿" class="headerlink" title="1.6.3  Ⅲ型补偿"></a>1.6.3  Ⅲ型补偿</h4><p>​      Ⅲ型补偿，相对于前二者补偿来说显然要复杂得多，但是通过在两个滤波器极点频率处或附近引入两个零点，可以解决输出滤波器双极点问题。利用具有增益上升和+90°相移的零点来抵消具有增益下降和-90°相移的极点。<br>​        我们将这些零点放置在需要相位提升的地方，使得有用的增益显著扩展到超过输出滤波器的滚降点，但是仍然要在更高的频率处再增加两个极点使增益最终减至小于单位增益。需要注意的是，当一对零点（或极点）的位置是很接近的时候，由补偿网络的电容，而不是电阻来决定它们之间的增益。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>水酱
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/11/27/%E7%94%B5%E6%BA%90%E7%8E%AF%E8%B7%AF/" title="开关电源补偿环路设计（1）：基础部分-以Buck 为例">http://example.com/2021/11/27/电源环路/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/" rel="tag"># 开关电源</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/%E6%8B%93%E6%89%91%E7%B1%BB/" rel="tag"># 拓扑类</a>
+              <a href="/tags/%E7%8E%AF%E8%B7%AF%E8%A1%A5%E5%81%BF/" rel="tag"># 环路补偿</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/27/%E7%8E%AF%E8%B7%AF%E8%A1%A5%E5%81%BF/" rel="prev" title="开关电源环路测试">
+      <i class="fa fa-chevron-left"></i> 开关电源环路测试
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/27/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/" rel="next" title="推挽电源的基本工作原理、磁通不平衡问题及其解决方法">
+      推挽电源的基本工作原理、磁通不平衡问题及其解决方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90%E8%A1%A5%E5%81%BF%E7%8E%AF%E8%B7%AF%E8%AE%BE%E8%AE%A1%EF%BC%881%EF%BC%89%EF%BC%9A%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86-%E4%BB%A5Buck-%E4%B8%BA%E4%BE%8B"><span class="nav-number">1.</span> <span class="nav-text">开关电源补偿环路设计（1）：基础部分-以Buck 为例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%EF%BC%9Abuck%E5%8F%98%E6%8D%A2%E5%99%A8%E5%BB%BA%E6%A8%A1"><span class="nav-number">1.1.</span> <span class="nav-text">一：buck变换器建模</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%8F%8D%E9%A6%88%E7%BD%91%E7%BB%9C%E5%A2%9E%E7%9B%8A-K-FB"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 反馈网络增益$K_{FB}$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E8%84%89%E5%AE%BD%E8%B0%83%E5%88%B6%E5%A2%9E%E7%9B%8A-K-PWM"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 脉宽调制增益$K_{PWM}$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E8%BE%93%E5%87%BA%E6%BB%A4%E6%B3%A2%E5%99%A8%E5%A2%9E%E7%9B%8A-K-LC-s"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 输出滤波器增益$K_{LC}(s)$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E8%AF%AF%E5%B7%AE%E6%94%BE%E5%A4%A7%E5%99%A8%E5%A2%9E%E7%9B%8A-K-EA"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4  误差放大器增益$K_{EA}$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E7%A8%B3%E5%AE%9A%E6%80%A7%E7%9A%84%E7%9B%B8%E5%85%B3%E8%80%83%E8%99%91"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.5  稳定性的相关考虑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-%E8%AF%AF%E5%B7%AE%E6%94%BE%E5%A4%A7%E5%99%A8%E7%9A%84%E8%A1%A5%E5%81%BF"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.6 误差放大器的补偿</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-1%E2%85%A0%E5%9E%8B%E8%A1%A5%E5%81%BF"><span class="nav-number">1.1.6.1.</span> <span class="nav-text">1.6.1Ⅰ型补偿</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-2-%E2%85%A1%E5%9E%8B%E8%A1%A5%E5%81%BF"><span class="nav-number">1.1.6.2.</span> <span class="nav-text">1.6.2 Ⅱ型补偿</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-3-%E2%85%A2%E5%9E%8B%E8%A1%A5%E5%81%BF"><span class="nav-number">1.1.6.3.</span> <span class="nav-text">1.6.3  Ⅲ型补偿</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="水酱"
+      src="/images/%E6%B3%A5%E5%B2%A9.jpg">
+  <p class="site-author-name" itemprop="name">水酱</p>
+  <div class="site-description" itemprop="description">朝闻道夕可死矣 </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shuihuo14004" title="GitHub主页 → https:&#x2F;&#x2F;github.com&#x2F;shuihuo14004" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1400476531@qq.com" title="E-Mail → mailto:1400476531@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/8261035" title="bilibili空间 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;8261035" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>bilibili空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_32419593?spm=1001.2101.3001.5343" title="CSDN主页 → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_32419593?spm&#x3D;1001.2101.3001.5343" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>CSDN主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://home.cnblogs.com/u/ashuiSIA" title="博客园 → https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;ashuiSIA" rel="noopener" target="_blank"><i class="fab fa-usb fa-fw"></i>博客园</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.dianyuan.com/" title="电源网 → https:&#x2F;&#x2F;www.dianyuan.com&#x2F;" rel="noopener" target="_blank"><i class="fa-gear fa-fw"></i>电源网</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.baidu.com/" title="https:&#x2F;&#x2F;www.baidu.com&#x2F;" rel="noopener" target="_blank">百度</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.google.com.hk/webhp?hl=zh-CN&sourceid=cnhp" title="http:&#x2F;&#x2F;www.google.com.hk&#x2F;webhp?hl&#x3D;zh-CN&amp;sourceid&#x3D;cnhp" rel="noopener" target="_blank">谷歌</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zdzn.net/" title="https:&#x2F;&#x2F;www.zdzn.net&#x2F;" rel="noopener" target="_blank">ZDZN</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://stackoverflow.com/" title="https:&#x2F;&#x2F;stackoverflow.com&#x2F;" rel="noopener" target="_blank">stackoverflow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.runoob.com/cplusplus/cpp-tutorial.html" title="https:&#x2F;&#x2F;www.runoob.com&#x2F;cplusplus&#x2F;cpp-tutorial.html" rel="noopener" target="_blank">菜鸟教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://search.chongbuluo.com/" title="https:&#x2F;&#x2F;search.chongbuluo.com&#x2F;" rel="noopener" target="_blank">快搜（搜索神器）</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://leiblog.wang/" title="https:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">LeiWang1999</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+<div id="music163player">
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=86 src="//music.163.com/outchain/player?type=2&id=1444528563&auto=1&height=66">
+
+
+    </iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">阿水</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
