@@ -168,6 +168,92 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/11/%E5%B7%B2%E8%A7%A3%E5%AF%86_20.%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E7%94%B5%E7%81%AB%E8%8A%B1%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%9D%BF%E5%8D%A1%E8%AE%BE%E8%AE%A1-%E7%89%9B%E6%B7%BC-%E5%8C%97%E4%BA%AC%E5%B8%82%E7%94%B5%E5%8A%A0%E5%B7%A5%E7%A0%94%E7%A9%B6%E6%89%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%20-%20hh-fix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="水酱">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/11/%E5%B7%B2%E8%A7%A3%E5%AF%86_20.%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E7%94%B5%E7%81%AB%E8%8A%B1%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%9D%BF%E5%8D%A1%E8%AE%BE%E8%AE%A1-%E7%89%9B%E6%B7%BC-%E5%8C%97%E4%BA%AC%E5%B8%82%E7%94%B5%E5%8A%A0%E5%B7%A5%E7%A0%94%E7%A9%B6%E6%89%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%20-%20hh-fix/" class="post-title-link" itemprop="url">数据板卡</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-11 23:55:10 / 修改时间：23:56:45" itemprop="dateCreated datePublished" datetime="2023-08-11T23:55:10+08:00">2023-08-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%94%B5%E7%81%AB%E8%8A%B1%E5%8A%A0%E5%B7%A5/" itemprop="url" rel="index"><span itemprop="name">电火花加工</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20230811235606.png"></p>
+<center>
+    基于FPGA的电火花加工机床数据传输板卡设计
+</center>
+
+
+
+
+
+<p><strong>摘要：</strong>随着电火花加工的精细化发展，单个脉冲周期的能量越来越小、周期越来越短。单位时间内，因控制和状态检测而产生的数据量也越来越大，对数据传输速度的要求越来越快。并行执行的FPGA架构在数据处理上有着巨大的优势,基于EP4CE15F23C8设计了一种用于数据传输的FPGA数据传输NC板卡，详细介绍了设计方案和测试方案。数据板卡对下通过扩展IO实现了伺服电机控制、极间电压监测、人机交互、故障检测报警等功能，对上通过PCI总线完成了上位机通信控制、加工条件调节、状态检查传输等任务。并通过实验验证了以上功能；</p>
+<p><strong>关键词：</strong>电火花；FPGA；数据处理；数据传输；PCI总线</p>
+<p><strong>Abstract:</strong> With the development of electric discharge machining, the energy of a single pulse cycle is getting smaller and smaller, and the cycle is getting shorter and shorter. The amount of data generated due to control and status detection per unit time is also increasing, and the requirement for data transmission speed is getting faster and faster. The parallel execution FPGA architecture has great advantages in data processing. Based on EP4CE15F23C8, a FPGA data transmission NC board for data transmission is designed, and the design scheme and test scheme are introduced in detail. The data board realizes functions such as servo motor control, check of inter-electrode voltage, human-computer interaction, fault detection and alarm through the expansion of IO, and completes communication control of the host computer, adjustment of processing conditions, status inspection and transmission through the PCI bus on the upper side. Task. And the above functions are verified by experiments;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/08/11/%E5%B7%B2%E8%A7%A3%E5%AF%86_20.%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E7%94%B5%E7%81%AB%E8%8A%B1%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%9D%BF%E5%8D%A1%E8%AE%BE%E8%AE%A1-%E7%89%9B%E6%B7%BC-%E5%8C%97%E4%BA%AC%E5%B8%82%E7%94%B5%E5%8A%A0%E5%B7%A5%E7%A0%94%E7%A9%B6%E6%89%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%20-%20hh-fix/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/07/17/%E7%94%B5%E7%81%AB%E8%8A%B1%E8%84%89%E5%86%B2%E7%94%B5%E6%BA%90%E7%9A%84%E6%94%BE%E7%94%B5%E5%9B%9E%E8%B7%AF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -917,84 +1003,6 @@ R_{noise}&=\frac{V_{gnd}}{V_{s}}=\frac{nL}{Z_{0}T_{r}}\\
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/05/%E9%AB%98%E9%80%9FPCB%E7%9A%84%E8%B5%B0%E7%BA%BF%E6%9C%89%E5%A4%9A%E7%9F%AD%EF%BC%9A%E7%9B%B8%E5%AF%B9%E4%BA%8E%E4%BF%A1%E5%8F%B7%E9%A2%91%E7%8E%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
-      <meta itemprop="name" content="水酱">
-      <meta itemprop="description" content="朝闻道夕可死矣 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello World by 阿水">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/04/05/%E9%AB%98%E9%80%9FPCB%E7%9A%84%E8%B5%B0%E7%BA%BF%E6%9C%89%E5%A4%9A%E7%9F%AD%EF%BC%9A%E7%9B%B8%E5%AF%B9%E4%BA%8E%E4%BF%A1%E5%8F%B7%E9%A2%91%E7%8E%87/" class="post-title-link" itemprop="url">高速PCB走线长度确定</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-04-05 19:41:22 / 修改时间：21:13:46" itemprop="dateCreated datePublished" datetime="2023-04-05T19:41:22+08:00">2023-04-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%AB%98%E9%80%9FPCB/" itemprop="url" rel="index"><span itemprop="name">高速PCB</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="所引用视频"><a href="#所引用视频" class="headerlink" title="所引用视频"></a>所引用视频</h1><p>本文是个人的学习记录，多学原视频大佬的分析：</p>
-<iframe src="//player.bilibili.com/player.html?aid=652984070&bvid=BV1MY4y127dx&cid=1036617998&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" height="800"> </iframe>
-
-<h1 id="1：定性分析"><a href="#1：定性分析" class="headerlink" title="1：定性分析"></a>1：定性分析</h1><p>关于电路板设计的经验规则很多，其中走线要尽量短，是一条人人都知道的规则。几乎每本教电路板设计的书教材、数据手册、设计指南文档等等都能找得到。实际操作起来就不得不面临计算取舍的问题，究竟多短才算短。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/04/05/%E9%AB%98%E9%80%9FPCB%E7%9A%84%E8%B5%B0%E7%BA%BF%E6%9C%89%E5%A4%9A%E7%9F%AD%EF%BC%9A%E7%9B%B8%E5%AF%B9%E4%BA%8E%E4%BF%A1%E5%8F%B7%E9%A2%91%E7%8E%87/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1066,7 +1074,7 @@ R_{noise}&=\frac{V_{gnd}}{V_{s}}=\frac{nL}{Z_{0}T_{r}}\\
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1079,7 +1087,7 @@ R_{noise}&=\frac{V_{gnd}}{V_{s}}=\frac{nL}{Z_{0}T_{r}}\\
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">49</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
