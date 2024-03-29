@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="[TOC] 1：参考资料的链接PCI bus pinout PCI三种标准引脚信号定义 PCI bus pinout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PCI总线 引脚定义">
+<meta property="og:url" content="http://example.com/2024/03/29/PCI%E6%80%BB%E7%BA%BF%E5%BC%95%E8%84%9A%E5%AE%9A%E4%B9%89/index.html">
+<meta property="og:site_name" content="Hello World by 阿水">
+<meta property="og:description" content="[TOC] 1：参考资料的链接PCI bus pinout PCI三种标准引脚信号定义 PCI bus pinout">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/9950108464_TIME_1341911145046%20(1">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/9950108464_TIME_1341911166241.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20240329205356.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/116462517_p0_master1200.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/116462517_p1_master1200.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/116462517_p2_master1200.jpg">
+<meta property="article:published_time" content="2024-03-29T12:18:35.000Z">
+<meta property="article:modified_time" content="2024-03-29T13:05:18.240Z">
+<meta property="article:author" content="水酱">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="总线">
+<meta property="article:tag" content="PCI bus">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/9950108464_TIME_1341911145046%20(1">
+
+<link rel="canonical" href="http://example.com/2024/03/29/PCI%E6%80%BB%E7%BA%BF%E5%BC%95%E8%84%9A%E5%AE%9A%E4%B9%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>PCI总线 引脚定义 | Hello World by 阿水</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hello World by 阿水</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description"> 思久欲知,知繁渴思,唯圣祂奇,毋为所困 </p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-waifu">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>waifu</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/03/29/PCI%E6%80%BB%E7%BA%BF%E5%BC%95%E8%84%9A%E5%AE%9A%E4%B9%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="水酱">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PCI总线 引脚定义
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-03-29 20:18:35 / 修改时间：21:05:18" itemprop="dateCreated datePublished" datetime="2024-03-29T20:18:35+08:00">2024-03-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PCI/" itemprop="url" rel="index"><span itemprop="name">PCI</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>[TOC]</p>
+<h1 id="1：参考资料的链接"><a href="#1：参考资料的链接" class="headerlink" title="1：参考资料的链接"></a>1：参考资料的链接</h1><p><a target="_blank" rel="noopener" href="https://pinoutguide.com/Slots/PCI_pinout.shtml">PCI bus pinout</a></p>
+<p><a target="_blank" rel="noopener" href="https://mbb.eet-china.com/blog/1627584-383225.html">PCI三种标准引脚信号定义</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.interfacebus.com/Design_PCI_Pinout.html">PCI bus pinout</a></p>
+<h1 id="2-图片说明"><a href="#2-图片说明" class="headerlink" title="2:   图片说明"></a>2:   图片说明</h1><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/9950108464_TIME_1341911145046%20(1" alt="">.jpg)</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/9950108464_TIME_1341911166241.jpg" alt=""></p>
+<h1 id="3：PCI文字说明"><a href="#3：PCI文字说明" class="headerlink" title="3：PCI文字说明"></a>3：PCI文字说明</h1><p>PCI规范定义了两种可以在系统板级实现的连接器:一种用于实现5伏信号电平的系统，另一种用于实现3.3伏信号电平的系统。此外，PCI系统可以实现32位或64位连接器。大多数PCI总线只实现由引脚1到62组成的连接器的32位部分。支持64位数据传输的先进系统实现由引脚1到94组成的完整PCI总线连接器。三种类型的插件板可以实现:5伏插件板包括一个关键缺口在引脚位置<font color=red >50和51</font>，以允许他们只被插入到5伏系统连接器。3.3伏插件板在引脚位置12和13上包括一个关键缺口，允许它们仅插入3.3伏系统连接器。通用插件板包括两个键槽，允许它们插入5伏或3.3伏系统连接器。</p>
+<p>一、PCI的引脚定义<br>　　 32bit PCI系统的管脚按功能来分有以下几类：<br>　　<br>　　 系统控制：<br>　　　　　 CLK，PCI时钟，上升沿有效。<br>　　　　　 RST ，Reset信号 。<br>　　 传输控制：<br>　　　　　 FRAME#，标志传输开始与结束 。<br>　　　　　 IRDY#，Master可以传输数据的标志 。<br>　　　　　 DEVSEL#，当Slave发现自己被寻址时置低应答。<br>　　　　　 TRDY#，Slave可以转输数据的标志 。<br>　　　　　 STOP#，Slave主动结束传输数据的信号 。<br>　　　　　 IDSEL，在即插即用系统启动时用于选中板卡的信号 。<br>　　 地址与数据总线：<br>　　　　　 AD[31::0]，地址/数据分时复用总线 。<br>　　　　　 C/BE#[3::0]，命令/字节使能信号 。<br>　　　　　 PAR，奇偶校验信号 。<br>　　 仲裁号：<br>　　　　　 REQ#，Master用来请求总线使用权的信号 。<br>　　　　　 GNT#，Arbiter允许Master得到总线使用权的信号 。<br>　　 错误报告：<br>　　　　　 PERR#，数据奇偶校验错误 。<br>　　　　　 SERR#，系统奇偶校验错误 。<br>二、操作说明<br>　　 当PCI总线进行操作时，发起者(Master)先置REQ#，当得到仲裁器(Arbiter)的许可时(GNT#)，会将FRAME#置低，并在AD总线上放置Slave地址，同时C/BE#放置命令信号，说明接下来的传输类型。所有PCI总线上设备都需对此地址译码，被选中的设备要置DEVSEL#以声明自己被选中。然后当IRDY#与TRDY#都置低时，可以传输数据。当Master数据传输结束前，将FRAME#置高以标明只剩最后一组数据要传输，并在传完数据后放开IRDY#以释放总线控制权。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line">Rear of Computer</span><br><span class="line">                   :------:------:</span><br><span class="line">              -12V |- B1     A1 -| Test Reset</span><br><span class="line">        Test Clock |- B2     A2 -| +12V</span><br><span class="line">            Ground |- B3     A3 -| Test Mode Select</span><br><span class="line">  Test Data Output |- B4     A4 -| Test Data Input</span><br><span class="line">               +5V |- B5     A5 -| +5V</span><br><span class="line">               +5V |- B6     A6 -| Interrupt A</span><br><span class="line">       Interrupt B |- B7     A7 -| Interrupt C</span><br><span class="line">       Interrupt D |- B8     A8 -| +5V</span><br><span class="line">           PRSNT1# |- B9     A9 -| Reserved</span><br><span class="line">          Reserved |- B10   A10 -| +V I/O</span><br><span class="line">           PRSNT2# |- B11   A11 -| Reserved</span><br><span class="line">                   :------:------:</span><br><span class="line">                   :------:------:</span><br><span class="line">          Reserved |- B14   A14 -| Reserved</span><br><span class="line">            Ground |- B15   A15 -| Reset</span><br><span class="line">             Clock |- B16   A16 -| +V I/O</span><br><span class="line">            Ground |- B17   A17 -| Grant</span><br><span class="line">           Request |- B18   A18 -| Ground</span><br><span class="line">            +V I/O |- B19   A19 -| Reserved</span><br><span class="line">        Address 31 |- B20   A20 -| Address 30</span><br><span class="line">        Address 29 |- B21   A21 -| +3.3V</span><br><span class="line">            Ground |- B22   A22 -| Address 28</span><br><span class="line">        Address 27 |- B23   A23 -| Address 26</span><br><span class="line">        Address 25 |- B24   A24 -| Ground</span><br><span class="line">             +3.3V |- B25   A25 -| Address 24</span><br><span class="line">            C/BE 3 |- B26   A26 -| Init Device Select</span><br><span class="line">        Address 23 |- B27   A27 -| +3.3V</span><br><span class="line">            Ground |- B28   A28 -| Address 22</span><br><span class="line">        Address 21 |- B29   A29 -| Address 20</span><br><span class="line">        Address 19 |- B30   A30 -| Ground</span><br><span class="line">             +3.3V |- B31   A31 -| Address 18</span><br><span class="line">        Address 17 |- B32   A32 -| Address 16</span><br><span class="line">            C/BE 2 |- B33   A33 -| +3.3V</span><br><span class="line">            Ground |- B34   A34 -| Cycle Frame</span><br><span class="line">   Initiator Ready |- B35   A35 -| Ground</span><br><span class="line">             +3.3V |- B36   A36 -| Target Ready</span><br><span class="line">     Device Select |- B37   A37 -| Ground</span><br><span class="line">            Ground |- B38   A38 -| Stop</span><br><span class="line">              Lock |- B39   A39 -| +3.3V</span><br><span class="line">      Parity Error |- B40   A40 -| Snoop Done</span><br><span class="line">             +3.3V |- B41   A41 -| Snoop Backoff</span><br><span class="line">      System Error |- B42   A42 -| Ground</span><br><span class="line">             +3.3V |- B43   A43 -| PAR</span><br><span class="line">            C/BE 1 |- B44   A44 -| Address 15</span><br><span class="line">        Address 14 |- B45   A45 -| +3.3V</span><br><span class="line">      M66EN/Ground |- B46   A46 -| Address 13</span><br><span class="line">        Address 12 |- B47   A47 -| Address 11</span><br><span class="line">        Address 10 |- B48   A48 -| Ground</span><br><span class="line">            Ground |- B49   A49 -| Address 9</span><br><span class="line">                   :------:------:</span><br><span class="line">                   :------:------:</span><br><span class="line">         Address 8 |- B52   A52 -| C/BE 0</span><br><span class="line">         Address 7 |- B53   A53 -| +3.3V</span><br><span class="line">             +3.3V |- B54   A54 -| Address 6</span><br><span class="line">         Address 5 |- B55   A55 -| Address 4</span><br><span class="line">         Address 3 |- B56   A56 -| Ground</span><br><span class="line">            Ground |- B57   A57 -| Address 2</span><br><span class="line">         Address 1 |- B58   A58 -| Address 0</span><br><span class="line">            +5 I/O |- B59   A59 -| +V I/O</span><br><span class="line">Acknowledge 64-bit |- B60   A60 -| Request 64-bit</span><br><span class="line">               +5V |- B61   A61 -| +5V</span><br><span class="line">               +5V |- B62   A62 -| +5V</span><br><span class="line">                   :------:------:</span><br><span class="line">                   :------:------:</span><br><span class="line">          Reserved |- B63   A63 -| Ground</span><br><span class="line">            Ground |- B64   A64 -| C/BE 7</span><br><span class="line">            C/BE 6 |- B65   A65 -| C/BE 5</span><br><span class="line">            C/BE 4 |- B66   A66 -| +V I/O</span><br><span class="line">            Ground |- B67   A67 -| Parity 64-bit</span><br><span class="line">        Address 63 |- B68   A68 -| Address 62</span><br><span class="line">         Address 61|- B69   A69 -| Ground</span><br><span class="line">            +V I/O |- B70   A70 -| Address 60</span><br><span class="line">        Address 59 |- B71   A71 -| Address 58</span><br><span class="line">        Address 57 |- B72   A72 -| Ground</span><br><span class="line">            Ground |- B73   A73 -| Address 56</span><br><span class="line">        Address 55 |- B74   A74 -| Address 54</span><br><span class="line">        Address 53 |- B75   A75 -| +V I/O</span><br><span class="line">            Ground |- B76   A76 -| Address 52</span><br><span class="line">        Address 51 |- B77   A77 -| Address 50</span><br><span class="line">        Address 49 |- B78   A78 -| Ground</span><br><span class="line">            +V I/O |- B79   A79 -| Address 48</span><br><span class="line">        Address 47 |- B80   A80 -| Address 46</span><br><span class="line">        Address 45 |- B81   A81 -| Ground</span><br><span class="line">            Ground |- B82   A82 -| Address 44</span><br><span class="line">        Address 43 |- B83   A83 -| Address 42</span><br><span class="line">        Address 41 |- B84   A84 -| +V I/O</span><br><span class="line">            Ground |- B85   A85 -| Address 40</span><br><span class="line">        Address 39 |- B86   A86 -| Address 38</span><br><span class="line">        Address 37 |- B87   A87 -| Ground</span><br><span class="line">            +V I/O |- B88   A88 -| Address 36</span><br><span class="line">        Address 35 |- B89   A89 -| Address 34</span><br><span class="line">        Address 33 |- B90   A90 -| Ground</span><br><span class="line">            Ground |- B91   A91 -| Address 32</span><br><span class="line">          Reserved |- B92   A92 -| Reserved</span><br><span class="line">          Reserved |- B93   A93 -| Ground</span><br><span class="line">            Ground |- B94   A94 -| Reserved</span><br><span class="line">                   :------:------:</span><br><span class="line">                   </span><br><span class="line">                   </span><br></pre></td></tr></table></figure>
+<h2 id="4-A面和B面"><a href="#4-A面和B面" class="headerlink" title="4:A面和B面"></a>4:A面和B面</h2><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20240329205356.png" alt=""></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">PCI Universal Card 32/64 bit </span><br><span class="line">  ---------------------------------------------------------------- </span><br><span class="line"> |    PCI         Component Side (side B)                         | </span><br><span class="line"> |                                                                | </span><br><span class="line"> |                                                                | </span><br><span class="line"> |                                                optional        | </span><br><span class="line"> |    ____     mandatory 32-bit pins            64-bit pins  _____| </span><br><span class="line"> |___|    |||||||--|||||||||||||||||--|||||||--|||||||||||||| </span><br><span class="line">          ^     ^  ^               ^  ^     ^  ^            ^ </span><br><span class="line">        b01   b11  b14           b49  b52 b62  b63          b94 </span><br><span class="line"></span><br><span class="line">PCI 5V Card 32/64 bit </span><br><span class="line"> |                                                optional        | </span><br><span class="line"> |    ____     mandatory 32-bit pins            64-bit pins  _____| </span><br><span class="line"> |___|    ||||||||||||||||||||||||||--|||||||--|||||||||||||| </span><br><span class="line"></span><br><span class="line">PCI 3.3V Card 32/64 bit </span><br><span class="line"> |                                                optional        | </span><br><span class="line"> |    ____     mandatory 32-bit pins            64-bit pins  _____| </span><br><span class="line"> |___|    |||||||--||||||||||||||||||||||||||--|||||||||||||| </span><br></pre></td></tr></table></figure>
+<h1 id="每日好图"><a href="#每日好图" class="headerlink" title="每日好图"></a>每日好图</h1><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/116462517_p0_master1200.jpg" alt=""></p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/116462517_p1_master1200.jpg" alt=""></p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/116462517_p2_master1200.jpg" alt=""></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>水酱
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/03/29/PCI%E6%80%BB%E7%BA%BF%E5%BC%95%E8%84%9A%E5%AE%9A%E4%B9%89/" title="PCI总线 引脚定义">http://example.com/2024/03/29/PCI总线引脚定义/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/%E6%80%BB%E7%BA%BF/" rel="tag"># 总线</a>
+              <a href="/tags/PCI-bus/" rel="tag"># PCI bus</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/02/07/%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80%E5%80%BC0.1uf%E5%92%8C1uf%E7%9A%84%E6%BB%A4%E6%B3%A2%E5%8C%BA%E5%88%AB/" rel="prev" title="不同电容的滤波典型值">
+      <i class="fa fa-chevron-left"></i> 不同电容的滤波典型值
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%EF%BC%9A%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%E7%9A%84%E9%93%BE%E6%8E%A5"><span class="nav-number">1.</span> <span class="nav-text">1：参考资料的链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%9B%BE%E7%89%87%E8%AF%B4%E6%98%8E"><span class="nav-number">2.</span> <span class="nav-text">2:   图片说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%EF%BC%9APCI%E6%96%87%E5%AD%97%E8%AF%B4%E6%98%8E"><span class="nav-number">3.</span> <span class="nav-text">3：PCI文字说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-A%E9%9D%A2%E5%92%8CB%E9%9D%A2"><span class="nav-number">3.1.</span> <span class="nav-text">4:A面和B面</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AF%8F%E6%97%A5%E5%A5%BD%E5%9B%BE"><span class="nav-number">4.</span> <span class="nav-text">每日好图</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="水酱"
+      src="/images/%E6%B3%A5%E5%B2%A9.jpg">
+  <p class="site-author-name" itemprop="name">水酱</p>
+  <div class="site-description" itemprop="description">朝闻道夕可死矣 </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shuihuo14004" title="GitHub主页 → https:&#x2F;&#x2F;github.com&#x2F;shuihuo14004" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1400476531@qq.com" title="E-Mail → mailto:1400476531@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/8261035" title="bilibili空间 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;8261035" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>bilibili空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_32419593?spm=1001.2101.3001.5343" title="CSDN主页 → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_32419593?spm&#x3D;1001.2101.3001.5343" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>CSDN主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://home.cnblogs.com/u/ashuiSIA" title="博客园 → https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;ashuiSIA" rel="noopener" target="_blank"><i class="fab fa-usb fa-fw"></i>博客园</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.dianyuan.com/" title="电源网 → https:&#x2F;&#x2F;www.dianyuan.com&#x2F;" rel="noopener" target="_blank"><i class="fa-gear fa-fw"></i>电源网</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.baidu.com/" title="https:&#x2F;&#x2F;www.baidu.com&#x2F;" rel="noopener" target="_blank">百度</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.google.com.hk/webhp?hl=zh-CN&sourceid=cnhp" title="http:&#x2F;&#x2F;www.google.com.hk&#x2F;webhp?hl&#x3D;zh-CN&amp;sourceid&#x3D;cnhp" rel="noopener" target="_blank">谷歌</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zdzn.net/" title="https:&#x2F;&#x2F;www.zdzn.net&#x2F;" rel="noopener" target="_blank">ZDZN</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://stackoverflow.com/" title="https:&#x2F;&#x2F;stackoverflow.com&#x2F;" rel="noopener" target="_blank">stackoverflow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.runoob.com/cplusplus/cpp-tutorial.html" title="https:&#x2F;&#x2F;www.runoob.com&#x2F;cplusplus&#x2F;cpp-tutorial.html" rel="noopener" target="_blank">菜鸟教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://search.chongbuluo.com/" title="https:&#x2F;&#x2F;search.chongbuluo.com&#x2F;" rel="noopener" target="_blank">快搜（搜索神器）</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://leiblog.wang/" title="https:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">LeiWang1999</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+<div id="music163player">
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=86 src="//music.163.com/outchain/player?type=2&id=1444528563&auto=1&height=66">
+
+
+    </iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">阿水</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

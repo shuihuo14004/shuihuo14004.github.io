@@ -168,6 +168,145 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/19/PCI9054%E7%9A%84%E7%9B%B8%E5%85%B3%E6%BA%90%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="水酱">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/19/PCI9054%E7%9A%84%E7%9B%B8%E5%85%B3%E6%BA%90%E7%A0%81/" class="post-title-link" itemprop="url">PCI9054</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-19 21:19:53" itemprop="dateCreated datePublished" datetime="2023-08-19T21:19:53+08:00">2023-08-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-29 20:35:07" itemprop="dateModified" datetime="2023-10-29T20:35:07+08:00">2023-10-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/FPGA/" itemprop="url" rel="index"><span itemprop="name">FPGA</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>[TOC]</p>
+<h1 id="1：PCI9054的FPGA侧（local侧引脚定义）"><a href="#1：PCI9054的FPGA侧（local侧引脚定义）" class="headerlink" title="1：PCI9054的FPGA侧（local侧引脚定义）"></a>1：PCI9054的FPGA侧（local侧引脚定义）</h1><p>而PCI9054的本地总线端的主要管脚信号定义如下表所示。这些管脚是连接到本地逻辑控制电路部分的，并由本地逻辑控制电路部分实现接口时序控制。</p>
+<p>本组信号引脚主要用于PCI9054与Local端的连接，主要信号包括LA[31:2]、LD[3 1:0]、LHOLD、LHOLDA、ADS#、LCLK、LBE[3:0]#、LW/R#、READY#、WAIT#、BLAST#等。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>引脚</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CCS#</td>
+<td>配置寄存器片选。低电平有效时，选中的是PCI9054的内部寄存器，Local端可以通过此方法配置寄存器。</td>
+</tr>
+<tr>
+<td>LCLK:</td>
+<td>Local端的时钟输入，是Local端处理器与PCI9054之间的同步信号，如果没有此信号，PCI插卡将不能启动。</td>
+</tr>
+<tr>
+<td>LINT#</td>
+<td>:本地中断信号。作为输入时可以引起PCI 中断，作为输出时，可以通过改写中断寄存器INTCSR的内容来改变中断状态。</td>
+</tr>
+<tr>
+<td>LRESETo#:</td>
+<td>Local端复位信号。当PC19054复位（RST#有效）时此信号有效，可以用来复位本地处理器。</td>
+</tr>
+<tr>
+<td>LA[31:2]:</td>
+<td>本地地址信号。代表物理地址的高30Bit，突发传输时可以自动增加表明一个连续的数据周期。</td>
+</tr>
+<tr>
+<td>LW/R#:</td>
+<td>Local端的读写复用信号，低电平为读，高电平为写。</td>
+</tr>
+<tr>
+<td>READY#:</td>
+<td>输入/输出准备好信号，表示总线上数据有效或写数据完成，用以连接PCI9054等待状态产生器。</td>
+</tr>
+<tr>
+<td>ADS#:</td>
+<td>地址有效信号。表明LA[31:2]上的地址有效以及一个新的总线交易的开始，在第一个时钟周期内有效。</td>
+</tr>
+<tr>
+<td>BLAST#:</td>
+<td>突发结束。表明总线访问的最后一次传送，由本地总线主设备驱动。</td>
+</tr>
+<tr>
+<td>BTERM#:</td>
+<td>突发中止。用于中止一个突发传输并启动一个新的总线交易。</td>
+</tr>
+<tr>
+<td>MODE[1:0]:</td>
+<td>总线工作模式选择。</td>
+</tr>
+</tbody>
+</table>
+</div>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/08/19/PCI9054%E7%9A%84%E7%9B%B8%E5%85%B3%E6%BA%90%E7%A0%81/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/11/%E5%B7%B2%E8%A7%A3%E5%AF%86_20.%E5%9F%BA%E4%BA%8EFPGA%E7%9A%84%E7%94%B5%E7%81%AB%E8%8A%B1%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%9D%BF%E5%8D%A1%E8%AE%BE%E8%AE%A1-%E7%89%9B%E6%B7%BC-%E5%8C%97%E4%BA%AC%E5%B8%82%E7%94%B5%E5%8A%A0%E5%B7%A5%E7%A0%94%E7%A9%B6%E6%89%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%20-%20hh-fix/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -902,107 +1041,6 @@ R_{noise}&=\frac{V_{gnd}}{V_{s}}=\frac{nL}{Z_{0}T_{r}}\\
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/07/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90%E5%85%83%E5%99%A8%E4%BB%B6%E9%80%89%E5%9E%8B%E9%97%AE%E7%AD%94%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
-      <meta itemprop="name" content="水酱">
-      <meta itemprop="description" content="朝闻道夕可死矣 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello World by 阿水">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/04/07/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90%E5%85%83%E5%99%A8%E4%BB%B6%E9%80%89%E5%9E%8B%E9%97%AE%E7%AD%94%E5%BD%95/" class="post-title-link" itemprop="url">开关电源选型问答录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-04-07 23:15:11" itemprop="dateCreated datePublished" datetime="2023-04-07T23:15:11+08:00">2023-04-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-19 01:36:08" itemprop="dateModified" datetime="2023-04-19T01:36:08+08:00">2023-04-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/" itemprop="url" rel="index"><span itemprop="name">开关电源</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>原视频</p>
-<iframe src="//player.bilibili.com/player.html?aid=440625551&bvid=BV1ZL41117CY&cid=1045648056&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" height="400"> </iframe>
-
-<p>问题1</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>问</th>
-<th>看到了一个$GAN$和$SIC$相比有什么优势呢？什么时候能普及，什么时候能普及。</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>答</td>
-<td>$GAN$是完全没有反应恢复电流的。$sic$是有的,它更容易实现。更高的电压但是它同样会有反应恢复。但是这个反向恢复可以忽略。<br>另外$GAN$没有体二极管，解决了续流问题，此问题在全桥和半桥中很常见，这就是我们为什么要留死需时间的。</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>问题2</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/04/07/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90%E5%85%83%E5%99%A8%E4%BB%B6%E9%80%89%E5%9E%8B%E9%97%AE%E7%AD%94%E5%BD%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1074,20 +1112,20 @@ R_{noise}&=\frac{V_{gnd}}{V_{s}}=\frac{nL}{Z_{0}T_{r}}\\
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
