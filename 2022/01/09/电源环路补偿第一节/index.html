@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzbvpxypqj309906labr.jpg">
 <meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzh9q1rjij30kb09awik.jpg">
 <meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzhbbn1wkj30l80bwwhb.jpg">
-<meta property="og:image" content="http://tva1.sinaimg.cn/large/005Q1GhGgy1gxzhnq465hj30nx08d75n.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzhnq465hj30nx08d75n.jpg">
 <meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy0bdcppupj30jq07tjss.jpg">
 <meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy0cdgd5opj30ci04yt97.jpg">
 <meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy1qlfr6dwj30w90jltc8.jpg">
@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy6o73mqkaj30nc0go0yn.jpg">
 <meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gy78thmgj6j30f60dhjtf.jpg">
 <meta property="article:published_time" content="2022-01-09T03:28:54.000Z">
-<meta property="article:modified_time" content="2023-03-27T14:51:36.012Z">
+<meta property="article:modified_time" content="2024-03-29T13:15:07.372Z">
 <meta property="article:author" content="水酱">
 <meta property="article:tag" content="开关电源">
 <meta property="article:tag" content="学习笔记">
@@ -216,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-27 22:51:36" itemprop="dateModified" datetime="2023-03-27T22:51:36+08:00">2023-03-27</time>
+                <time title="修改时间：2024-03-29 21:15:07" itemprop="dateModified" datetime="2024-03-29T21:15:07+08:00">2024-03-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -296,8 +296,7 @@
 </table>
 </div>
 <p>​        其实$K_{FB}$是一个直流缩放因子（电阻分压器），如果必需考虑其非理想等效模式（LRC模型）则将其作为$K_{EA}$的一部分。<br>​        如图2所示为整个稳压调节器的反馈框图。</p>
-<div align=center><img src="http://tva1.sinaimg.cn/large/005Q1GhGgy1gxzhnq465hj30nx08d75n.jpg" width="800"></div>
-
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGgy1gxzhnq465hj30nx08d75n.jpg" alt=""></p>
 <center>图2</center>
 
 
@@ -305,7 +304,7 @@
 <p>显然，现在可以将整个传递函数写成式(1)∶</p>
 <script type="math/tex; mode=display">
 \begin{align}
-$T_{V}\left ( s \right ) =\frac{V_{OUT}}{V_{REF}} =K_{FB}\times K_{EA} \left ( s \right ) \times K_{PWM} \left ( s \right )\times K_{LC} \left ( s \right )  \tag{1}
+T_{V}\left ( s \right ) =\frac{V_{OUT}}{V_{REF}} =K_{FB}\times K_{EA} \left ( s \right ) \times K_{PWM} \left ( s \right )\times K_{LC} \left ( s \right )  \tag{1}
 
 \end{align}</script><p>其中$K_{EA} \left ( s \right )$和$K_{LC} \left ( s \right )$对频率敏感，其中$s$为拉普拉斯算子，总体传递函数是与频率相关的。这样允许在频域中将分量转换成阻抗。同时$K_{PWM}$的开关周期为独立设定，而$K_{FB}$为比例方法。</p>
 <h3 id="1-1-反馈网络增益-K-FB"><a href="#1-1-反馈网络增益-K-FB" class="headerlink" title="1.1 反馈网络增益$K_{FB}$"></a>1.1 反馈网络增益$K_{FB}$</h3><p>​        反馈网络增益$K_{FB}$模块决定了参考电压和输出电压之间的比例关系。通常来说，我们希望这种关系是一个固定的值。因此，通常只用一个电阻分压器来实现，我们唯一关心的是它的 比例DC值。<br>​        无论$V_{OUT}$如何变化，迫使反馈点（求和点）维持在参考值。在反馈点没有电压变化的情况下，通过分压器下端电阻的电流无变化，站在频率的角度其有效数值为无限大。而在分压器中，最重要的是上端电阻，因为除了输出电压检测之外，它的阻抗将成为补偿网络的一部分。</p>
@@ -596,20 +595,20 @@ H(s)G(s)=K_{EA}\times K_{PWM}\times \frac{\frac{1}{LC}}{s^{2}+\frac{s}{RC}+\frac
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-count">54</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
