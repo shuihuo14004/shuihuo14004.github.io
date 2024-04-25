@@ -168,6 +168,371 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/09/%E7%94%B5%E6%BA%90%E7%8E%AF%E8%B7%AF%E8%A1%A5%E5%81%BF%E7%AC%AC%E4%BA%8C%E8%8A%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="水酱">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/09/%E7%94%B5%E6%BA%90%E7%8E%AF%E8%B7%AF%E8%A1%A5%E5%81%BF%E7%AC%AC%E4%BA%8C%E8%8A%82/" class="post-title-link" itemprop="url">推挽电源的环路第二节</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-09 11:28:54" itemprop="dateCreated datePublished" datetime="2022-01-09T11:28:54+08:00">2022-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-27 22:47:27" itemprop="dateModified" datetime="2023-03-27T22:47:27+08:00">2023-03-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/" itemprop="url" rel="index"><span itemprop="name">开关电源</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="环路补偿示例-例子"><a href="#环路补偿示例-例子" class="headerlink" title="环路补偿示例(例子)"></a>环路补偿示例(例子)</h2><p>为了说明使用Ⅲ型补偿方案的设计过程，以电压模式、CCM模式的Buck非隔离变换器为例。变换器相关规格如下</p>
+<script type="math/tex; mode=display">
+V_{IN}=3.3V(3.6V_{MAX})  \\</script><script type="math/tex; mode=display">
+V_{OUT}=1.2V\\</script><script type="math/tex; mode=display">
+最大负载电流10A\\</script><script type="math/tex; mode=display">
+开关频率f=600kHz\\</script><script type="math/tex; mode=display">
+V_{Re}=700mV \\</script><script type="math/tex; mode=display">
+PWM斜坡电压V=1.0V \\</script><script type="math/tex; mode=display">
+电感 L=0.68μH \\</script><script type="math/tex; mode=display">
+输出电容C=470μF \\</script><script type="math/tex; mode=display">
+电容 ESR_{max}=10m\\</script><script type="math/tex; mode=display">
+误差放大器增益带宽积GBW=5MHz</script><p>首先，需要定义PWM级的增益</p>
+<script type="math/tex; mode=display">
+K_{PWM}=\frac{V_{IN}}{V_{P}}=\frac{3.6}{1}=3.6=11dB</script><p>接下来，将双极点的位置置于输出端滤波器的截止频率处</p>
+<script type="math/tex; mode=display">
+f_{DP}=\frac{1}{2π\sqrt{LC_{o}}}</script><p>​        事实上，还需要考虑输出电容的等效串联电阻（ESR），另外还有许多寄生参数会影响元件的性能。例如，电感绕组中存在串联的直流电阻和并联电容，而输出电容也会包含一些小的串联电感，但是对于这一层面的分析，其中大部分通常可以忽略不计。<br>​        但是，电容的ESR是一个例外，因为我们很快就会看到，它足够大并可能影响我们感兴趣的频率范围内的性能。请注意，元器件制造商经常对这个数的定义并不明确，并且以非常保守的最大值作为指定值并写入规格书中同时 ESR具有一个负温度系数，所以应该考虑最低温度下的情况。<br>​        因此，我们通常必须进行假设，ESR可以具有从0到最大最坏情况值的任何值，在本例中可以高达10mΩ。因此，这个电容ESR会引入一个零点，从而在如下频率处增加滤波器的增益∶</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/09/%E7%94%B5%E6%BA%90%E7%8E%AF%E8%B7%AF%E8%A1%A5%E5%81%BF%E7%AC%AC%E4%BA%8C%E8%8A%82/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/17/%E6%95%B0%E6%8D%AE%E6%8B%BC%E6%8E%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="水酱">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/17/%E6%95%B0%E6%8D%AE%E6%8B%BC%E6%8E%A5/" class="post-title-link" itemprop="url">数据凭借与拆分</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-17 08:58:29" itemprop="dateCreated datePublished" datetime="2021-12-17T08:58:29+08:00">2021-12-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-27 23:07:40" itemprop="dateModified" datetime="2023-03-27T23:07:40+08:00">2023-03-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/" itemprop="url" rel="index"><span itemprop="name">开关电源</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1数据拆分"><a href="#1数据拆分" class="headerlink" title="1数据拆分"></a>1数据拆分</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> u8;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">double</span> f64;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> u64;</span><br><span class="line"></span><br><span class="line"><span class="comment">//拆分数据</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dataSplit</span><span class="params">(f64 data,u8 *buf)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">8</span>;i++)</span><br><span class="line">        buf[i]=(*((u8 *)(&amp;data)+i));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>(&amp;data)取出原始数据data的地址<br>(u8 <em>)(&amp;data)，用一个u8(即unsigned char)型指针指向这个地址<br>((u8 </em>)(&amp;data)+i)，指针加减法会移动指向位置，这里按u8长度为一个单位进行移动，从而依次指向原始数据中的每一段u8数据<br>(<em>((u8 </em>)(&amp;data)+i))，将这个指针的值取出，也就是取出了原始数据中的每一段u8数据的值</p>
+<h1 id="2数据整合"><a href="#2数据整合" class="headerlink" title="2数据整合"></a>2数据整合</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//拼接数据</span></span><br><span class="line"><span class="function">f64 <span class="title">dataAssmeble</span><span class="params">(u8 *buf)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    u64 temp=buf[<span class="number">8</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">6</span>;i&gt;=<span class="number">0</span>;i--)</span><br><span class="line">    &#123;temp=(temp&lt;&lt;<span class="number">8</span>)|buf[i];&#125;</span><br><span class="line"></span><br><span class="line">    f64 *data=(f64*)(&amp;temp);</span><br><span class="line">    <span class="keyword">return</span> *data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/17/%E6%95%B0%E6%8D%AE%E6%8B%BC%E6%8E%A5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/09/%E7%94%B5%E5%AE%B9%E6%94%BE%E7%94%B5%E7%89%B9%E6%80%A7%E5%88%86%E6%9E%90%CF%84=RC%E7%9A%84%E6%8E%A8%E5%AF%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="水酱">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/09/%E7%94%B5%E5%AE%B9%E6%94%BE%E7%94%B5%E7%89%B9%E6%80%A7%E5%88%86%E6%9E%90%CF%84=RC%E7%9A%84%E6%8E%A8%E5%AF%BC/" class="post-title-link" itemprop="url">电容放电速度分析，τ=RC</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-09 17:40:00" itemprop="dateCreated datePublished" datetime="2021-12-09T17:40:00+08:00">2021-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-27 22:41:55" itemprop="dateModified" datetime="2023-03-27T22:41:55+08:00">2023-03-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/" itemprop="url" rel="index"><span itemprop="name">开关电源</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-定性分析："><a href="#1-定性分析：" class="headerlink" title="1 定性分析："></a>1 定性分析：</h1><p>如图1为超级电容放电电路 </p>
+<div align="center">
+<img src="https://img-blog.csdnimg.cn/img_convert/f360ea18dda461638116253b8dfb0796.png">
+    </div>
+
+
+
+
+
+<script type="math/tex; mode=display">
+图1  超级电容放电电路</script><p> 如图1所示此时公式为</p>
+<p>$\begin{cases}  &amp; \text{  } R+  R_{S}=U_{c}(t) \\  &amp; \text{  } I=c \frac{dU_{c}}{dt}\end{cases}$<br>此时初始时刻的状态为</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/09/%E7%94%B5%E5%AE%B9%E6%94%BE%E7%94%B5%E7%89%B9%E6%80%A7%E5%88%86%E6%9E%90%CF%84=RC%E7%9A%84%E6%8E%A8%E5%AF%BC/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/05/QT%E6%A1%86%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="水酱">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/05/QT%E6%A1%86%E6%9E%B6/" class="post-title-link" itemprop="url">QT的pro文件讲解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-05 15:30:29" itemprop="dateCreated datePublished" datetime="2021-12-05T15:30:29+08:00">2021-12-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-17 14:14:03" itemprop="dateModified" datetime="2022-01-17T14:14:03+08:00">2022-01-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/QT%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index"><span itemprop="name">QT框架</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="QT主文件框架"><a href="#QT主文件框架" class="headerlink" title="QT主文件框架"></a>QT主文件框架</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;     <span class="comment">//实例化QT对象</span></span><br><span class="line">    MainWindow w;                   <span class="comment">//用户界面</span></span><br><span class="line">    w.<span class="built_in">show</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> a.<span class="built_in">exec</span>();                <span class="comment">//消息循环 阻塞式 不退出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="框架说明"><a href="#框架说明" class="headerlink" title="框架说明"></a>框架说明</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>初始化：每个QT程序都有一个QApplication对象，用于QT GUI的示例化，前端QT都有这个对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>QT界面显示对象MainWindow</td>
+</tr>
+<tr>
+<td>3</td>
+<td>主事件循环：a.exec（）是每个QT应用程序都要调用的函数。程序运行停在这里等待外部事件（外部用户的任何动作）</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/05/QT%E7%9A%84pro%E6%96%87%E4%BB%B6%E8%AE%B2%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -723,168 +1088,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/27/wai/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
-      <meta itemprop="name" content="水酱">
-      <meta itemprop="description" content="朝闻道夕可死矣 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello World by 阿水">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/11/27/wai/" class="post-title-link" itemprop="url">泥岩</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-11-27 00:04:47" itemprop="dateCreated datePublished" datetime="2021-11-27T00:04:47+08:00">2021-11-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-27 23:14:20" itemprop="dateModified" datetime="2023-03-27T23:14:20+08:00">2023-03-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%80%81%E5%A9%86/" itemprop="url" rel="index"><span itemprop="name">老婆</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>我们年轻漂亮的萨卡兹大姑娘</p>
-<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gwt01s2pdij30nx0xc10a.jpg" alt=""><br><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gwt01rxcnlj30ol0xcn82.jpg" alt=""><br><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gwt01s0d1xj30li0xc44b.jpg" alt=""><br><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gwszw3fms3j30p00xcthz.jpg" alt=""><br><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gwt01s9q81j30xc0gon4v.jpg" alt=""><br><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gwszviprxtj30ls0xctka.jpg" alt=""></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/26/%E7%A0%94%E7%A9%B6%E7%94%9F%E9%98%B6%E6%AE%B5%E7%AE%80%E5%8E%86%20%E4%BF%9D%E7%95%99/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
-      <meta itemprop="name" content="水酱">
-      <meta itemprop="description" content="朝闻道夕可死矣 ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello World by 阿水">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/11/26/%E7%A0%94%E7%A9%B6%E7%94%9F%E9%98%B6%E6%AE%B5%E7%AE%80%E5%8E%86%20%E4%BF%9D%E7%95%99/" class="post-title-link" itemprop="url">转行之路</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-11-26 23:07:28" itemprop="dateCreated datePublished" datetime="2021-11-26T23:07:28+08:00">2021-11-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-27 23:11:40" itemprop="dateModified" datetime="2023-03-27T23:11:40+08:00">2023-03-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B1%82%E8%81%8C%E7%AE%80%E5%8E%86/" itemprop="url" rel="index"><span itemprop="name">求职简历</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="研究生阶段证书"><a href="#研究生阶段证书" class="headerlink" title="研究生阶段证书"></a>研究生阶段证书</h1><h2 id="FPGA初级"><a href="#FPGA初级" class="headerlink" title="FPGA初级"></a>FPGA初级</h2><center><img src=" https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gwsz6w5ycuj32pg1wwdpg.jpg" width="60%"></center>
-
-<h2 id="大创"><a href="#大创" class="headerlink" title="大创"></a>大创</h2><center><img src=" https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/005Q1GhGly1gwsz9hqoorj30g10mn173.jpg" width="60%"></center>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/11/26/%E7%A0%94%E7%A9%B6%E7%94%9F%E9%98%B6%E6%AE%B5%E7%AE%80%E5%8E%86%20%E4%BF%9D%E7%95%99/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -952,7 +1159,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -965,7 +1172,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-count">56</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
