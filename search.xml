@@ -257,6 +257,144 @@ QT电力系统软件截图</script><p>该程序的目的是基于CAN通信管理
       </tags>
   </entry>
   <entry>
+    <title>功率电感设计方法2:实例</title>
+    <url>/2024/05/26/%E5%8A%9F%E7%8E%87%E7%94%B5%E6%84%9F%E8%AE%BE%E8%AE%A1%E6%89%8B%E8%AE%B0%EF%BC%88%E5%AE%9E%E4%BE%8B%EF%BC%89/</url>
+    <content><![CDATA[<p>[TOC]</p>
+<p><a href="https://www.mag-inc.com/Media/Magnetics/File-Library/Product%20Literature/Powder%20Core%20Literature/Magnetics-Powder-Core-Catalog-2017_CN_web.pdf">参考手册链接</a></p>
+<h1 id="1：美磁的选项手册截图"><a href="#1：美磁的选项手册截图" class="headerlink" title="1：美磁的选项手册截图"></a>1：美磁的选项手册截图</h1><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240526173925.png" alt=""></p>
+<script type="math/tex; mode=display">
+图1</script><h1 id="2：设计步骤"><a href="#2：设计步骤" class="headerlink" title="2：设计步骤"></a>2：设计步骤</h1><h2 id="2-1：设计需求"><a href="#2-1：设计需求" class="headerlink" title="2.1：设计需求"></a>2.1：设计需求</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">电感值</th>
+<th style="text-align:center">电流值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$L=0.6mH$</td>
+<td style="text-align:center">$5A$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="2-2-选择磁芯材料"><a href="#2-2-选择磁芯材料" class="headerlink" title="2.2:选择磁芯材料"></a>2.2:选择磁芯材料</h2><p>用 $kool MU$材料</p>
+<h2 id="2-3：选择磁芯"><a href="#2-3：选择磁芯" class="headerlink" title="2.3：选择磁芯"></a>2.3：选择磁芯</h2><p>根据$IL^{2}=15mHA^{2}$来定磁芯，在图$2$中找。确定为$77083$</p>
+<p><div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240526174536.png" height="400" /></p>
+<script type="math/tex; mode=display">
+图2</script><h2 id="2-4-查询-A-L-自感系数"><a href="#2-4-查询-A-L-自感系数" class="headerlink" title="2.4 查询$A_{L}$自感系数"></a>2.4 查询$A_{L}$自感系数</h2><p>查询自感系数时，注意有浮动，见图$3$。自感系数为$A_{L}=81\times 0.92= 74.5\frac{nH}{T^{2}}  $</p>
+<p><div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240526175252.png" height="800" /></p>
+<script type="math/tex; mode=display">
+图3</script><h2 id="2-5-初算匝数"><a href="#2-5-初算匝数" class="headerlink" title="2.5 初算匝数"></a>2.5 初算匝数</h2><p>根据$L=A_{L} \times N^{2}$可得  $N=90$：</p>
+<p>为在空载条件下得到$600 μH$的电感值，匝数应为90。计算满载时所需的匝数，确定直流偏置水平：$H= N·I/le= A·T/cm$，其中：$l_{e}$为磁路长度，单位为cm。当直流偏置为$45.7 A·T/cm$时，通过图$4$的60μ Kool Mμ直流偏置曲线，可得到磁导率为初始磁导率的71%。调整后的匝数为$90/0.71 =127$。</p>
+<p><div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240526180516.png" height="400" /></p>
+<script type="math/tex; mode=display">
+图4</script><h2 id="2-6重新校准验算感量"><a href="#2-6重新校准验算感量" class="headerlink" title="2.6重新校准验算感量"></a>2.6重新校准验算感量</h2><p>重新计算直流偏置水平$H= N·I/le= A·T/cm$：可得$\frac{128\cdot 5}{98.4} =64.5$，</p>
+<p>　<font color='red'> 注意，datasheet给的磁路长度是mm（毫米），实际计算是cm（厘米） </font></p>
+<p>从磁导 vs直流偏置曲线看出，直流偏置水平为初始磁导率的57%，即64.5 A·T/cm。</p>
+<p>将最小AL值74.6nH/T2乘以0.57，计算出的有效AL值为42.5nH/T2。该磁芯匝数为127，直流偏置水平为64.5 A·T/cm，对应的最小电感值为685μH。可以达到期望的电感值。</p>
+<script type="math/tex; mode=display">
+L=A_{L}\cdot N^{2}=74.6\cdot 0.57\cdot (127)^2=685 \mu H</script><h1 id="3：后续-绕线因子"><a href="#3：后续-绕线因子" class="headerlink" title="3：后续 绕线因子"></a>3：后续 绕线因子</h1><p>从绕线表中可看出，当选择电流容量为500A/cm2时，需选择至少17AWG号线来加载5.0A的电流。用17AWG号线(导线截面积为1.177 mm2)绕127圈。绕线面积为149.5 mm2。0077083A7的窗口面积为427 mm2。计算窗口填充率，149.5 mm2/427 mm2所得绕线因子约为35%。127匝17 AWG绕线的0077083A7磁芯是一个适用于生产的电感设计。</p>
+<h1 id="4：日常壁纸分享"><a href="#4：日常壁纸分享" class="headerlink" title="4：日常壁纸分享"></a>4：日常壁纸分享</h1><p><div align=center><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240526182440.png" height="400" /></p>
+]]></content>
+      <categories>
+        <category>电源</category>
+      </categories>
+      <tags>
+        <tag>电感</tag>
+        <tag>电源</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>功率电感设计方法1:理论基础</title>
+    <url>/2024/05/26/%E5%8A%9F%E7%8E%87%E7%94%B5%E6%84%9F%E8%AE%BE%E8%AE%A1%E6%89%8B%E8%AE%B0%EF%BC%88%E7%A3%81%E7%B2%89+%E9%93%81%E6%B0%A7%E4%BD%93%EF%BC%89/</url>
+    <content><![CDATA[<p>[TOC]</p>
+<p><a href="https://www.bilibili.com/video/BV1Qi4y1k72Q/?spm_id_from=333.880.my_history.page.click&amp;vd_source=c2be8338d4b678c88b6063b99e6e36de">TI电感设计</a></p>
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=552105151&bvid=BV1Qi4y1k72Q&cid=545214988&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"  height="800" ></iframe>
+
+
+
+
+
+<p>学习视频原链接</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240526141648.png" alt=""></p>
+<script type="math/tex; mode=display">
+截图1</script><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240526153223.png" alt=""></p>
+<script type="math/tex; mode=display">
+截图2</script><h1 id="1：高导磁-气隙（铁氧体）"><a href="#1：高导磁-气隙（铁氧体）" class="headerlink" title="1：高导磁+气隙（铁氧体）"></a>1：高导磁+气隙（铁氧体）</h1><h2 id="1-1设计原理"><a href="#1-1设计原理" class="headerlink" title="1.1设计原理"></a>1.1设计原理</h2><script type="math/tex; mode=display">
+\left.\begin{matrix}
+I_{dc}\cdot  L=B \cdot A_{e}\cdot B_{dc}\\
+I_{dc}\cdot  N=J \cdot A_{w}\cdot k_{u}
+\end{matrix}\right\} \to  A_{w}\cdot A_{e}=\frac{I_{dc}^{2}\cdot L}{ k_{u}\cdot J\cdot B}   
+\\B:磁通密度\\J 电流密度\\K_{u}窗口系数</script><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20240526144916.png" alt=""></p>
+<h2 id="1-2-设计步骤"><a href="#1-2-设计步骤" class="headerlink" title="1.2 设计步骤"></a>1.2 设计步骤</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">1</th>
+<th style="text-align:center">根据磁芯材料确定磁密B（0.2到0.4）最好0.28,  PC40为0.3<br> 根据散热条件，确定电流密度J，最好2.5A/MM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">根据指标（$I$和$L$）,以及给定的$B$和$J$,就可以确定磁芯的面积积（AP法）<br>$ \left.\begin{matrix}I_{dc}\cdot  L=B \cdot A_{e}\cdot B_{dc}\\I_{rms}\cdot  N=J \cdot A_{w}\cdot k_{u}\end{matrix}\right\} \to  A_{w}\cdot A_{e}=\frac{I_{pk}\cdot I_{rms} \cdot L}{ k_{u}\cdot J\cdot B} $  <br><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240526145849.png" alt=""><br>$I_{rms}=\sqrt{I_{dc}^{2}+\bigtriangleup I^{2}\cdot \frac{1}{3} \left ( \sqrt{\left ( 1-D \right ) } +  \sqrt{D}  \right )^{2}  } $<br>$I_{pk}=I_{dc}+\frac{\bigtriangleup I }{2} $</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">根据指标$L$，确定气隙$I_{a}$ ，对应公式$I_{a}=\frac{\mu N^{2}  A_{e}}{L} $，  其中$\mu= \mu_{0}=\left ( 4\cdot \pi \cdot 10^{-7} \right ) \frac{T\cdot m}{A} $:真空磁导率</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">计算匝数$N= \frac{L\cdot I_{pk} }{B_{m}\cdot A_{e}} $。就是后面的表达式2</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">计算磁芯损耗$P_{c}$和绕组损耗$P_{w}$</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">计算温升$\bigtriangleup T= \left ( \frac{P_{t}}{S}  \right )^{0.833} $</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="2-铁粉芯"><a href="#2-铁粉芯" class="headerlink" title="2 铁粉芯"></a>2 铁粉芯</h1><h2 id="2-1：设计原理"><a href="#2-1：设计原理" class="headerlink" title="2.1：设计原理"></a>2.1：设计原理</h2><p>电感是储能$E_{储能}=\frac{1}{2} L\cdot I^{2}=\frac{1}{2} B\cdot H\cdot V_{e}\propto \mu \cdot H^{2}\to \left ( \mu H^{2} \right )= BH $，磁材料储能因子</p>
+<h2 id="2-2：设计步骤"><a href="#2-2：设计步骤" class="headerlink" title="2.2：设计步骤"></a>2.2：设计步骤</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>根据磁粉芯材料特性，选择具有最大磁能积的工作点的磁通密度$B_{d}$<br><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240526154054.png" alt=""></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>根据$I$和$L$，以及选定的$B$和$J$，根据AP法选择磁芯尺寸<br>$A_{w} \cdot A_{e}= \frac{I_{dc}^{2}\cdot L}{ k_{u}\cdot J\cdot B_{d}}$</td>
+</tr>
+<tr>
+<td>3</td>
+<td>确定匝数$N$，并验证电感量<br>表达式1：$L=\frac{\mu N^{2}  A_{e}}{l_{e}}$<br>表达式2：$I\cdot L=B_{d}\cdot N\cdot A_{e}$</td>
+</tr>
+<tr>
+<td>4</td>
+<td>…..</td>
+</tr>
+</tbody>
+</table>
+</div>
+]]></content>
+      <categories>
+        <category>电源</category>
+      </categories>
+      <tags>
+        <tag>电感</tag>
+        <tag>电源</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>脉冲电源的直流斩波板设计注意事项</title>
     <url>/2024/04/25/%E8%84%89%E5%86%B2%E7%94%B5%E6%BA%90%E7%9A%84%E7%9B%B4%E6%B5%81%E6%96%A9%E6%B3%A2%E6%9D%BF%E8%AE%BE%E8%AE%A1%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p><a href="https://rohmfs-rohm-com-cn.oss-cn-shanghai.aliyuncs.com/cn/products/databook/applinote/ic/power/switching_regulator/buck_snubber_app-c.pdf">IC的RC缓冲</a></p>
