@@ -7925,6 +7925,108 @@ C_{OUT}=L\times \frac{ \left ( I_{out max}^{2}-I_{out min}^{2} \right ) }{\left 
       </tags>
   </entry>
   <entry>
+    <title>UC3842</title>
+    <url>/2023/12/30/UC3843%E8%AE%BE%E8%AE%A1%E8%BF%87%E7%A8%8B/</url>
+    <content><![CDATA[<h2 id="设计参数"><a href="#设计参数" class="headerlink" title="设计参数"></a>设计参数</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>输入电压$V_{in}$</th>
+<th>最小值560Vdc，最大值840Vdc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>输出</td>
+<td>$V_{out}$=24V ，$I_{out}$=5A ,  P=120W</td>
+</tr>
+<tr>
+<td>工作频率</td>
+<td>$fs$=100kHZ</td>
+</tr>
+<tr>
+<td>效率</td>
+<td>80%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="设计过程"><a href="#设计过程" class="headerlink" title="设计过程"></a>设计过程</h2><p>变压器的设计就是要找到Ap数值(选择磁芯)，匝数比（电压比例），电感量（反激特色） </p>
+<h3 id="步骤1：计算匝数比"><a href="#步骤1：计算匝数比" class="headerlink" title="步骤1：计算匝数比"></a>步骤1：计算匝数比</h3><p>设匝数比为n，开关电源工作时最大导通占空比为0.5（最大是50%，留一定余量），开关周期为T，频率100kHZ；</p>
+<script type="math/tex; mode=display">
+T=\frac{1}{fs}=1 \times 10^{-5} s
+\\
+T_{onMax}=0.5 \times T=5 \times10^{-6} s</script><p>根据伏秒平衡原则：</p>
+<script type="math/tex; mode=display">
+n= \frac{D_{max} \times V_{inMin}}{(1-D_{max})\times V_{out} }=23.3</script><h3 id="步骤2：最大占空比"><a href="#步骤2：最大占空比" class="headerlink" title="步骤2：最大占空比"></a>步骤2：最大占空比</h3><p>反激电路中最大占空比为0.5，</p>
+<h3 id="步骤3：输入平均电流-I-avg"><a href="#步骤3：输入平均电流-I-avg" class="headerlink" title="步骤3：输入平均电流$I_{avg}$"></a>步骤3：输入平均电流$I_{avg}$</h3><p>满载情况下的输入平均电流$I_{avg}$：</p>
+<script type="math/tex; mode=display">
+I_{avg}=\frac{P_{in}}{V_{inMin}}=0.214A</script><h3 id="步骤4：峰值电流"><a href="#步骤4：峰值电流" class="headerlink" title="步骤4：峰值电流"></a>步骤4：峰值电流</h3><p>输入宽电压范围的情况下，反激电源通常设定在输入低压时，根据能量守恒定理：</p>
+<script type="math/tex; mode=display">
+\frac{1}{2}I_{p}V_{inMin}\times \frac{D_{max}}{1}=\frac{P}{\mu}\\
+I_{p}=1.07A \\设为1.1A</script><h3 id="步骤5：计算变压器初级励磁电感"><a href="#步骤5：计算变压器初级励磁电感" class="headerlink" title="步骤5：计算变压器初级励磁电感"></a>步骤5：计算变压器初级励磁电感</h3><p>由电感公式得：</p>
+<script type="math/tex; mode=display">
+V=L_{p}\frac{di}{dt}\\
+L_{p}=\frac{V_{inMin}\times T_{max}}{I_{p}}=2.5mh</script><h3 id="步骤6：磁芯设计"><a href="#步骤6：磁芯设计" class="headerlink" title="步骤6：磁芯设计"></a>步骤6：磁芯设计</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>窗口填充系数</th>
+<th>$K_{o}$=0.4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>磁芯填充系数</td>
+<td>$K_{c}$=1</td>
+</tr>
+<tr>
+<td>磁通量$B_{w}$</td>
+<td>0.2T</td>
+</tr>
+<tr>
+<td>电流密度$K_{J}$</td>
+<td>400</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>磁芯窗口面积X磁芯截面积=(原边电感量X原边峰值电流平方X104/磁芯工作磁感应强度X窗口有效使用系数X电流密度系数 )。</p>
+<script type="math/tex; mode=display">
+AP=A_{w}A_{e}=(\frac{L_{p}I_{p}^{2}10^{4}}{B_{w}K_{0}K_{J}})^{1.14}=0.9453 cm^{4}
+\\  \\
+Aw为磁芯窗口面积，单位为cm2\\
+
+Ae为磁芯截面积，单位为cm2\\
+
+Lp为原边电感量，单位为H\\
+
+Ip2为原边峰值电流，单位为A\\
+
+Bw为磁芯工作磁感应强度，单位为T\\
+
+K0为窗口有效使用系数，根据安规的要求和输出路数决定，一般为0.2 -  0.4\\
+
+Kj为电流密度系数，一般取395A/cm2\\</script><h3 id="步骤7：确定磁芯"><a href="#步骤7：确定磁芯" class="headerlink" title="步骤7：确定磁芯"></a>步骤7：确定磁芯</h3><p>根据这个Ap值，留个2倍的冗余，根据磁芯规格手册，就选择PQ3220磁芯的磁芯。此时查询磁芯手册，得到该骨架的窗口Aw=80.80和磁芯截面积Ae=170。</p>
+<p>相关参考链接1：<a href="https://www.docin.com/p-2215372092.html">豆丁网：磁芯规格对照表</a></p>
+<p>参考链接2：<a href="【淘宝】https://m.tb.cn/h.U9OwF8G?tk=NpNydfdID5P CZ0001 「磁芯PQ20 PQ2625 PQ3225 PQ3230 PQ3535 PQ40 PQ50配骨架铁氧体」
+点击链接直接打开 或者 淘宝搜索直接打开">淘宝商家截图</a></p>
+<h3 id="步骤8：原边匝数"><a href="#步骤8：原边匝数" class="headerlink" title="步骤8：原边匝数"></a>步骤8：原边匝数</h3><p>为了防止变压器电磁饱和，选取平均最大磁通密度$B_{max}$为0.2T，计算出变压器初级匝数Np为：</p>
+<script type="math/tex; mode=display">
+N_{P}=\frac{V_{inMin}D_{max}}{A_{e}B_{max}f_{s}}=88\\</script><h3 id="步骤7：副边匝数"><a href="#步骤7：副边匝数" class="headerlink" title="步骤7：副边匝数"></a>步骤7：副边匝数</h3><p>通过Nps，得到副边参数为：</p>
+<script type="math/tex; mode=display">
+NS=88/22.3=4</script><h3 id="步骤8：辅助边匝数"><a href="#步骤8：辅助边匝数" class="headerlink" title="步骤8：辅助边匝数"></a>步骤8：辅助边匝数</h3><p>UC3842辅助供电为12V-28V：输出为24V的4匝，则设辅助绕组为3匝。</p>
+]]></content>
+      <categories>
+        <category>变频器</category>
+      </categories>
+      <tags>
+        <tag>电抗器</tag>
+        <tag>滤波器</tag>
+        <tag>变频器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>反激变压器设计</title>
     <url>/2023/10/19/%E5%8F%8D%E6%BF%80%E5%8F%98%E5%8E%8B%E5%99%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%AE%80%E8%A6%81%E8%AF%B4%E6%98%8E/</url>
     <content><![CDATA[<p>配套视频</p>
