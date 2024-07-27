@@ -257,6 +257,217 @@ QT电力系统软件截图</script><p>该程序的目的是基于CAN通信管理
       </tags>
   </entry>
   <entry>
+    <title>痛车V90需求</title>
+    <url>/2024/07/27/V90%E7%97%9B%E8%BD%A6/</url>
+    <content><![CDATA[<h1 id="1：痛车需求目录"><a href="#1：痛车需求目录" class="headerlink" title="1：痛车需求目录"></a>1：痛车需求目录</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>名称</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>风格</td>
+<td>以整体性描述为主，对全车的背景色，氛围，类似风格画师推荐，主题词进行说明，并给出类似例子。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>人物气质</td>
+<td>说明理想中<strong>雷蛇</strong>的人物特点与心理特质，以及要符合我的个人菜单需求。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>彩蛋相关性</td>
+<td>希望在一些线条处添加一些“程序员”和“硬件工程师”彩蛋。并给相关的实例</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="2-风格"><a href="#2-风格" class="headerlink" title="2 风格"></a>2 风格</h1><h2 id="2-1-背景颜色说明"><a href="#2-1-背景颜色说明" class="headerlink" title="2.1 背景颜色说明"></a>2.1 背景颜色说明</h2><p>以黑色为背景色，尽可能以黑（背景色）+蓝（雷蛇）+为主要色调。可以有大量的留白处理。</p>
+<p>相关示例1：下方图片中迷迭香奥迪痛车为参考，基于黑色有大量的留白处理。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/Cache_-78a5e60891b8a027.jpg" alt=""></p>
+<p>图1</p>
+<p>相关示例2：黑钢风格PPT</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240727215748.png" alt=""></p>
+<h3 id="2-2-背景色片参考（见附件visio）"><a href="#2-2-背景色片参考（见附件visio）" class="headerlink" title="2.2 背景色片参考（见附件visio）"></a>2.2 背景色片参考（见附件visio）</h3><p>不奢求五彩斑斓的黑，但求符合大众审美。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240727215907.png" alt=""></p>
+<h1 id="3：整体气氛要求"><a href="#3：整体气氛要求" class="headerlink" title="3：整体气氛要求"></a>3：整体气氛要求</h1><p>所谓痛车，多多少少会涉及整体的风格差异，软萌的、帅气的、以及社交恐怖份子的。</p>
+<p>而，我的风格是偏向“工业风+性冷淡+工具感”，我希望我给人的感觉不是攻击性或者二次元死宅风，而更多的是那种雷蛇→冰山美人的感觉（或者雷蛇的人设类似 外冷内热）。</p>
+<h2 id="3-1我喜欢的风格"><a href="#3-1我喜欢的风格" class="headerlink" title="3.1我喜欢的风格"></a>3.1我喜欢的风格</h2><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/c1fd870322d7d2346d7d011d81cd912c0f39fe86.jpg@1256w_976h_!web-article-pic.avif" alt=""></p>
+<h2 id="3-2我不推荐的风格"><a href="#3-2我不推荐的风格" class="headerlink" title="3.2我不推荐的风格"></a>3.2我不推荐的风格</h2><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240727220627.png" alt=""></p>
+<h1 id="4：一些车主本人的喜欢的图片风格"><a href="#4：一些车主本人的喜欢的图片风格" class="headerlink" title="4：一些车主本人的喜欢的图片风格"></a>4：一些车主本人的喜欢的图片风格</h1><p>我希望用一些我喜欢的建模图，来反映我的个人喜好风格，希望以此来设计痛车。主要是<strong>Amplitude Studios</strong>工作室的风格。</p>
+<p>我希望设计师大大，可以看一下这个视频。 </p>
+<p>视频链接1→无尽空间2的CG，总之我就是很喜欢A社这种干净线条美术风格。</p>
+<p>点击这个链接：B战视频链接:  <a href="https://www.bilibili.com/video/BV1t5411W7jG?p=7&amp;vd_source=c2be8338d4b678c88b6063b99e6e36de">Endless Space2 无尽空间2 全种族CG 中英字幕</a></p>
+<p>点击这个链接：B战视频链接: <a href="https://www.bilibili.com/video/BV1aa4y177pk?p=3&amp;vd_source=c2be8338d4b678c88b6063b99e6e36de">【装甲核心CG合集】99年那事瞒不住了.4K</a></p>
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=456008491&bvid=BV1t5411W7jG&cid=202297546&p=7" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" height="800"  ></iframe>
+
+
+
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=669343138&bvid=BV1aa4y177pk&cid=226778348&p=3" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" height="800"  ></iframe>
+
+
+
+
+
+
+
+
+
+
+
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240727232515268.png" alt="image-20240727232515268"></p>
+<p><img src="https://i.pinimg.com/564x/b6/b6/ad/b6b6ada86776a4250b738e8b5ff0b7d4.jpg" alt="img"></p>
+<p><img src="https://i.pinimg.com/564x/6a/40/5a/6a405a7728940a10ebc67d6010b0fd73.jpg" alt="img"></p>
+<p>steam 游戏时长：策略 科幻  太空格局为主</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240727233628207.png" alt="image-20240727233628207"></p>
+<h2 id="4-1总结"><a href="#4-1总结" class="headerlink" title="4.1总结"></a>4.1总结</h2><p>很痴迷，那种那种无机质下的冰冷工具感，但是又透着淡淡的人文关怀。  </p>
+<p>没有出色的剧情演出，没有燃气的口号台词，装甲核心整个游戏给你带来的似乎只有一股冷到骨子里的无稽之感。<br>但是啊，作为核心来驱动着冰冷金属躯体的，却是一股熊熊燃烧的萝卜之魂。<br>那若隐若现的机械细节在爱好者眼里就如同美女不经意间展示的福利，光是这一点就足别让人血脉喷张。</p>
+<h2 id="4-2-痛车角色的设定总结报告"><a href="#4-2-痛车角色的设定总结报告" class="headerlink" title="4.2  痛车角色的设定总结报告"></a>4.2  痛车角色的设定总结报告</h2><h2 id="4-2-1心理报告：雷蛇"><a href="#4-2-1心理报告：雷蛇" class="headerlink" title="4.2.1心理报告：雷蛇"></a>4.2.1心理报告：雷蛇</h2><p>参考资料：<a href="https://wiki.biligame.com/arknights/%E9%9B%B7%E8%9B%87">明日方舟雷蛇WIKI</a></p>
+<p>个人建议：<strong>参考资料很重要，很重要，很重要……….</strong></p>
+<h4 id="4-2-1-1-基本信息"><a href="#4-2-1-1-基本信息" class="headerlink" title="4.2.1.1 基本信息"></a>4.2.1.1 基本信息</h4><ul>
+<li><strong>姓名</strong>: 雷蛇</li>
+<li><strong>年龄</strong>: 不详</li>
+<li><strong>来源地</strong>: 偏远矿业小镇</li>
+<li><strong>现隶属单位</strong>: 黑钢国际</li>
+</ul>
+<h4 id="4-2-1-2-概述"><a href="#4-2-1-2-概述" class="headerlink" title="4.2.1.2 概述"></a>4.2.1.2 概述</h4><p>雷蛇是一名从偏远矿业小镇走出的少女，目前在黑钢国际工作。她的职业生涯和行为方式给人留下了深刻印象，尤其是她一板一眼的工作态度及冷静、有序的战斗风格。</p>
+<h4 id="4-2-1-3-工作态度与行为特征"><a href="#4-2-1-3-工作态度与行为特征" class="headerlink" title="4.2.1.3 工作态度与行为特征"></a>4.2.1.3 工作态度与行为特征</h4><p>雷蛇做事一丝不苟，严格按照既定计划执行任务，展现出优等生般的勤勉和可靠。在同事们眼中，她是一位非常踏实、可信赖的伙伴，充满了专业主义色彩。她的战斗总是保持着稳步的节奏：</p>
+<ol>
+<li>攻击</li>
+<li>推进</li>
+<li>确认战地情况</li>
+<li>与同伴及时交流</li>
+<li>考虑战术</li>
+<li>进行重复操作</li>
+</ol>
+<p>这套流程化的作战模式让她显得如同机器一般——冷静而高效。</p>
+<h4 id="4-2-1-4-人际关系与交流"><a href="#4-2-1-4-人际关系与交流" class="headerlink" title="4.2.1.4 人际关系与交流"></a>4.2.1.4 人际关系与交流</h4><p>尽管雷蛇的工作态度近乎机械，但她与同事的关系却并非冰冷无情。她会主动与同伴交流战地情况，并在适当时机分享战术考量。从她的台词中可以感受到一股浓厚的官话气息，非常正经。然而，这并不意味着她缺乏情感或自私自利。</p>
+<h4 id="4-2-1-5-内心动机分析"><a href="#4-2-1-5-内心动机分析" class="headerlink" title="4.2.1.5 内心动机分析"></a>4.2.1.5 内心动机分析</h4><p>如果仅凭表面观察，很容易将雷蛇误认为一个没有感情的精致利己主义者。然而，通过深入探究她的背景故事资料（特别是<u>背景故事资料4</u>），我们发现她内心深处隐藏着一种深沉的情感——对故乡的热爱与守护之情。她希望通过自己的努力，用手中的武器来保护家园，这种情感赋予了她冰冷外表下最具人文关怀的光辉。</p>
+<h4 id="4-2-1-6-人物干员的相关梗"><a href="#4-2-1-6-人物干员的相关梗" class="headerlink" title="4.2.1.6 人物干员的相关梗"></a>4.2.1.6 人物干员的相关梗</h4><p>外号：<br>黑钢国际相声团(与芙兰卡联用)——雷蛇和芙兰卡虽然都是黑钢国际安保公司的员工，但两人在加入黑钢之前是没有关系的。是因为后来雷蛇的上级给雷蛇派遣了一名搭档，这个人就是芙兰卡，两个人才有了交集，但两个人的性格由于不合(或者说是某种意义上的合得来吧)，常常拌嘴吵架，这点在游戏剧情中常有体现，雷蛇觉得芙兰卡太冲动，不够冷静；而芙兰卡认为雷蛇太严肃，过于谨慎。久而久之，这对搭档被人get到了萌点，取名相声团。</p>
+<h3 id="4-2-2-结论"><a href="#4-2-2-结论" class="headerlink" title="4.2.2 结论"></a>4.2.2 结论</h3><p>雷蛇是一位看似冷静、严肃的人物，但其内心却充满了对故乡的情感与责任感。她的行为模式和工作态度虽带有高度的机械性，却并非毫无情感，而是源于对保护家乡的坚定信念。这种矛盾与统一，使她成为一个复杂而真实的个体，值得我们更深入的理解与尊重。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240727234916054.png" alt="image-20240727234916054"></p>
+<h1 id="5：车身设计的初步构想"><a href="#5：车身设计的初步构想" class="headerlink" title="5：车身设计的初步构想"></a>5：车身设计的初步构想</h1><h2 id="5-1-俯视图"><a href="#5-1-俯视图" class="headerlink" title="5.1 俯视图"></a>5.1 俯视图</h2><p>详见附件visio，主要以黑钢国际的logo和7个勋章为主，偏向赛车拉花。</p>
+<p>勋章的获取链接：<a href="https://prts.wiki/w/%E4%B8%8D%E4%B9%89%E4%B9%8B%E8%B4%A2">不义之财活动链接</a></p>
+<p>作为业余人员，只是针对提出的一些自己的想法，希望和设计师大大一起，提高下质量。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728000112915.png" alt="image-20240728000112915"></p>
+<h2 id="5-2-侧视图1（左视图）"><a href="#5-2-侧视图1（左视图）" class="headerlink" title="5.2 侧视图1（左视图）"></a>5.2 侧视图1（左视图）</h2><p>左视图作为雷蛇与队友的装备展示，工欲善其事必先利其器。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728000603438.png" alt="image-20240728000603438"></p>
+<h2 id="5-3-侧视图2（右视图）"><a href="#5-3-侧视图2（右视图）" class="headerlink" title="5.3  侧视图2（右视图）"></a>5.3  侧视图2（右视图）</h2><p>雷蛇的人物关系和个人行动相关</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728000930296.png" alt="image-20240728000930296"></p>
+<h2 id="5-4其他元素"><a href="#5-4其他元素" class="headerlink" title="5.4其他元素"></a>5.4其他元素</h2><p>个人元素：本人是一名电子硬件工程师，希望体现一些个人职业相关的内容</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>元素</th>
+<th>内容</th>
+<th>特殊说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>个人名1</td>
+<td>ASHUI</td>
+<td></td>
+</tr>
+<tr>
+<td>个人名2</td>
+<td>倦飞之鸟，缓流之水。</td>
+<td></td>
+</tr>
+<tr>
+<td>个人技能树</td>
+<td>详见下面的软件列表部分</td>
+<td>这是我工作所需软件，希望有类似干员履历的那种列表来说说明，贴在车上</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="5-4-1-个人技能树"><a href="#5-4-1-个人技能树" class="headerlink" title="5.4.1 个人技能树"></a>5.4.1 个人技能树</h3><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20240728001346.png" alt="QQ截图20240728001346"></p>
+<p>以下是您的技能树描述：</p>
+<h3 id="电子设计与仿真"><a href="#电子设计与仿真" class="headerlink" title="电子设计与仿真"></a>电子设计与仿真</h3><ul>
+<li><strong>CAD快捷看图、编辑助手</strong>：用于快速查看和编辑CAD文件的软件。</li>
+<li><strong>Altium Designer</strong>：综合性的电路设计自动化软件，用于PCB设计和布局。</li>
+<li><strong>LTspice</strong>：用于模拟电路的SPICE仿真器。</li>
+<li><strong>PSpice</strong>：另一款用于电路仿真的软件。</li>
+<li><strong>OrCAD Capture CIS</strong>：电路原理图设计工具。</li>
+<li><strong>Tina-TI</strong>：德州仪器提供的电路仿真工具。</li>
+<li><strong>DFM（Design For Manufacturing）</strong>：面向制造的设计软件，华秋DFM用于检查并优化设计，确保制造可行。</li>
+</ul>
+<h3 id="系统级设计"><a href="#系统级设计" class="headerlink" title="系统级设计"></a>系统级设计</h3><ul>
+<li><strong>Ansys Electronic Desktop (EDT)</strong>：Ansys电子设计仿真平台。</li>
+<li><strong>Ansys EMIT</strong>：用于电磁干扰和兼容性分析的工具。</li>
+<li><strong>Ansys Savant</strong>：用于高频电磁场仿真的软件。</li>
+<li><strong>Ansys SIwave</strong>：信号完整性、功率完整性和EMI分析工具。</li>
+<li><strong>Ansys Twin Builder</strong>：系统级数字孪生建模和仿真平台。</li>
+</ul>
+<h3 id="嵌入式系统开发"><a href="#嵌入式系统开发" class="headerlink" title="嵌入式系统开发"></a>嵌入式系统开发</h3><ul>
+<li><strong>STM32CubeMX</strong>：STMicroelectronics提供的配置和初始化STM32微控制器的工具。</li>
+<li><strong>Keil uVision</strong>：嵌入式软件开发的集成开发环境（IDE）。</li>
+<li><strong>Xilinx PlanAhead</strong>和<strong>ISE Design Suite</strong>：用于FPGA开发的工具。</li>
+<li><strong>Quartus II</strong>：Intel FPGA的开发软件。</li>
+<li><strong>TimeGen</strong>：时序图生成软件。</li>
+<li><strong>UART Assistant</strong>：串口调试工具。</li>
+<li><strong>CANalyzer</strong>：用于CAN总线分析的工具。</li>
+</ul>
+<h3 id="功率与能源管理"><a href="#功率与能源管理" class="headerlink" title="功率与能源管理"></a>功率与能源管理</h3><ul>
+<li><strong>Power Stage Designer</strong>：TI公司提供的电源设计工具。</li>
+<li><strong>Filter Solutions</strong>：滤波器设计软件。</li>
+<li><strong>SCP Configurator</strong>：电源管理和配置工具。</li>
+<li><strong>LTpowerCAD II</strong>：Linear Technology的电源设计工具。</li>
+</ul>
+<h3 id="编程与开发"><a href="#编程与开发" class="headerlink" title="编程与开发"></a>编程与开发</h3><ul>
+<li><strong>Matlab</strong>：数学计算和仿真工具。</li>
+<li><strong>Visual C++ 6.0</strong>：微软的C++开发环境。</li>
+<li><strong>Qt Creator</strong>：跨平台C++应用开发框架。</li>
+<li><strong>Notepad++</strong>：高级文本编辑器。</li>
+<li><strong>JSONedit</strong>：JSON文件编辑器。</li>
+<li><strong>ChatGPT</strong>：语言模型应用。</li>
+</ul>
+<h3 id="工程管理与协作"><a href="#工程管理与协作" class="headerlink" title="工程管理与协作"></a>工程管理与协作</h3><ul>
+<li><strong>Github Desktop</strong>：版本控制和协作平台。</li>
+<li><strong>VMware Workstation</strong>：虚拟机管理工具。</li>
+<li><strong>FileZilla Client</strong>：FTP客户端。</li>
+<li><strong>NetAssistant</strong>：网络辅助工具。</li>
+<li><strong>EasyConnect</strong>：远程连接工具。</li>
+<li><strong>力控</strong>：工控监控软件。</li>
+</ul>
+<h3 id="杂项工具"><a href="#杂项工具" class="headerlink" title="杂项工具"></a>杂项工具</h3><ul>
+<li><strong>Snail EDA</strong>：EDA工具。</li>
+<li><strong>Apabi</strong>：电子书阅读器。</li>
+<li><strong>ZCANPRO</strong>：Zigbee CAN协议分析软件。</li>
+</ul>
+<h3 id="综合应用"><a href="#综合应用" class="headerlink" title="综合应用"></a>综合应用</h3><ul>
+<li><strong>SOLIDWORKS 2022</strong>：三维机械设计软件。</li>
+<li><strong>SIMetrix/SIMPLIS</strong>：混合信号仿真工具。</li>
+<li><strong>Mathcad 15</strong>：数学公式编辑和计算软件。</li>
+</ul>
+<p>以上描述展示了在电子设计、系统仿真、嵌入式开发、功率管理、编程开发以及工程管理等多个领域的技能</p>
+<h2 id="5-5-小彩蛋"><a href="#5-5-小彩蛋" class="headerlink" title="5.5 小彩蛋"></a>5.5 小彩蛋</h2><p>可以有部分小可爱的部分，可以在某个位置有下图（在visio里面有）</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728002317502.png" alt="image-20240728002317502"></p>
+<h1 id="6：结语"><a href="#6：结语" class="headerlink" title="6：结语"></a>6：结语</h1><h1 id=""><a href="#" class="headerlink" title=" "></a> </h1><p>以上更多的是，我对细节的一些说明。</p>
+<p>大体描述：车型沃尔沃V90，主题明日方舟雷蛇，要风格为性冷淡和帅，不能太涩情。</p>
+<p>麻烦设计师大大了</p>
+]]></content>
+      <categories>
+        <category>二次元</category>
+      </categories>
+      <tags>
+        <tag>痛车</tag>
+        <tag>雷蛇</tag>
+        <tag>二次元</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>功率电感设计方法2:实例</title>
     <url>/2024/05/26/%E5%8A%9F%E7%8E%87%E7%94%B5%E6%84%9F%E8%AE%BE%E8%AE%A1%E6%89%8B%E8%AE%B0%EF%BC%88%E5%AE%9E%E4%BE%8B%EF%BC%89/</url>
     <content><![CDATA[<p>[TOC]</p>

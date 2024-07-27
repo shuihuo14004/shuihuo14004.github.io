@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1：痛车需求目录    序号 名称 详细说明     1 风格 以整体性描述为主，对全车的背景色，氛围，类似风格画师推荐，主题词进行说明，并给出类似例子。   2 人物气质 说明理想中雷蛇的人物特点与心理特质，以及要符合我的个人菜单需求。   3 彩蛋相关性 希望在一些线条处添加一些“程序员”和“硬件工程师”彩蛋。并给相关的实例     2 风格2.1 背景颜色说明以黑色为背景色，尽可能以黑（背景">
+<meta property="og:type" content="article">
+<meta property="og:title" content="痛车V90需求">
+<meta property="og:url" content="http://example.com/2024/07/27/V90%E7%97%9B%E8%BD%A6/index.html">
+<meta property="og:site_name" content="Hello World by 阿水">
+<meta property="og:description" content="1：痛车需求目录    序号 名称 详细说明     1 风格 以整体性描述为主，对全车的背景色，氛围，类似风格画师推荐，主题词进行说明，并给出类似例子。   2 人物气质 说明理想中雷蛇的人物特点与心理特质，以及要符合我的个人菜单需求。   3 彩蛋相关性 希望在一些线条处添加一些“程序员”和“硬件工程师”彩蛋。并给相关的实例     2 风格2.1 背景颜色说明以黑色为背景色，尽可能以黑（背景">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/Cache_-78a5e60891b8a027.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240727215748.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240727215907.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/c1fd870322d7d2346d7d011d81cd912c0f39fe86.jpg@1256w_976h_!web-article-pic.avif">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240727220627.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240727232515268.png">
+<meta property="og:image" content="https://i.pinimg.com/564x/b6/b6/ad/b6b6ada86776a4250b738e8b5ff0b7d4.jpg">
+<meta property="og:image" content="https://i.pinimg.com/564x/6a/40/5a/6a405a7728940a10ebc67d6010b0fd73.jpg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240727233628207.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240727234916054.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728000112915.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728000603438.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728000930296.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20240728001346.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728002317502.png">
+<meta property="article:published_time" content="2024-07-27T13:39:52.000Z">
+<meta property="article:modified_time" content="2024-07-27T16:27:14.892Z">
+<meta property="article:author" content="努力的阿水">
+<meta property="article:tag" content="痛车">
+<meta property="article:tag" content="雷蛇">
+<meta property="article:tag" content="二次元">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/Cache_-78a5e60891b8a027.jpg">
+
+<link rel="canonical" href="http://example.com/2024/07/27/V90%E7%97%9B%E8%BD%A6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>痛车V90需求 | Hello World by 阿水</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hello World by 阿水</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description"> 思久欲知 知繁渴思 朝乾夕惕 焚膏继晷 日拱一卒 功不唐捐</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-waifu">
+
+    <a href="/waifu/" rel="section"><i class="fa fa-binoculars fa-fw"></i>waifu</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/27/V90%E7%97%9B%E8%BD%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="努力的阿水">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          痛车V90需求
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-07-27 21:39:52" itemprop="dateCreated datePublished" datetime="2024-07-27T21:39:52+08:00">2024-07-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-07-28 00:27:14" itemprop="dateModified" datetime="2024-07-28T00:27:14+08:00">2024-07-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BA%8C%E6%AC%A1%E5%85%83/" itemprop="url" rel="index"><span itemprop="name">二次元</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1：痛车需求目录"><a href="#1：痛车需求目录" class="headerlink" title="1：痛车需求目录"></a>1：痛车需求目录</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>名称</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>风格</td>
+<td>以整体性描述为主，对全车的背景色，氛围，类似风格画师推荐，主题词进行说明，并给出类似例子。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>人物气质</td>
+<td>说明理想中<strong>雷蛇</strong>的人物特点与心理特质，以及要符合我的个人菜单需求。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>彩蛋相关性</td>
+<td>希望在一些线条处添加一些“程序员”和“硬件工程师”彩蛋。并给相关的实例</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="2-风格"><a href="#2-风格" class="headerlink" title="2 风格"></a>2 风格</h1><h2 id="2-1-背景颜色说明"><a href="#2-1-背景颜色说明" class="headerlink" title="2.1 背景颜色说明"></a>2.1 背景颜色说明</h2><p>以黑色为背景色，尽可能以黑（背景色）+蓝（雷蛇）+为主要色调。可以有大量的留白处理。</p>
+<p>相关示例1：下方图片中迷迭香奥迪痛车为参考，基于黑色有大量的留白处理。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/Cache_-78a5e60891b8a027.jpg" alt=""></p>
+<p>图1</p>
+<p>相关示例2：黑钢风格PPT</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240727215748.png" alt=""></p>
+<h3 id="2-2-背景色片参考（见附件visio）"><a href="#2-2-背景色片参考（见附件visio）" class="headerlink" title="2.2 背景色片参考（见附件visio）"></a>2.2 背景色片参考（见附件visio）</h3><p>不奢求五彩斑斓的黑，但求符合大众审美。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240727215907.png" alt=""></p>
+<h1 id="3：整体气氛要求"><a href="#3：整体气氛要求" class="headerlink" title="3：整体气氛要求"></a>3：整体气氛要求</h1><p>所谓痛车，多多少少会涉及整体的风格差异，软萌的、帅气的、以及社交恐怖份子的。</p>
+<p>而，我的风格是偏向“工业风+性冷淡+工具感”，我希望我给人的感觉不是攻击性或者二次元死宅风，而更多的是那种雷蛇→冰山美人的感觉（或者雷蛇的人设类似 外冷内热）。</p>
+<h2 id="3-1我喜欢的风格"><a href="#3-1我喜欢的风格" class="headerlink" title="3.1我喜欢的风格"></a>3.1我喜欢的风格</h2><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/c1fd870322d7d2346d7d011d81cd912c0f39fe86.jpg@1256w_976h_!web-article-pic.avif" alt=""></p>
+<h2 id="3-2我不推荐的风格"><a href="#3-2我不推荐的风格" class="headerlink" title="3.2我不推荐的风格"></a>3.2我不推荐的风格</h2><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20240727220627.png" alt=""></p>
+<h1 id="4：一些车主本人的喜欢的图片风格"><a href="#4：一些车主本人的喜欢的图片风格" class="headerlink" title="4：一些车主本人的喜欢的图片风格"></a>4：一些车主本人的喜欢的图片风格</h1><p>我希望用一些我喜欢的建模图，来反映我的个人喜好风格，希望以此来设计痛车。主要是<strong>Amplitude Studios</strong>工作室的风格。</p>
+<p>我希望设计师大大，可以看一下这个视频。 </p>
+<p>视频链接1→无尽空间2的CG，总之我就是很喜欢A社这种干净线条美术风格。</p>
+<p>点击这个链接：B战视频链接:  <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1t5411W7jG?p=7&amp;vd_source=c2be8338d4b678c88b6063b99e6e36de">Endless Space2 无尽空间2 全种族CG 中英字幕</a></p>
+<p>点击这个链接：B战视频链接: <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1aa4y177pk?p=3&amp;vd_source=c2be8338d4b678c88b6063b99e6e36de">【装甲核心CG合集】99年那事瞒不住了.4K</a></p>
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=456008491&bvid=BV1t5411W7jG&cid=202297546&p=7" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" height="800"  ></iframe>
+
+
+
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=669343138&bvid=BV1aa4y177pk&cid=226778348&p=3" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" height="800"  ></iframe>
+
+
+
+
+
+
+
+
+
+
+
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240727232515268.png" alt="image-20240727232515268"></p>
+<p><img src="https://i.pinimg.com/564x/b6/b6/ad/b6b6ada86776a4250b738e8b5ff0b7d4.jpg" alt="img"></p>
+<p><img src="https://i.pinimg.com/564x/6a/40/5a/6a405a7728940a10ebc67d6010b0fd73.jpg" alt="img"></p>
+<p>steam 游戏时长：策略 科幻  太空格局为主</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240727233628207.png" alt="image-20240727233628207"></p>
+<h2 id="4-1总结"><a href="#4-1总结" class="headerlink" title="4.1总结"></a>4.1总结</h2><p>很痴迷，那种那种无机质下的冰冷工具感，但是又透着淡淡的人文关怀。  </p>
+<p>没有出色的剧情演出，没有燃气的口号台词，装甲核心整个游戏给你带来的似乎只有一股冷到骨子里的无稽之感。<br>但是啊，作为核心来驱动着冰冷金属躯体的，却是一股熊熊燃烧的萝卜之魂。<br>那若隐若现的机械细节在爱好者眼里就如同美女不经意间展示的福利，光是这一点就足别让人血脉喷张。</p>
+<h2 id="4-2-痛车角色的设定总结报告"><a href="#4-2-痛车角色的设定总结报告" class="headerlink" title="4.2  痛车角色的设定总结报告"></a>4.2  痛车角色的设定总结报告</h2><h2 id="4-2-1心理报告：雷蛇"><a href="#4-2-1心理报告：雷蛇" class="headerlink" title="4.2.1心理报告：雷蛇"></a>4.2.1心理报告：雷蛇</h2><p>参考资料：<a target="_blank" rel="noopener" href="https://wiki.biligame.com/arknights/%E9%9B%B7%E8%9B%87">明日方舟雷蛇WIKI</a></p>
+<p>个人建议：<strong>参考资料很重要，很重要，很重要……….</strong></p>
+<h4 id="4-2-1-1-基本信息"><a href="#4-2-1-1-基本信息" class="headerlink" title="4.2.1.1 基本信息"></a>4.2.1.1 基本信息</h4><ul>
+<li><strong>姓名</strong>: 雷蛇</li>
+<li><strong>年龄</strong>: 不详</li>
+<li><strong>来源地</strong>: 偏远矿业小镇</li>
+<li><strong>现隶属单位</strong>: 黑钢国际</li>
+</ul>
+<h4 id="4-2-1-2-概述"><a href="#4-2-1-2-概述" class="headerlink" title="4.2.1.2 概述"></a>4.2.1.2 概述</h4><p>雷蛇是一名从偏远矿业小镇走出的少女，目前在黑钢国际工作。她的职业生涯和行为方式给人留下了深刻印象，尤其是她一板一眼的工作态度及冷静、有序的战斗风格。</p>
+<h4 id="4-2-1-3-工作态度与行为特征"><a href="#4-2-1-3-工作态度与行为特征" class="headerlink" title="4.2.1.3 工作态度与行为特征"></a>4.2.1.3 工作态度与行为特征</h4><p>雷蛇做事一丝不苟，严格按照既定计划执行任务，展现出优等生般的勤勉和可靠。在同事们眼中，她是一位非常踏实、可信赖的伙伴，充满了专业主义色彩。她的战斗总是保持着稳步的节奏：</p>
+<ol>
+<li>攻击</li>
+<li>推进</li>
+<li>确认战地情况</li>
+<li>与同伴及时交流</li>
+<li>考虑战术</li>
+<li>进行重复操作</li>
+</ol>
+<p>这套流程化的作战模式让她显得如同机器一般——冷静而高效。</p>
+<h4 id="4-2-1-4-人际关系与交流"><a href="#4-2-1-4-人际关系与交流" class="headerlink" title="4.2.1.4 人际关系与交流"></a>4.2.1.4 人际关系与交流</h4><p>尽管雷蛇的工作态度近乎机械，但她与同事的关系却并非冰冷无情。她会主动与同伴交流战地情况，并在适当时机分享战术考量。从她的台词中可以感受到一股浓厚的官话气息，非常正经。然而，这并不意味着她缺乏情感或自私自利。</p>
+<h4 id="4-2-1-5-内心动机分析"><a href="#4-2-1-5-内心动机分析" class="headerlink" title="4.2.1.5 内心动机分析"></a>4.2.1.5 内心动机分析</h4><p>如果仅凭表面观察，很容易将雷蛇误认为一个没有感情的精致利己主义者。然而，通过深入探究她的背景故事资料（特别是<u>背景故事资料4</u>），我们发现她内心深处隐藏着一种深沉的情感——对故乡的热爱与守护之情。她希望通过自己的努力，用手中的武器来保护家园，这种情感赋予了她冰冷外表下最具人文关怀的光辉。</p>
+<h4 id="4-2-1-6-人物干员的相关梗"><a href="#4-2-1-6-人物干员的相关梗" class="headerlink" title="4.2.1.6 人物干员的相关梗"></a>4.2.1.6 人物干员的相关梗</h4><p>外号：<br>黑钢国际相声团(与芙兰卡联用)——雷蛇和芙兰卡虽然都是黑钢国际安保公司的员工，但两人在加入黑钢之前是没有关系的。是因为后来雷蛇的上级给雷蛇派遣了一名搭档，这个人就是芙兰卡，两个人才有了交集，但两个人的性格由于不合(或者说是某种意义上的合得来吧)，常常拌嘴吵架，这点在游戏剧情中常有体现，雷蛇觉得芙兰卡太冲动，不够冷静；而芙兰卡认为雷蛇太严肃，过于谨慎。久而久之，这对搭档被人get到了萌点，取名相声团。</p>
+<h3 id="4-2-2-结论"><a href="#4-2-2-结论" class="headerlink" title="4.2.2 结论"></a>4.2.2 结论</h3><p>雷蛇是一位看似冷静、严肃的人物，但其内心却充满了对故乡的情感与责任感。她的行为模式和工作态度虽带有高度的机械性，却并非毫无情感，而是源于对保护家乡的坚定信念。这种矛盾与统一，使她成为一个复杂而真实的个体，值得我们更深入的理解与尊重。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240727234916054.png" alt="image-20240727234916054"></p>
+<h1 id="5：车身设计的初步构想"><a href="#5：车身设计的初步构想" class="headerlink" title="5：车身设计的初步构想"></a>5：车身设计的初步构想</h1><h2 id="5-1-俯视图"><a href="#5-1-俯视图" class="headerlink" title="5.1 俯视图"></a>5.1 俯视图</h2><p>详见附件visio，主要以黑钢国际的logo和7个勋章为主，偏向赛车拉花。</p>
+<p>勋章的获取链接：<a target="_blank" rel="noopener" href="https://prts.wiki/w/%E4%B8%8D%E4%B9%89%E4%B9%8B%E8%B4%A2">不义之财活动链接</a></p>
+<p>作为业余人员，只是针对提出的一些自己的想法，希望和设计师大大一起，提高下质量。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728000112915.png" alt="image-20240728000112915"></p>
+<h2 id="5-2-侧视图1（左视图）"><a href="#5-2-侧视图1（左视图）" class="headerlink" title="5.2 侧视图1（左视图）"></a>5.2 侧视图1（左视图）</h2><p>左视图作为雷蛇与队友的装备展示，工欲善其事必先利其器。</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728000603438.png" alt="image-20240728000603438"></p>
+<h2 id="5-3-侧视图2（右视图）"><a href="#5-3-侧视图2（右视图）" class="headerlink" title="5.3  侧视图2（右视图）"></a>5.3  侧视图2（右视图）</h2><p>雷蛇的人物关系和个人行动相关</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728000930296.png" alt="image-20240728000930296"></p>
+<h2 id="5-4其他元素"><a href="#5-4其他元素" class="headerlink" title="5.4其他元素"></a>5.4其他元素</h2><p>个人元素：本人是一名电子硬件工程师，希望体现一些个人职业相关的内容</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>元素</th>
+<th>内容</th>
+<th>特殊说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>个人名1</td>
+<td>ASHUI</td>
+<td></td>
+</tr>
+<tr>
+<td>个人名2</td>
+<td>倦飞之鸟，缓流之水。</td>
+<td></td>
+</tr>
+<tr>
+<td>个人技能树</td>
+<td>详见下面的软件列表部分</td>
+<td>这是我工作所需软件，希望有类似干员履历的那种列表来说说明，贴在车上</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="5-4-1-个人技能树"><a href="#5-4-1-个人技能树" class="headerlink" title="5.4.1 个人技能树"></a>5.4.1 个人技能树</h3><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20240728001346.png" alt="QQ截图20240728001346"></p>
+<p>以下是您的技能树描述：</p>
+<h3 id="电子设计与仿真"><a href="#电子设计与仿真" class="headerlink" title="电子设计与仿真"></a>电子设计与仿真</h3><ul>
+<li><strong>CAD快捷看图、编辑助手</strong>：用于快速查看和编辑CAD文件的软件。</li>
+<li><strong>Altium Designer</strong>：综合性的电路设计自动化软件，用于PCB设计和布局。</li>
+<li><strong>LTspice</strong>：用于模拟电路的SPICE仿真器。</li>
+<li><strong>PSpice</strong>：另一款用于电路仿真的软件。</li>
+<li><strong>OrCAD Capture CIS</strong>：电路原理图设计工具。</li>
+<li><strong>Tina-TI</strong>：德州仪器提供的电路仿真工具。</li>
+<li><strong>DFM（Design For Manufacturing）</strong>：面向制造的设计软件，华秋DFM用于检查并优化设计，确保制造可行。</li>
+</ul>
+<h3 id="系统级设计"><a href="#系统级设计" class="headerlink" title="系统级设计"></a>系统级设计</h3><ul>
+<li><strong>Ansys Electronic Desktop (EDT)</strong>：Ansys电子设计仿真平台。</li>
+<li><strong>Ansys EMIT</strong>：用于电磁干扰和兼容性分析的工具。</li>
+<li><strong>Ansys Savant</strong>：用于高频电磁场仿真的软件。</li>
+<li><strong>Ansys SIwave</strong>：信号完整性、功率完整性和EMI分析工具。</li>
+<li><strong>Ansys Twin Builder</strong>：系统级数字孪生建模和仿真平台。</li>
+</ul>
+<h3 id="嵌入式系统开发"><a href="#嵌入式系统开发" class="headerlink" title="嵌入式系统开发"></a>嵌入式系统开发</h3><ul>
+<li><strong>STM32CubeMX</strong>：STMicroelectronics提供的配置和初始化STM32微控制器的工具。</li>
+<li><strong>Keil uVision</strong>：嵌入式软件开发的集成开发环境（IDE）。</li>
+<li><strong>Xilinx PlanAhead</strong>和<strong>ISE Design Suite</strong>：用于FPGA开发的工具。</li>
+<li><strong>Quartus II</strong>：Intel FPGA的开发软件。</li>
+<li><strong>TimeGen</strong>：时序图生成软件。</li>
+<li><strong>UART Assistant</strong>：串口调试工具。</li>
+<li><strong>CANalyzer</strong>：用于CAN总线分析的工具。</li>
+</ul>
+<h3 id="功率与能源管理"><a href="#功率与能源管理" class="headerlink" title="功率与能源管理"></a>功率与能源管理</h3><ul>
+<li><strong>Power Stage Designer</strong>：TI公司提供的电源设计工具。</li>
+<li><strong>Filter Solutions</strong>：滤波器设计软件。</li>
+<li><strong>SCP Configurator</strong>：电源管理和配置工具。</li>
+<li><strong>LTpowerCAD II</strong>：Linear Technology的电源设计工具。</li>
+</ul>
+<h3 id="编程与开发"><a href="#编程与开发" class="headerlink" title="编程与开发"></a>编程与开发</h3><ul>
+<li><strong>Matlab</strong>：数学计算和仿真工具。</li>
+<li><strong>Visual C++ 6.0</strong>：微软的C++开发环境。</li>
+<li><strong>Qt Creator</strong>：跨平台C++应用开发框架。</li>
+<li><strong>Notepad++</strong>：高级文本编辑器。</li>
+<li><strong>JSONedit</strong>：JSON文件编辑器。</li>
+<li><strong>ChatGPT</strong>：语言模型应用。</li>
+</ul>
+<h3 id="工程管理与协作"><a href="#工程管理与协作" class="headerlink" title="工程管理与协作"></a>工程管理与协作</h3><ul>
+<li><strong>Github Desktop</strong>：版本控制和协作平台。</li>
+<li><strong>VMware Workstation</strong>：虚拟机管理工具。</li>
+<li><strong>FileZilla Client</strong>：FTP客户端。</li>
+<li><strong>NetAssistant</strong>：网络辅助工具。</li>
+<li><strong>EasyConnect</strong>：远程连接工具。</li>
+<li><strong>力控</strong>：工控监控软件。</li>
+</ul>
+<h3 id="杂项工具"><a href="#杂项工具" class="headerlink" title="杂项工具"></a>杂项工具</h3><ul>
+<li><strong>Snail EDA</strong>：EDA工具。</li>
+<li><strong>Apabi</strong>：电子书阅读器。</li>
+<li><strong>ZCANPRO</strong>：Zigbee CAN协议分析软件。</li>
+</ul>
+<h3 id="综合应用"><a href="#综合应用" class="headerlink" title="综合应用"></a>综合应用</h3><ul>
+<li><strong>SOLIDWORKS 2022</strong>：三维机械设计软件。</li>
+<li><strong>SIMetrix/SIMPLIS</strong>：混合信号仿真工具。</li>
+<li><strong>Mathcad 15</strong>：数学公式编辑和计算软件。</li>
+</ul>
+<p>以上描述展示了在电子设计、系统仿真、嵌入式开发、功率管理、编程开发以及工程管理等多个领域的技能</p>
+<h2 id="5-5-小彩蛋"><a href="#5-5-小彩蛋" class="headerlink" title="5.5 小彩蛋"></a>5.5 小彩蛋</h2><p>可以有部分小可爱的部分，可以在某个位置有下图（在visio里面有）</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20240728002317502.png" alt="image-20240728002317502"></p>
+<h1 id="6：结语"><a href="#6：结语" class="headerlink" title="6：结语"></a>6：结语</h1><h1 id=""><a href="#" class="headerlink" title=" "></a> </h1><p>以上更多的是，我对细节的一些说明。</p>
+<p>大体描述：车型沃尔沃V90，主题明日方舟雷蛇，要风格为性冷淡和帅，不能太涩情。</p>
+<p>麻烦设计师大大了</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>努力的阿水
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/07/27/V90%E7%97%9B%E8%BD%A6/" title="痛车V90需求">http://example.com/2024/07/27/V90痛车/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%97%9B%E8%BD%A6/" rel="tag"># 痛车</a>
+              <a href="/tags/%E9%9B%B7%E8%9B%87/" rel="tag"># 雷蛇</a>
+              <a href="/tags/%E4%BA%8C%E6%AC%A1%E5%85%83/" rel="tag"># 二次元</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/05/26/%E5%8A%9F%E7%8E%87%E7%94%B5%E6%84%9F%E8%AE%BE%E8%AE%A1%E6%89%8B%E8%AE%B0%EF%BC%88%E5%AE%9E%E4%BE%8B%EF%BC%89/" rel="prev" title="功率电感设计方法2:实例">
+      <i class="fa fa-chevron-left"></i> 功率电感设计方法2:实例
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%EF%BC%9A%E7%97%9B%E8%BD%A6%E9%9C%80%E6%B1%82%E7%9B%AE%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">1：痛车需求目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E9%A3%8E%E6%A0%BC"><span class="nav-number">2.</span> <span class="nav-text">2 风格</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E8%83%8C%E6%99%AF%E9%A2%9C%E8%89%B2%E8%AF%B4%E6%98%8E"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 背景颜色说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%83%8C%E6%99%AF%E8%89%B2%E7%89%87%E5%8F%82%E8%80%83%EF%BC%88%E8%A7%81%E9%99%84%E4%BB%B6visio%EF%BC%89"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.2 背景色片参考（见附件visio）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%EF%BC%9A%E6%95%B4%E4%BD%93%E6%B0%94%E6%B0%9B%E8%A6%81%E6%B1%82"><span class="nav-number">3.</span> <span class="nav-text">3：整体气氛要求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1%E6%88%91%E5%96%9C%E6%AC%A2%E7%9A%84%E9%A3%8E%E6%A0%BC"><span class="nav-number">3.1.</span> <span class="nav-text">3.1我喜欢的风格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2%E6%88%91%E4%B8%8D%E6%8E%A8%E8%8D%90%E7%9A%84%E9%A3%8E%E6%A0%BC"><span class="nav-number">3.2.</span> <span class="nav-text">3.2我不推荐的风格</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4%EF%BC%9A%E4%B8%80%E4%BA%9B%E8%BD%A6%E4%B8%BB%E6%9C%AC%E4%BA%BA%E7%9A%84%E5%96%9C%E6%AC%A2%E7%9A%84%E5%9B%BE%E7%89%87%E9%A3%8E%E6%A0%BC"><span class="nav-number">4.</span> <span class="nav-text">4：一些车主本人的喜欢的图片风格</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1%E6%80%BB%E7%BB%93"><span class="nav-number">4.1.</span> <span class="nav-text">4.1总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E7%97%9B%E8%BD%A6%E8%A7%92%E8%89%B2%E7%9A%84%E8%AE%BE%E5%AE%9A%E6%80%BB%E7%BB%93%E6%8A%A5%E5%91%8A"><span class="nav-number">4.2.</span> <span class="nav-text">4.2  痛车角色的设定总结报告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-1%E5%BF%83%E7%90%86%E6%8A%A5%E5%91%8A%EF%BC%9A%E9%9B%B7%E8%9B%87"><span class="nav-number">4.3.</span> <span class="nav-text">4.2.1心理报告：雷蛇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-1-%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="nav-number">4.3.0.1.</span> <span class="nav-text">4.2.1.1 基本信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-2-%E6%A6%82%E8%BF%B0"><span class="nav-number">4.3.0.2.</span> <span class="nav-text">4.2.1.2 概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-3-%E5%B7%A5%E4%BD%9C%E6%80%81%E5%BA%A6%E4%B8%8E%E8%A1%8C%E4%B8%BA%E7%89%B9%E5%BE%81"><span class="nav-number">4.3.0.3.</span> <span class="nav-text">4.2.1.3 工作态度与行为特征</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-4-%E4%BA%BA%E9%99%85%E5%85%B3%E7%B3%BB%E4%B8%8E%E4%BA%A4%E6%B5%81"><span class="nav-number">4.3.0.4.</span> <span class="nav-text">4.2.1.4 人际关系与交流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-5-%E5%86%85%E5%BF%83%E5%8A%A8%E6%9C%BA%E5%88%86%E6%9E%90"><span class="nav-number">4.3.0.5.</span> <span class="nav-text">4.2.1.5 内心动机分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-6-%E4%BA%BA%E7%89%A9%E5%B9%B2%E5%91%98%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A2%97"><span class="nav-number">4.3.0.6.</span> <span class="nav-text">4.2.1.6 人物干员的相关梗</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-%E7%BB%93%E8%AE%BA"><span class="nav-number">4.3.1.</span> <span class="nav-text">4.2.2 结论</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5%EF%BC%9A%E8%BD%A6%E8%BA%AB%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%88%9D%E6%AD%A5%E6%9E%84%E6%83%B3"><span class="nav-number">5.</span> <span class="nav-text">5：车身设计的初步构想</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E4%BF%AF%E8%A7%86%E5%9B%BE"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 俯视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E4%BE%A7%E8%A7%86%E5%9B%BE1%EF%BC%88%E5%B7%A6%E8%A7%86%E5%9B%BE%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 侧视图1（左视图）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E4%BE%A7%E8%A7%86%E5%9B%BE2%EF%BC%88%E5%8F%B3%E8%A7%86%E5%9B%BE%EF%BC%89"><span class="nav-number">5.3.</span> <span class="nav-text">5.3  侧视图2（右视图）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4%E5%85%B6%E4%BB%96%E5%85%83%E7%B4%A0"><span class="nav-number">5.4.</span> <span class="nav-text">5.4其他元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-1-%E4%B8%AA%E4%BA%BA%E6%8A%80%E8%83%BD%E6%A0%91"><span class="nav-number">5.4.1.</span> <span class="nav-text">5.4.1 个人技能树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B5%E5%AD%90%E8%AE%BE%E8%AE%A1%E4%B8%8E%E4%BB%BF%E7%9C%9F"><span class="nav-number">5.4.2.</span> <span class="nav-text">电子设计与仿真</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%BA%A7%E8%AE%BE%E8%AE%A1"><span class="nav-number">5.4.3.</span> <span class="nav-text">系统级设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91"><span class="nav-number">5.4.4.</span> <span class="nav-text">嵌入式系统开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%9F%E7%8E%87%E4%B8%8E%E8%83%BD%E6%BA%90%E7%AE%A1%E7%90%86"><span class="nav-number">5.4.5.</span> <span class="nav-text">功率与能源管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%BC%80%E5%8F%91"><span class="nav-number">5.4.6.</span> <span class="nav-text">编程与开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86%E4%B8%8E%E5%8D%8F%E4%BD%9C"><span class="nav-number">5.4.7.</span> <span class="nav-text">工程管理与协作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%82%E9%A1%B9%E5%B7%A5%E5%85%B7"><span class="nav-number">5.4.8.</span> <span class="nav-text">杂项工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E5%BA%94%E7%94%A8"><span class="nav-number">5.4.9.</span> <span class="nav-text">综合应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5-%E5%B0%8F%E5%BD%A9%E8%9B%8B"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 小彩蛋</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6%EF%BC%9A%E7%BB%93%E8%AF%AD"><span class="nav-number">6.</span> <span class="nav-text">6：结语</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">7.</span> <span class="nav-text"> </span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="努力的阿水"
+      src="/images/%E6%B3%A5%E5%B2%A9.jpg">
+  <p class="site-author-name" itemprop="name">努力的阿水</p>
+  <div class="site-description" itemprop="description">朝闻道夕可死矣 </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">60</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shuihuo14004" title="GitHub主页 → https:&#x2F;&#x2F;github.com&#x2F;shuihuo14004" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1400476531@qq.com" title="E-Mail → mailto:1400476531@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/8261035" title="bilibili空间 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;8261035" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>bilibili空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_32419593?spm=1001.2101.3001.5343" title="CSDN主页 → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_32419593?spm&#x3D;1001.2101.3001.5343" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>CSDN主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://home.cnblogs.com/u/ashuiSIA" title="博客园 → https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;ashuiSIA" rel="noopener" target="_blank"><i class="fab fa-usb fa-fw"></i>博客园</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.dianyuan.com/" title="电源网 → https:&#x2F;&#x2F;www.dianyuan.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-mortar-board fa-fw"></i>电源网</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.baidu.com/" title="https:&#x2F;&#x2F;www.baidu.com&#x2F;" rel="noopener" target="_blank">百度</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.google.com.hk/webhp?hl=zh-CN&sourceid=cnhp" title="http:&#x2F;&#x2F;www.google.com.hk&#x2F;webhp?hl&#x3D;zh-CN&amp;sourceid&#x3D;cnhp" rel="noopener" target="_blank">谷歌</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zdzn.net/" title="https:&#x2F;&#x2F;www.zdzn.net&#x2F;" rel="noopener" target="_blank">ZDZN</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://stackoverflow.com/" title="https:&#x2F;&#x2F;stackoverflow.com&#x2F;" rel="noopener" target="_blank">stackoverflow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.runoob.com/cplusplus/cpp-tutorial.html" title="https:&#x2F;&#x2F;www.runoob.com&#x2F;cplusplus&#x2F;cpp-tutorial.html" rel="noopener" target="_blank">菜鸟教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://search.chongbuluo.com/" title="https:&#x2F;&#x2F;search.chongbuluo.com&#x2F;" rel="noopener" target="_blank">快搜（搜索神器）</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://leiblog.wang/" title="https:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">LeiWang1999</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+<div id="music163player">
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=86 src="//music.163.com/outchain/player?type=2&id=1444528563&auto=1&height=66">
+
+
+    </iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">阿水</span>
+</div>
+
+
+<div>
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+      var now = new Date(); 
+      function createtime() { 
+          var grt= new Date("08/10/2022 00:00:00");//在此处修改你的建站时间
+          now.setTime(now.getTime()+250); 
+          days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+          hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+          if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+          mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+          seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+          snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+          document.getElementById("timeDate").innerHTML = "已运行 "+dnum+" 天 "; 
+          document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+      } 
+  setInterval("createtime()",250);
+  </script>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
