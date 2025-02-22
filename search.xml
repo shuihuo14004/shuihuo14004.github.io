@@ -276,6 +276,23 @@ QT电力系统软件截图</script><p>该程序的目的是基于CAN通信管理
 <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114037304066523&bvid=BV1U7AseEEqb&cid=28494725535&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" height="700" ></iframe>
 
 <h2 id="2-2-基于datasheet导入"><a href="#2-2-基于datasheet导入" class="headerlink" title="2.2 基于datasheet导入"></a>2.2 基于datasheet导入</h2><p>有时候没有官方模型可以基于datasheet录入，其实本质是描点工具</p>
+<p>一般来说，各个MOS的datasheet中有各种开关损耗与电流的关系</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250223004522.png" style="zoom:50%;" /></p>
+<p>如图这<strong>英飞凌FF600R17</strong>的截图</p>
+<p>在MOS管的热学特性中找到 new description</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250223004844.png" style="zoom:50%;" /></p>
+<script type="math/tex; mode=display">
+第一步</script><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250223005037.png" style="zoom:30%;" /></p>
+<script type="math/tex; mode=display">
+第二步</script><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250223005406.png" style="zoom:30%;" /></p>
+<script type="math/tex; mode=display">
+第三步：打开对应的datasheet截图</script><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250223005615.png" style="zoom:45%;" /></p>
+<script type="math/tex; mode=display">
+第四步：对应的截图分为开启、关闭与导通 三种损耗</script><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250223005927.png" style="zoom:45%;" /></p>
+<script type="math/tex; mode=display">
+第五步：最终的导入波形</script><h1 id="3-最终仿真模型"><a href="#3-最终仿真模型" class="headerlink" title="3 最终仿真模型"></a>3 最终仿真模型</h1><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250223010246.png" style="zoom:45%;" /></p>
+<h1 id="4-模型下载"><a href="#4-模型下载" class="headerlink" title="4 模型下载"></a>4 模型下载</h1><p>日常美图</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250223012134.png" alt=""></p>
 ]]></content>
       <categories>
         <category>热仿真</category>
