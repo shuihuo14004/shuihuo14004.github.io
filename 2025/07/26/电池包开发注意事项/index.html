@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="根据一篇专利来的 1：推荐架构电池包基本架构：MCU+充放电管理IC+BQ系列芯片 BQ系列芯片的充放电管理切换是不可控或者说比较负载的，不如直接用外部充放电管理芯片方便。     芯片 作用 备注     MCU 电压监控，对外通信通讯等 GD32   BQ系列芯片 负责电池的保护、均压自均衡、电池电压监控、防过充过放等 BQ76930BQ78PL116BQ2057ADI的MAX17320">
+<meta property="og:type" content="article">
+<meta property="og:title" content="电池包开发注意事项">
+<meta property="og:url" content="http://example.com/2025/07/26/%E7%94%B5%E6%B1%A0%E5%8C%85%E5%BC%80%E5%8F%91%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/index.html">
+<meta property="og:site_name" content="Hello World by 阿水">
+<meta property="og:description" content="根据一篇专利来的 1：推荐架构电池包基本架构：MCU+充放电管理IC+BQ系列芯片 BQ系列芯片的充放电管理切换是不可控或者说比较负载的，不如直接用外部充放电管理芯片方便。     芯片 作用 备注     MCU 电压监控，对外通信通讯等 GD32   BQ系列芯片 负责电池的保护、均压自均衡、电池电压监控、防过充过放等 BQ76930BQ78PL116BQ2057ADI的MAX17320">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727014030.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727012415.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727013726.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/dd0400d6a51402b0cbd1b84006646fc7.jpeg">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727014547.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20250727015107245.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727024714.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727025216.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20250727025832045.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727010618.png">
+<meta property="og:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/126918050_p0_master1200.jpg">
+<meta property="article:published_time" content="2025-07-26T15:40:35.000Z">
+<meta property="article:modified_time" content="2025-07-26T19:26:59.218Z">
+<meta property="article:author" content="努力的阿水">
+<meta property="article:tag" content="电池包">
+<meta property="article:tag" content="BMS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727014030.png">
+
+<link rel="canonical" href="http://example.com/2025/07/26/%E7%94%B5%E6%B1%A0%E5%8C%85%E5%BC%80%E5%8F%91%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>电池包开发注意事项 | Hello World by 阿水</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hello World by 阿水</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description"> 思久欲知 知繁渴思 朝乾夕惕 焚膏继晷 日拱一卒 功不唐捐</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-waifu">
+
+    <a href="/waifu/" rel="section"><i class="fa fa-binoculars fa-fw"></i>waifu</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/07/26/%E7%94%B5%E6%B1%A0%E5%8C%85%E5%BC%80%E5%8F%91%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E6%B3%A5%E5%B2%A9.jpg">
+      <meta itemprop="name" content="努力的阿水">
+      <meta itemprop="description" content="朝闻道夕可死矣 ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World by 阿水">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          电池包开发注意事项
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-07-26 23:40:35" itemprop="dateCreated datePublished" datetime="2025-07-26T23:40:35+08:00">2025-07-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-07-27 03:26:59" itemprop="dateModified" datetime="2025-07-27T03:26:59+08:00">2025-07-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%94%B5%E6%BA%90/" itemprop="url" rel="index"><span itemprop="name">电源</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>根据一篇专利来的</p>
+<h1 id="1：推荐架构"><a href="#1：推荐架构" class="headerlink" title="1：推荐架构"></a>1：推荐架构</h1><p>电池包基本架构：<strong>MCU+充放电管理IC+BQ系列芯片</strong></p>
+<p>BQ系列芯片的充放电管理切换是不可控或者说比较负载的，不如直接用外部充放电管理芯片方便。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>芯片</th>
+<th>作用</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCU</td>
+<td>电压监控，对外通信通讯等</td>
+<td>GD32</td>
+</tr>
+<tr>
+<td>BQ系列芯片</td>
+<td>负责电池的保护、均压自均衡、电池电压监控、防过充过放等</td>
+<td>BQ76930<br />BQ78PL116<br />BQ2057<br />ADI的MAX17320</td>
+</tr>
+<tr>
+<td>充放电升降压芯片<br /></td>
+<td>支持充放电双向<br />只负责充放电，不负责电池的保护、均压自均衡、电池电压监控、防过充过放等</td>
+<td>相关芯片<br />SC8815<br />BQ25758<br /></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727014030.png" style="zoom:45%;" /></p>
+<h1 id="2：对外接口注意事项"><a href="#2：对外接口注意事项" class="headerlink" title="2：对外接口注意事项"></a>2：对外接口注意事项</h1><p>以一对IIC通信+一对正负功率输出为例</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>接口</th>
+<th>注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IIC通讯</td>
+<td>做好ESD就好</td>
+</tr>
+<tr>
+<td>功率接口</td>
+<td><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727012415.png" style="zoom:40%;" /><br />可以使用继电器或者3个贴片MOS（2个PMOS+1个NMOS）做开关电路做安全保护隔离，一般继电器体积太大不推荐。<br /><br />平时默认是<font color="#dd0000">关闭</font> 的，用于安全保护。电路本身可以防反接，前置TVS防止过压。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="3：充放电管理芯片注意事项"><a href="#3：充放电管理芯片注意事项" class="headerlink" title="3：充放电管理芯片注意事项"></a>3：充放电管理芯片注意事项</h1><p>一般这里充放电管理IC有3种工作状态：充电、放电、空闲。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>注意事项</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADC采样</td>
+<td>此类芯片都有一个ADC接口，应该并联一个电容用于保持采样电压稳定。<br />负责会采样电压不稳定，造成MCU对外部接入电压的误读，ADC读取本身有漏电功率。<br />TI、ADI和国产芯片都有类似问题；<br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727013726.png" style="zoom:45%;" /></td>
+</tr>
+<tr>
+<td>软件ADC和控制延时</td>
+<td><br />以南芯和TI为例，必须先关闭功率环路，再读写模式转换寄存器，并延时10ms以后，并且反读一遍寄存器确认无误后，再打开功率路径。否则会造成电压尖峰，和莫名的高压。<br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/dd0400d6a51402b0cbd1b84006646fc7.jpeg" alt="dd0400d6a51402b0cbd1b84006646fc7" style="zoom:40%;" /><br />如下图所示，TI的方法datasheet中明确提示，要检测寄存器<br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727014547.png" style="zoom:50%;" /><br />推荐策略：每次切换模式，统一执行一遍寄存器初始化+50ms延时。<br />重点设计寄存器：输出电压设置方式（外部电阻设置）+电流限制+充放电方向</td>
+</tr>
+<tr>
+<td>输出电压的设定电阻</td>
+<td>使用外部电阻设置电压时，应使用高精度电阻0.1%精度，哪怕是1%精度的电阻，0.99的平方和1.01的平方，可以时输出电压有很大的偏差。在电池电压满电时，很容易造成过充。哪怕只差零点几伏。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>相关参考设计</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20250727015107245.png" style="zoom:50%;" /></p>
+<h1 id="4：BMS芯片注意事项"><a href="#4：BMS芯片注意事项" class="headerlink" title="4：BMS芯片注意事项"></a>4：BMS芯片注意事项</h1><p>包括电压、电流和温度，防止过压⁄欠压、过流、短路、过冷⁄过热、过充电和内部自放电，IC外接热敏电阻用于测量电池温度。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>对地缓冲电容</th>
+<th>BQ系列的芯片常常有对地的热敏电阻，应并联一个10nf的电容用于缓冲，<br />否则在安装电池过程中经常会因脉冲电损坏BQ芯片<br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727024714.png" style="zoom:50%;" /><br />就是这个TS1和TS2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>电池电压均衡</td>
+<td><br /><br />然后一般的BMS芯片有一个电池电压的均衡功能，BQ系列一般需要学习一个fs文件获取电池的曲线文件。<br /><br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727025216.png" style="zoom:50%;" /></td>
+</tr>
+<tr>
+<td>三端保险丝</td>
+<td>在BQ和MAX系列的电池BMS中，一般配三端保险丝，layout时放在万用表好点的地方，利于调试<br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20250727025832045.png" alt="image-20250727025832045" style="zoom:50%;" /></td>
+</tr>
+<tr>
+<td>温度保护</td>
+<td>设为55度即可，充电限流在充放电管理芯片去管理即可。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="5：MCU注意事项"><a href="#5：MCU注意事项" class="headerlink" title="5：MCU注意事项"></a>5：MCU注意事项</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>工作模式（状态机）</th>
+<th>工控</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>充电模式</td>
+<td>在充电器工作</td>
+<td></td>
+</tr>
+<tr>
+<td>放电模式</td>
+<td>主机工作（例如电转工作）</td>
+<td></td>
+</tr>
+<tr>
+<td>休眠模式</td>
+<td>放电模式下拿下“手持电动工具”，电池包关闭输出，并进入休眠</td>
+<td>单片机：StandbyMode模式</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>GD32或者STM32有一个StandbyMode唤醒引脚和IIC通讯的SCK线接到一起用时钟线去激活，如下图</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727010618.png" alt=""></p>
+<p>在插入充电器和“手持电动工具”时IIC的握手帧要做区别。充放电芯片延迟2秒启动。</p>
+<p>电压监控：软件防止过充过放，通过与BQ系列的电量计通信获取各个电池电压。</p>
+<ol>
+<li><strong>充电管理</strong>： <ol>
+<li>充电截止电压设为4.15V，最高电压大于4.15V时，通讯充放电芯片停止充电。</li>
+<li>环境温度控制在0-45℃，避免高温充电。</li>
+</ol>
+</li>
+<li><strong>放电保护</strong>： <ol>
+<li>终止电压≥2.75V，禁止深度放电。</li>
+<li>设备待机耗电需定期补电（每月至少1次）。</li>
+</ol>
+</li>
+</ol>
+<p>电池出现过放后，重新使能BMS芯片</p>
+<h1 id="日常美图分享"><a href="#日常美图分享" class="headerlink" title="日常美图分享"></a>日常美图分享</h1><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/126918050_p0_master1200.jpg" alt=""></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>努力的阿水
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2025/07/26/%E7%94%B5%E6%B1%A0%E5%8C%85%E5%BC%80%E5%8F%91%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="电池包开发注意事项">http://example.com/2025/07/26/电池包开发注意事项/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B5%E6%B1%A0%E5%8C%85/" rel="tag"># 电池包</a>
+              <a href="/tags/BMS/" rel="tag"># BMS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/02/21/PLECS%E7%83%AD%E4%BB%BF%E7%9C%9F/" rel="prev" title="PLECS热仿真">
+      <i class="fa fa-chevron-left"></i> PLECS热仿真
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%EF%BC%9A%E6%8E%A8%E8%8D%90%E6%9E%B6%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">1：推荐架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%EF%BC%9A%E5%AF%B9%E5%A4%96%E6%8E%A5%E5%8F%A3%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.</span> <span class="nav-text">2：对外接口注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%EF%BC%9A%E5%85%85%E6%94%BE%E7%94%B5%E7%AE%A1%E7%90%86%E8%8A%AF%E7%89%87%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">3.</span> <span class="nav-text">3：充放电管理芯片注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4%EF%BC%9ABMS%E8%8A%AF%E7%89%87%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">4.</span> <span class="nav-text">4：BMS芯片注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5%EF%BC%9AMCU%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">5.</span> <span class="nav-text">5：MCU注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%97%A5%E5%B8%B8%E7%BE%8E%E5%9B%BE%E5%88%86%E4%BA%AB"><span class="nav-number">6.</span> <span class="nav-text">日常美图分享</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="努力的阿水"
+      src="/images/%E6%B3%A5%E5%B2%A9.jpg">
+  <p class="site-author-name" itemprop="name">努力的阿水</p>
+  <div class="site-description" itemprop="description">朝闻道夕可死矣 </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shuihuo14004" title="GitHub主页 → https:&#x2F;&#x2F;github.com&#x2F;shuihuo14004" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1400476531@qq.com" title="E-Mail → mailto:1400476531@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/8261035" title="bilibili空间 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;8261035" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>bilibili空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_32419593?spm=1001.2101.3001.5343" title="CSDN主页 → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_32419593?spm&#x3D;1001.2101.3001.5343" rel="noopener" target="_blank"><i class="fab fa-css3 fa-fw"></i>CSDN主页</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://home.cnblogs.com/u/ashuiSIA" title="博客园 → https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;ashuiSIA" rel="noopener" target="_blank"><i class="fab fa-usb fa-fw"></i>博客园</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.dianyuan.com/" title="电源网 → https:&#x2F;&#x2F;www.dianyuan.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-mortar-board fa-fw"></i>电源网</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.baidu.com/" title="https:&#x2F;&#x2F;www.baidu.com&#x2F;" rel="noopener" target="_blank">百度</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.google.com.hk/webhp?hl=zh-CN&sourceid=cnhp" title="http:&#x2F;&#x2F;www.google.com.hk&#x2F;webhp?hl&#x3D;zh-CN&amp;sourceid&#x3D;cnhp" rel="noopener" target="_blank">谷歌</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zdzn.net/" title="https:&#x2F;&#x2F;www.zdzn.net&#x2F;" rel="noopener" target="_blank">ZDZN</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://stackoverflow.com/" title="https:&#x2F;&#x2F;stackoverflow.com&#x2F;" rel="noopener" target="_blank">stackoverflow</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.runoob.com/cplusplus/cpp-tutorial.html" title="https:&#x2F;&#x2F;www.runoob.com&#x2F;cplusplus&#x2F;cpp-tutorial.html" rel="noopener" target="_blank">菜鸟教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://search.chongbuluo.com/" title="https:&#x2F;&#x2F;search.chongbuluo.com&#x2F;" rel="noopener" target="_blank">快搜（搜索神器）</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://leiblog.wang/" title="https:&#x2F;&#x2F;leiblog.wang" rel="noopener" target="_blank">LeiWang1999</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+
+<div id="music163player">
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=86 src="//music.163.com/outchain/player?type=2&id=1444528563&auto=1&height=66">
+
+
+    </iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">阿水</span>
+</div>
+
+
+<div>
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+      var now = new Date(); 
+      function createtime() { 
+          var grt= new Date("08/10/2022 00:00:00");//在此处修改你的建站时间
+          now.setTime(now.getTime()+250); 
+          days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+          hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+          if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+          mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+          seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+          snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+          document.getElementById("timeDate").innerHTML = "已运行 "+dnum+" 天 "; 
+          document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+      } 
+  setInterval("createtime()",250);
+  </script>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

@@ -257,6 +257,169 @@ QT电力系统软件截图</script><p>该程序的目的是基于CAN通信管理
       </tags>
   </entry>
   <entry>
+    <title>电池包开发注意事项</title>
+    <url>/2025/07/26/%E7%94%B5%E6%B1%A0%E5%8C%85%E5%BC%80%E5%8F%91%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</url>
+    <content><![CDATA[<p>根据一篇专利来的</p>
+<h1 id="1：推荐架构"><a href="#1：推荐架构" class="headerlink" title="1：推荐架构"></a>1：推荐架构</h1><p>电池包基本架构：<strong>MCU+充放电管理IC+BQ系列芯片</strong></p>
+<p>BQ系列芯片的充放电管理切换是不可控或者说比较负载的，不如直接用外部充放电管理芯片方便。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>芯片</th>
+<th>作用</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCU</td>
+<td>电压监控，对外通信通讯等</td>
+<td>GD32</td>
+</tr>
+<tr>
+<td>BQ系列芯片</td>
+<td>负责电池的保护、均压自均衡、电池电压监控、防过充过放等</td>
+<td>BQ76930<br />BQ78PL116<br />BQ2057<br />ADI的MAX17320</td>
+</tr>
+<tr>
+<td>充放电升降压芯片<br /></td>
+<td>支持充放电双向<br />只负责充放电，不负责电池的保护、均压自均衡、电池电压监控、防过充过放等</td>
+<td>相关芯片<br />SC8815<br />BQ25758<br /></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727014030.png" style="zoom:45%;" /></p>
+<h1 id="2：对外接口注意事项"><a href="#2：对外接口注意事项" class="headerlink" title="2：对外接口注意事项"></a>2：对外接口注意事项</h1><p>以一对IIC通信+一对正负功率输出为例</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>接口</th>
+<th>注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IIC通讯</td>
+<td>做好ESD就好</td>
+</tr>
+<tr>
+<td>功率接口</td>
+<td><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727012415.png" style="zoom:40%;" /><br />可以使用继电器或者3个贴片MOS（2个PMOS+1个NMOS）做开关电路做安全保护隔离，一般继电器体积太大不推荐。<br /><br />平时默认是<font color="#dd0000">关闭</font> 的，用于安全保护。电路本身可以防反接，前置TVS防止过压。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="3：充放电管理芯片注意事项"><a href="#3：充放电管理芯片注意事项" class="headerlink" title="3：充放电管理芯片注意事项"></a>3：充放电管理芯片注意事项</h1><p>一般这里充放电管理IC有3种工作状态：充电、放电、空闲。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>注意事项</th>
+<th>详细说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADC采样</td>
+<td>此类芯片都有一个ADC接口，应该并联一个电容用于保持采样电压稳定。<br />负责会采样电压不稳定，造成MCU对外部接入电压的误读，ADC读取本身有漏电功率。<br />TI、ADI和国产芯片都有类似问题；<br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727013726.png" style="zoom:45%;" /></td>
+</tr>
+<tr>
+<td>软件ADC和控制延时</td>
+<td><br />以南芯和TI为例，必须先关闭功率环路，再读写模式转换寄存器，并延时10ms以后，并且反读一遍寄存器确认无误后，再打开功率路径。否则会造成电压尖峰，和莫名的高压。<br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/dd0400d6a51402b0cbd1b84006646fc7.jpeg" alt="dd0400d6a51402b0cbd1b84006646fc7" style="zoom:40%;" /><br />如下图所示，TI的方法datasheet中明确提示，要检测寄存器<br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727014547.png" style="zoom:50%;" /><br />推荐策略：每次切换模式，统一执行一遍寄存器初始化+50ms延时。<br />重点设计寄存器：输出电压设置方式（外部电阻设置）+电流限制+充放电方向</td>
+</tr>
+<tr>
+<td>输出电压的设定电阻</td>
+<td>使用外部电阻设置电压时，应使用高精度电阻0.1%精度，哪怕是1%精度的电阻，0.99的平方和1.01的平方，可以时输出电压有很大的偏差。在电池电压满电时，很容易造成过充。哪怕只差零点几伏。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>相关参考设计</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20250727015107245.png" style="zoom:50%;" /></p>
+<h1 id="4：BMS芯片注意事项"><a href="#4：BMS芯片注意事项" class="headerlink" title="4：BMS芯片注意事项"></a>4：BMS芯片注意事项</h1><p>包括电压、电流和温度，防止过压⁄欠压、过流、短路、过冷⁄过热、过充电和内部自放电，IC外接热敏电阻用于测量电池温度。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>对地缓冲电容</th>
+<th>BQ系列的芯片常常有对地的热敏电阻，应并联一个10nf的电容用于缓冲，<br />否则在安装电池过程中经常会因脉冲电损坏BQ芯片<br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727024714.png" style="zoom:50%;" /><br />就是这个TS1和TS2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>电池电压均衡</td>
+<td><br /><br />然后一般的BMS芯片有一个电池电压的均衡功能，BQ系列一般需要学习一个fs文件获取电池的曲线文件。<br /><br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727025216.png" style="zoom:50%;" /></td>
+</tr>
+<tr>
+<td>三端保险丝</td>
+<td>在BQ和MAX系列的电池BMS中，一般配三端保险丝，layout时放在万用表好点的地方，利于调试<br /><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20250727025832045.png" alt="image-20250727025832045" style="zoom:50%;" /></td>
+</tr>
+<tr>
+<td>温度保护</td>
+<td>设为55度即可，充电限流在充放电管理芯片去管理即可。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="5：MCU注意事项"><a href="#5：MCU注意事项" class="headerlink" title="5：MCU注意事项"></a>5：MCU注意事项</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>工作模式（状态机）</th>
+<th>工控</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>充电模式</td>
+<td>在充电器工作</td>
+<td></td>
+</tr>
+<tr>
+<td>放电模式</td>
+<td>主机工作（例如电转工作）</td>
+<td></td>
+</tr>
+<tr>
+<td>休眠模式</td>
+<td>放电模式下拿下“手持电动工具”，电池包关闭输出，并进入休眠</td>
+<td>单片机：StandbyMode模式</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>GD32或者STM32有一个StandbyMode唤醒引脚和IIC通讯的SCK线接到一起用时钟线去激活，如下图</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727010618.png" alt=""></p>
+<p>在插入充电器和“手持电动工具”时IIC的握手帧要做区别。充放电芯片延迟2秒启动。</p>
+<p>电压监控：软件防止过充过放，通过与BQ系列的电量计通信获取各个电池电压。</p>
+<ol>
+<li><strong>充电管理</strong>： <ol>
+<li>充电截止电压设为4.15V，最高电压大于4.15V时，通讯充放电芯片停止充电。</li>
+<li>环境温度控制在0-45℃，避免高温充电。</li>
+</ol>
+</li>
+<li><strong>放电保护</strong>： <ol>
+<li>终止电压≥2.75V，禁止深度放电。</li>
+<li>设备待机耗电需定期补电（每月至少1次）。</li>
+</ol>
+</li>
+</ol>
+<p>电池出现过放后，重新使能BMS芯片</p>
+<h1 id="日常美图分享"><a href="#日常美图分享" class="headerlink" title="日常美图分享"></a>日常美图分享</h1><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/126918050_p0_master1200.jpg" alt=""></p>
+]]></content>
+      <categories>
+        <category>电源</category>
+      </categories>
+      <tags>
+        <tag>电池包</tag>
+        <tag>BMS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PLECS热仿真</title>
     <url>/2025/02/21/PLECS%E7%83%AD%E4%BB%BF%E7%9C%9F/</url>
     <content><![CDATA[<h1 id="1-PLECS热仿真库介绍（重点）"><a href="#1-PLECS热仿真库介绍（重点）" class="headerlink" title="1 PLECS热仿真库介绍（重点）"></a>1 PLECS热仿真库介绍（重点）</h1><p>打开PLECS→快捷键（ctrl+L）→Thermal打开热学组件</p>
