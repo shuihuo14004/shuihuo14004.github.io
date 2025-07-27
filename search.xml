@@ -12002,17 +12002,77 @@ NS=88/22.3=4</script><h3 id="步骤8：辅助边匝数"><a href="#步骤8：辅�
 </tr>
 <tr>
 <td>温度保护</td>
-<td>设为55度即可，充电限流在充放电管理芯片去管理即可。</td>
+<td>设为55度即可，充电限流在充放电管理芯片去管理即可。BQ40Z80的工作温度是85℃，<br />一般电池的工作温度是60℃，脉冲负载90℃</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h1 id="5：MCU注意事项"><a href="#5：MCU注意事项" class="headerlink" title="5：MCU注意事项"></a>5：MCU注意事项</h1><div class="table-container">
+<h2 id="4-1-BQ系列的FS学习文件如何获取并烧录"><a href="#4-1-BQ系列的FS学习文件如何获取并烧录" class="headerlink" title="4.1 BQ系列的FS学习文件如何获取并烧录"></a>4.1 BQ系列的FS学习文件如何获取并烧录</h2><h3 id="4-1-1-自均衡数据文件流程"><a href="#4-1-1-自均衡数据文件流程" class="headerlink" title="4.1.1 自均衡数据文件流程"></a>4.1.1 自均衡数据文件流程</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>放电到0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>静置5小时</td>
+</tr>
+<tr>
+<td>3</td>
+<td>充电到满</td>
+</tr>
+<tr>
+<td>4</td>
+<td>静置2小时</td>
+</tr>
+<tr>
+<td>5</td>
+<td>放电到0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>静置5小时</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>具体图解见下图</p>
+<p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/asynccode" style="zoom:50%;" /></p>
+<h3 id="4-1-2-过程记录"><a href="#4-1-2-过程记录" class="headerlink" title="4.1.2 过程记录"></a>4.1.2 过程记录</h3><p>BQ studio链接BQ40z80进入自均衡状态走完充放电流程</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/20250727222111.png" style="zoom:40%;" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20250727222215653.png" alt="image-20250727222215653" style="zoom:40%;" /></td>
+</tr>
+<tr>
+<td>3</td>
+<td><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/image-20250727222241237.png" alt="image-20250727222241237" style="zoom:30%;" /></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>BQ studio链接BQ40z80进入自均衡状态走完充放电流程</p>
+<h1 id=""><a href="#" class="headerlink" title=" "></a> </h1><h1 id="5：MCU注意事项"><a href="#5：MCU注意事项" class="headerlink" title="5：MCU注意事项"></a>5：MCU注意事项</h1><div class="table-container">
 <table>
 <thead>
 <tr>
 <th>工作模式（状态机）</th>
-<th>工控</th>
+<th>工况</th>
 <th>说明</th>
 </tr>
 </thead>
@@ -12031,6 +12091,10 @@ NS=88/22.3=4</script><h3 id="步骤8：辅助边匝数"><a href="#步骤8：辅�
 <td>休眠模式</td>
 <td>放电模式下拿下“手持电动工具”，电池包关闭输出，并进入休眠</td>
 <td>单片机：StandbyMode模式</td>
+</tr>
+<tr>
+<td>空闲状态</td>
+<td>插入充电器后，电池充满电，应该关闭充放电管理IC的功率环路</td>
 </tr>
 </tbody>
 </table>
@@ -12052,6 +12116,91 @@ NS=88/22.3=4</script><h3 id="步骤8：辅助边匝数"><a href="#步骤8：辅�
 </li>
 </ol>
 <p>电池出现过放后，重新使能BMS芯片</p>
+<h2 id="5-1-空闲与充放电的切换判断条件与动作"><a href="#5-1-空闲与充放电的切换判断条件与动作" class="headerlink" title="5.1 空闲与充放电的切换判断条件与动作"></a>5.1 空闲与充放电的切换判断条件与动作</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>切换状态机</th>
+<th>工况说明</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>充电→空闲（市电插入）</td>
+<td>充电器接入市电；<br />电池SOC充电到95%或“最大电压大于4.15V”；<br />切换空闲防过充</td>
+<td>关闭充放电IC，<br />对外接口拉低关闭</td>
+</tr>
+<tr>
+<td>充电→空闲（市电拔下）</td>
+<td>充电器拔出市电，充电器与电池包的握手帧断开500ms；<br />电池SOC大于5%且最小电压大于3.6V；<br /></td>
+<td>关闭充放电IC，<br />对外接口拉低关闭</td>
+</tr>
+<tr>
+<td>空闲→充电（市电插入）</td>
+<td>充电器接入市电；<br />空闲状态下，电池SOC小于93%<strong>且</strong>“最大电压小于于4.1V”；<br />切换充电</td>
+<td>先关闭充放电IC的功率，<br />初始化后开启充电</td>
+</tr>
+<tr>
+<td>空闲→休眠</td>
+<td>空闲状态下，2min（分钟）无握手帧，MCU休眠。</td>
+<td>MCU进入StandbyMode</td>
+</tr>
+<tr>
+<td>休眠→空闲→充电</td>
+<td>空闲状态下插入“充电器+市电”</td>
+<td>1：充电器与MCU握手唤醒<br />2：MCU先进入空闲，<br />3：:握手帧判断是充电器还是手持电动工具<br />4：若为充电器进入充电</td>
+</tr>
+<tr>
+<td>休眠→空闲→放电</td>
+<td>空闲状态下插入“手持电动工具或者主机”</td>
+<td>1：充电器与MCU握手唤醒<br />2：MCU先进入空闲，<br />3：:握手帧判断是充电器还是手持电动工具<br />4：若为用电设备进入充电</td>
+</tr>
+<tr>
+<td>放电→空闲</td>
+<td>直接拔出用电设备</td>
+<td>1：握手帧失联100ms<br />2：进入空闲关闭功率输出</td>
+</tr>
+<tr>
+<td>空闲→放电</td>
+<td>空闲状态下插入“手持电动工具或者主机”</td>
+<td>1：握手帧判断是充电器还是手持电动工具<br />2：若为用电设备进入充电</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="6-锂电池的安全注意事项"><a href="#6-锂电池的安全注意事项" class="headerlink" title="6 锂电池的安全注意事项"></a>6 锂电池的安全注意事项</h1><ol>
+<li><strong>热失控与起火爆炸</strong> 锂电池在过充、短路、高温或物理损伤（如针刺、挤压）时易发生热失控，导致电解液分解、气体膨胀，最终引发燃烧或爆炸。例如，外部短路可能因正负极直接接触产生高温，而内部短路则可能由隔膜破损或枝晶生长引发</li>
+<li><strong>过充与过放风险</strong><ol>
+<li><strong>过充</strong>：超过额定电压（通常4.2V）会导致电解液分解，产生可燃气体，增加内部压力，可能撑破外壳引发危险。</li>
+<li><strong>过放</strong>：电压低于安全阈值（如2.5V）会破坏电极结构，降低电池容量并加速老化。</li>
+</ol>
+</li>
+<li><strong>物理损伤与不当使用</strong><ol>
+<li>挤压、穿刺或跌落可能导致电芯变形、漏液，甚至直接短路。</li>
+<li>使用非原装充电器或劣质充电设备可能因电流/电压不匹配引发过热。</li>
+</ol>
+</li>
+<li><strong>高温环境与老化</strong> 高温（&gt;60℃）会加速电池化学反应，增加自燃风险；长期使用后电池容量衰减，内阻增大，进一步加剧热失控风险</li>
+</ol>
+<p><strong>安全使用规范</strong></p>
+<ol>
+<li><strong>充电管理</strong>： <ol>
+<li>使用原装充电器，避免过充（4.2V截止）。</li>
+<li>环境温度控制在0-45℃，避免高温充电。</li>
+</ol>
+</li>
+<li><strong>放电保护</strong>： <ol>
+<li>终止电压≥2.75V，禁止深度放电。</li>
+<li>设备待机耗电需定期补电（每月至少1次）。</li>
+</ol>
+</li>
+<li><strong>存储要求</strong>： <ol>
+<li>长期存放保持30-50%电量，温度15-25℃。</li>
+<li>远离易燃物，禁止与金属物品混放。</li>
+</ol>
+</li>
+</ol>
 <h1 id="日常美图分享"><a href="#日常美图分享" class="headerlink" title="日常美图分享"></a>日常美图分享</h1><p><img src="https://pciimage-1258697380.cos.ap-beijing.myqcloud.com/126918050_p0_master1200.jpg" alt=""></p>
 ]]></content>
       <categories>
